@@ -10,3 +10,7 @@ Học viên codegym C1219G1
 ## Mô tả 
 
 - Website thu mua xe cũ bán lại
+
+## Cấu hình
+
+- DB_DATABASE=mua-ban-xe-cu
