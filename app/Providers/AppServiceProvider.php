@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Services\BranchService;
+use App\Repositories\Impl\BranchRepositoryImpl;
+use App\Repositories\BranchRepository;
+use App\Services\Impl\BranchServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +17,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+            BranchRepository::class,
+            BranchRepositoryImpl::class
+        );
+        $this->app->singleton(
+            BranchService::class,
+            BranchServiceImpl::class
+        );
     }
 
     /**
