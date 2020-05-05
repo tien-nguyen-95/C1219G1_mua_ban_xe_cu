@@ -17,6 +17,7 @@ class CreatePositionsTable extends Migration
             $table->increments('id');
             $table->string('name', 50)->unique();
             $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

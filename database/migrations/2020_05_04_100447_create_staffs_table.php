@@ -24,6 +24,7 @@ class CreateStaffsTable extends Migration
             $table->integer('position_id');
             $table->string('address', 255);
             $table->integer('branch');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
