@@ -9,10 +9,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" >
+        @include('admin.branch.create')
         <h2>Danh sách Chi nhánh</h2>
         <table class="table">
             <thead>
@@ -22,29 +24,14 @@
                     <th>Địa chỉ</th>
                     <th>Thời gian tạo</th>
                     <th>Thời gian sửa</th>
+                    <th>Thao tác</th>
                 </tr>
             </thead>
-            <tbody>
-                @if(count($branches) < 1)
-                <tr>
-                    <td colspan="5">
-                        <h6 class="alert alert-danger text-center" >Không có dữ liệu</h6>
-                    </td>
-                </tr>
-                @else
-                @foreach ($branches as $item)
-                <tr>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->phone }}</td>
-                    <td>{{ $item->address }}</td>
-                    <td>{{ $item->created_at }}</td>
-                    <td>{{ $item->updated_at }}</td>
-                </tr>
-                @endforeach
-                @endif
+            <tbody class="data-table">
+              @include('admin.branch.table')
             </tbody>
         </table>
+       @include('admin.branch.addBranchAjax')
     </div>
-
 </body>
 </html>
