@@ -41,7 +41,6 @@ class BranchServiceImpl implements BranchService
     public function create($request)
     {
         $branch = $this->branchRepository->create($request);
-
         $statusCode = 201;
         if (!$branch)
             $statusCode = 500;

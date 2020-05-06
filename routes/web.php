@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::resource('branch', 'BranchController');
+Route::view('branchs', 'admin.branch.index');
+Route::post('/branch/create', 'BranchController@store');

@@ -17,7 +17,7 @@ class BranchController extends Controller
     {
         $branches = $this->branchService->getAll();
 
-        return view('admin.branch.index', compact('branches'));
+        return view('admin.branch.table', compact('branches'));
     }
 
     public function show($id)
@@ -27,7 +27,7 @@ class BranchController extends Controller
 
     public function store(Request $request)
     {
-
+        $dataBranch = $this->branchService->create($request->all());
     }
 
     public function update(Request $request, $id)
