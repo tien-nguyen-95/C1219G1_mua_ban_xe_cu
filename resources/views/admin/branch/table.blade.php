@@ -6,7 +6,10 @@
     <td>{{ $item->address }}</td>
     <td>{{ $item->created_at }}</td>
     <td>{{ $item->updated_at }}</td>
-    <td><a href="">sửa</a> <a href="">xóa</a></td>
+    <td>
+        <a href=""></a>
+        <a href=""></a>
+    </td>
 </tr>
 @empty
     <tr>
