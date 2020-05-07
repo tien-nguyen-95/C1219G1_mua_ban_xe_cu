@@ -18,9 +18,6 @@
 <body>
 
     <div class="container" >
-
-        {{--  @include('admin.branch.create')  --}}
-        {{--  @include('admin.branch.edit')  --}}
         <button class="btn btn-info" data-url="{{ route('branch.create') }}" onclick="add(this)">Thêm mới</button>
         <h2>Danh sách Chi nhánh</h2>
         <table class="table">
@@ -41,8 +38,6 @@
         </table>
         <div class="crud-branch"></div>
     </div>
-    {{--  @include('admin.branch.addBranchAjax')
-    @include('admin.branch.editBranchAjax')  --}}
     <script src="  {{ asset('js/branch.js') }} "></script>
 </body>
 </html>
