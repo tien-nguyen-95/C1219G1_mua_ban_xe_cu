@@ -12,9 +12,9 @@ function add(btn){
 function store(btn){
     let data = $(btn.form).serialize();
     $.post('/branch',data).done(function(){
-        alert('success');
         $('#addBranchModel').modal('hide');
         $('.data-table').load('/branch');
+        messeger('Tạo mới thành công');
     });
 }
 
@@ -33,9 +33,9 @@ function save(btn){
         method:'put',
         data:data
     }).done(function(){
-        alert('success');
         $('#editBranchModel').modal('hide');
         $('.data-table').load('/branch');
+        messeger('Cập nhật thành công');
     });
 }
 
@@ -46,11 +46,22 @@ function destroy(btn){
             url:url,
             method:'delete'
         }).done(function(){
-            alert('success');
             $('.data-table').load('/branch');
+            messeger('Xóa thành công');
         });
     };
 
+}
+
+function messeger(_text){
+    $.toast({
+        heading: 'Success',
+        text: _text,
+        hideAfter: 5000,
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'success'
+    })
 }
 
 $.ajaxSetup({

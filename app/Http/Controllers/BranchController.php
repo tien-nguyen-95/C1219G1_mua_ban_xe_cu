@@ -38,10 +38,7 @@ class BranchController extends Controller
     public function store(Request $request)
     {
         $dataBranch = $this->branchService->create($request->all());
-        return response()->json([
-            'data'=>$dataBranch,
-            'message'=>'Tạo sinh viên thành công'
-        ],201);
+        return response()->json($dataBranch['branches'], $dataBranch['statusCode']);
     }
 
     public function edit($id)
@@ -56,6 +53,7 @@ class BranchController extends Controller
     public function update(Request $request, $id)
     {
         $dataBranch = $this->branchService->update($request->all(), $id);
+        return response()->json($dataBranch['branches'], $dataBranch['statusCode']);
     }
 
     public function destroy($id)
