@@ -16,3 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('brands', 'BrandController');
+
+// Route::prefix('brands')->group(function(){
+
+//     Route::get('/','BrandController@index')->name('brands.index');
+
+//     Route::post('/create','BrandController@store')->name('brands.store');
+
+//     Route::put('/{id}','BrandController@update')->name('brands.update');
+
+// });
