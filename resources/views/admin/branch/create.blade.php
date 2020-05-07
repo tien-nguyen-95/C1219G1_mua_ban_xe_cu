@@ -1,9 +1,4 @@
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBranchModel">
-    Thêm mới
-</button>
-
-  <!-- Modal -->
+<!-- Modal -->
 <div class="modal fade" id="addBranchModel" tabindex="-1" role="dialog" aria-labelledby="addBranchModelLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

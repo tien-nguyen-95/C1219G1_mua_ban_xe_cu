@@ -48,12 +48,9 @@ class BranchController extends Controller
     {
         $dataBranch = $this->branchService->findById($id);
 
-        // $view = View('admin\branch\edit', ['dataBranch' => $dataBranch['branches']]);
-
         $view = view('admin\branch\edit', ['dataBranch' => $dataBranch['branches']]);
 
         return response()->make($view, $dataBranch['statusCode']);
-        // return response()->json($dataBranch);
     }
 
     public function update(Request $request, $id)
@@ -63,6 +60,7 @@ class BranchController extends Controller
 
     public function destroy($id)
     {
-
+        $dataBranch = $this->branchService->destroy($id);
+        return response()->json($dataBranch['message'], $dataBranch['statusCode']);
     }
 }

@@ -16,11 +16,11 @@
         <td>
             {{-- <a href="{{ route('branch.edit', $item->id) }}" class="btn btn-success editBranch"><i class="fas fa-edit" title="Sửa"></i></a> --}}
             <button data-url="{{ route('branch.edit',$item) }}" ​ onclick="edit(this)" class="btn btn-info editBranch">
-                <i class="fa fa-edit" title="Edit"></i></button>
-        </td>
+                <i class="fa fa-edit" title="Sửa"></i></button>
         </td>
         <td>
-            <a href="#" class="btn btn-danger deleteBranch" onclick="return confirm('Bạn chắc chắn muốn xóa?')"><i class="fas fa-trash" title="Xóa"></i></a>
+            <button data-url="{{ route('branch.destroy',$item->id) }}" ​ onclick="destroy(this)" class="btn btn-danger destroyBranch">
+                <i class="fa fa-trash" title="Xoá"></i></button>
         </td>
     </tr>
     @endforeach

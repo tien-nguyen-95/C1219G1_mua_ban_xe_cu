@@ -39,6 +39,20 @@ function save(btn){
     });
 }
 
+function destroy(btn){
+    if (confirm('bạn chắc chắn muốn xóa?')){
+        let url = $(btn).data('url');
+        $.ajax({
+            url:url,
+            method:'delete'
+        }).done(function(){
+            alert('success');
+            $('.data-table').load('/branch');
+        });
+    };
+
+}
+
 $.ajaxSetup({
 headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
