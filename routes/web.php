@@ -17,4 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('branch', 'BranchController');
-Route::get('branch_list', 'BranchController@list');
+Route::view('branch_list', 'admin.branch.index');
+Route::get('branch_trash', 'BranchController@trash');

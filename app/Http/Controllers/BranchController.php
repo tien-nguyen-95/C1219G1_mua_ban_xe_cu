@@ -12,20 +12,20 @@ class BranchController extends Controller
 
     public function __construct(branchService $branchService)
     {
+        $this->middleware(function($request, $next){
+            if($request->ajax()){
+                return $next($request);
+            }
+            abort(404);
+        });
         $this->branchService = $branchService;
     }
-
-    public function list()
-    {
-        return view('admin.branch.index');
-    }
-
 
     public function index()
     {
         $branches = $this->branchService->getAll();
 
-        return view('admin.branch.table', compact('branches'));
+        return response()->view('admin.branch.table', compact('branches'),200);
     }
 
     public function show($id)
@@ -108,5 +108,12 @@ class BranchController extends Controller
     {
         $dataBranch = $this->branchService->destroy($id);
         return response()->json($dataBranch['message'], $dataBranch['statusCode']);
+    }
+
+    public function trash()
+    {
+        $branches = $this->branchService->getTrash();
+
+        return response()->view('admin.branch.trash', compact('branches'), 200);
     }
 }

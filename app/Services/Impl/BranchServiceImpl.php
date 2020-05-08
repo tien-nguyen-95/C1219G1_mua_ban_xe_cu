@@ -91,4 +91,10 @@ class BranchServiceImpl implements BranchService
         return $data;
     }
 
+    public function getTrash()
+    {
+        $branches = $this->branchRepository->getTrash();
+
+        return $branches;
+    }
 }

@@ -1,6 +1,13 @@
 $(document).ready(function() {
-    $('.data-table').load('/branch');
+    init();
 });
+function init(msg=null){
+    $.get('/branch').done(function(data){
+        $('body').html(data);
+        if(msg)
+            messeger(msg);
+    });
+}
 
 function add(btn){
     let url = $(btn).data('url');
@@ -14,8 +21,7 @@ function store(btn){
     $.post('/branch',data).done(function(data){
         if($.isEmptyObject(data.error)){
             $('#addBranchModel').modal('hide');
-            $('.data-table').load('/branch');
-            messeger('Tạo mới thành công');
+            init('Tạo mới thành công');
         } else{
             printErrorMsg(data.error);
         }
@@ -40,8 +46,8 @@ function save(btn){
         }).done(function(data){
             if($.isEmptyObject(data.error)){
                 $('#editBranchModel').modal('hide');
-                $('.data-table').load('/branch');
-                messeger('Cập nhật thành công');
+                let msg = 'Cập nhật thành công';
+                init(msg);
             } else{
                 printErrorMsg(data.error);
             }
@@ -79,7 +85,15 @@ function printErrorMsg (msg) {
     $('span.alert-danger').remove();
     $.each( msg, function( key, value ) {
         $(`input[name=${key}]`).before(`<span class="alert-danger" >${value}</span>`);
-        // $(`.alert-${key}`).html(value);
+    });
+}
+
+function trash(){
+    $.get('/branch_trash').done(function(data){
+        $('body').html(data);
+        $('.back').click(function(){
+            init();
+        });
     });
 }
 

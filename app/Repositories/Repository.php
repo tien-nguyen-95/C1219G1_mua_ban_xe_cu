@@ -6,6 +6,8 @@ interface Repository
 {
     public function getAll();
 
+    public function getTrash();
+
     public function findById($id);
 
     public function create($data);
