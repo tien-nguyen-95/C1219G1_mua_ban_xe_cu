@@ -18,8 +18,10 @@
 </head>
 <body>
 
-    <div class="container" >
+    @include('admin.branch.table')
+    {{-- <div class="container" >
         <button class="btn btn-info" data-url="{{ route('branch.create') }}" onclick="add(this)">Thêm mới</button>
+        <button class="btn btn-info" style="float: right" onclick="trash()"><i class="fas fa-trash"></i> Thùng rác</button>
         <h2>Danh sách Chi nhánh</h2>
         <table class="table">
             <thead>
@@ -40,6 +42,8 @@
         <div class="crud-branch"></div>
     </div>
     <script src="  {{ asset('js/branch.js') }} "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script> --}}
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+<script src="  {{ asset('js/branch.js') }} "></script>
 </html>

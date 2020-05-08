@@ -6,6 +6,8 @@ interface BranchService
 {
     public function getAll();
 
+    public function getTrash();
+
     public function findById($id);
 
     public function create($request);
