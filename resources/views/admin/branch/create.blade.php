@@ -10,17 +10,21 @@
             </div>
             <form id="addform" action="{{ route('branch.store') }}" method="post">
                 @csrf
+
                 <div class="modal-body">
+
                     <div class="form-group">
-                        <label for="">Tên</label>
+                        <label for="">Tên</label><br>
                         <input type="text" class="form-control" name="name" placeholder="nhập Tên ...">
                     </div>
+
                     <div class="form-group">
-                        <label for="">Điện thoại</label>
+                        <label for="">Điện thoại</label><br>
                         <input type="text" class="form-control" name="phone" placeholder="nhập điện thoại ...">
                     </div>
+
                     <div class="form-group">
-                        <label for="">Địa chỉ</label>
+                        <label for="">Địa chỉ</label><br>
                         <input type="text" class="form-control" name="address" placeholder="nhập địa chỉ ...">
                     </div>
                 </div>

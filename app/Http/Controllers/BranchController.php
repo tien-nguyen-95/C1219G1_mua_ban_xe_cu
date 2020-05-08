@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Services\BranchService;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Validator;
 
 class BranchController extends Controller
 {
@@ -17,6 +19,7 @@ class BranchController extends Controller
     {
         return view('admin.branch.index');
     }
+
 
     public function index()
     {
@@ -37,8 +40,32 @@ class BranchController extends Controller
 
     public function store(Request $request)
     {
-        $dataBranch = $this->branchService->create($request->all());
-        return response()->json($dataBranch['branches'], $dataBranch['statusCode']);
+        $validator = Validator::make($request->all(),
+            [
+                'name' => 'required | min:3 | max:50 | unique:branches',
+                'phone' => 'required |regex:/^0([0-9]{9,10})$/ | unique:branches',
+                'address' => 'required | min:3 | max:255'
+            ] ,
+            [
+                'name.required' =>'Hãy nhập tên',
+                'name.min' =>'Tối thiểu 3 ký tự',
+                'name.max' =>'Tối đa 50 ký tự',
+                'name.unique' =>'Tên đã tồn tại',
+                'phone.required' =>'Hãy nhập số điện thoại',
+                'phone.regex' =>'Số điện thoại gồm 10 hoặc 11 chữ số bắt đầu từ 0',
+                'phone.unique' =>'Số điện thoại đã tồn tại',
+                'address.required' => 'Hãy nhập địa chỉ',
+                'address.min' => 'Tối thiểu 3 ký tự',
+                'address.max' => 'Tối đa 50 ký tự'
+            ]
+        );
+
+        if ($validator->passes()) {
+            $dataBranch = $this->branchService->create($request->all());
+        } else {
+            return response()->json(['error'=>$validator->errors()->messages()]);
+        }
+        // return response()->json($dataBranch['branches'], $dataBranch['statusCode']);
     }
 
     public function edit($id)
@@ -52,8 +79,29 @@ class BranchController extends Controller
 
     public function update(Request $request, $id)
     {
-        $dataBranch = $this->branchService->update($request->all(), $id);
-        return response()->json($dataBranch['branches'], $dataBranch['statusCode']);
+        $validator = Validator::make($request->all(),
+        [
+            'name' => 'required | min:3 | max:50 | unique:branches,name,'.$id.',id',
+            'phone' => 'required |regex:/^0([0-9]{9,10})$/ | unique:branches,phone,'.$id.',id',
+            'address' => 'required | min:3 | max:255'
+        ] ,
+        [
+            'name.required' =>'Hãy nhập tên',
+            'name.min' =>'Tối thiểu 3 ký tự',
+            'name.max' =>'Tối đa 50 ký tự',
+            'name.unique' =>'Tên đã tồn tại',
+            'phone.required' =>'Hãy nhập số điện thoại',
+            'phone.regex' =>'Số điện thoại gồm 10 hoặc 11 chữ số bắt đầu từ 0',
+            'phone.unique' =>'Số điện thoại đã tồn tại',
+            'address.required' => 'Hãy nhập địa chỉ',
+            'address.min' => 'Tối thiểu 3 ký tự',
+            'address.max' => 'Tối đa 50 ký tự'
+        ]);
+        if ($validator->passes()) {
+            $dataBranch = $this->branchService->update($request->all(), $id);
+        } else {
+            return response()->json(['error'=>$validator->errors()->messages()]);
+        }
     }
 
     public function destroy($id)
