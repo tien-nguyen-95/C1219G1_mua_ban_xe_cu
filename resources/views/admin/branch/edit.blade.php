@@ -12,17 +12,16 @@
                 @csrf
                 @method('put')
                 <div class="modal-body">
-                    <input type="hidden" id="eidt_id" name="id">
                     <div class="form-group">
-                        <label for="">Tên</label>
+                        <label for="">Tên</label><br>
                         <input type="text" class="form-control" name="name" value="{{ $dataBranch->name }}" placeholder="nhập Tên ...">
                     </div>
                     <div class="form-group">
-                        <label for="">Điện thoại</label>
+                        <label for="">Điện thoại</label><br>
                         <input type="text" class="form-control" name="phone" value="{{ $dataBranch->phone }}" placeholder="nhập điện thoại ...">
                     </div>
                     <div class="form-group">
-                        <label for="">Địa chỉ</label>
+                        <label for="">Địa chỉ</label><br>
                         <input type="text" class="form-control" name="address" value="{{ $dataBranch->address }}" placeholder="nhập địa chỉ ...">
                     </div>
                 </div>
