@@ -62,8 +62,8 @@ function destroy(btn){
             url:url,
             method:'delete'
         }).done(function(){
-            $('.data-table').load('/branch');
-            messeger('Xóa thành công');
+            let msg = 'Xóa thành công';
+            init(msg);
         });
     };
 
