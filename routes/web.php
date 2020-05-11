@@ -23,7 +23,7 @@ Route::prefix('brands')->group(function(){
 
     Route::get('/json','BrandController@json');
 
-    Route::get('/','BrandController@index');
+    Route::get('/','BrandController@index')->name('brands.index');
 
     Route::get('/history','BrandController@history');
 

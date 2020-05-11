@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Services\BrandService;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Response;
+use App\Http\Requests\BrandFormRequest;
 class BrandController extends Controller
 {
     //
@@ -34,7 +34,7 @@ class BrandController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(BrandFormRequest $request)
     {
         $dataBrand = $this->brandService->create($request->all());
 
@@ -42,7 +42,7 @@ class BrandController extends Controller
 
     }
 
-    public function update(Request $request,$id)
+    public function update(BrandFormRequest $request,$id)
     {
         $dataBrand = $this->brandService->update($request->all(),$id);
 
@@ -71,9 +71,6 @@ class BrandController extends Controller
 
         $brand = $this->brandService->restore($id);
         return response()->json($brand,200);
-
-
-
     }
 
     public function delete($id){

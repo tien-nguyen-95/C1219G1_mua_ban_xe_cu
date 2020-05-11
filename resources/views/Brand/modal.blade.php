@@ -15,9 +15,8 @@
                                 <label>Name</label>
                             </div>
                             <div class="col-8">
-                                <input type="text" id="name" name="name"
-                                        class="form-control"
-                                        data-rule-required="true" data-msg-required="name is required">
+                                <input type="text" id="name" name="name" class="form-control">
+                                <label id="error" class='errors-name'></label >
                             </div>
                         </div>
                         <div class="row form-group">

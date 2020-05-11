@@ -1,6 +1,5 @@
 var brand = {} || brand;
-
-
+// Hàm lấy dữ liệu
 brand.showData = function() {
     $('#table2').remove();
     $.ajax({
@@ -26,7 +25,7 @@ brand.showData = function() {
         }
     });
 }
-
+//Hàm lấy đối tượng chỉnh sửa
 brand.getDetail = function(id) {
     $.ajax({
         url: "/brands/" + id,
@@ -43,7 +42,7 @@ brand.getDetail = function(id) {
 
     });
 }
-
+//Hàm Thêm và Cập nhật
 brand.save = function() {
     if ($('#Form').valid()) {
         //create
@@ -70,8 +69,13 @@ brand.save = function() {
                     })
                     $('#modal').modal('hide');
                     brand.showData();
+                },
+                error: function(data) {
+                    $.each(data.responseJSON.errors, function(key, value) {
+                        $(`.errors-${key}`).text(value);
+                    });
                 }
-            })
+            });
         } else {
             var ojbEdit = {};
             ojbEdit.name = $('#name').val().toString();
@@ -99,14 +103,16 @@ brand.save = function() {
                     brand.showData();
                 },
 
-                error: function(err) {
-                    console.log(err);
+                error: function(data) {
+                    $.each(data.responseJSON.errors, function(key, value) {
+                        $(`.errors-${key}`).text(value);
+                    });
                 }
             });
         }
     }
 }
-
+// Hàm xóa mềm
 brand.remove = function(id) {
     bootbox.confirm({
         title: "Thông báo",
@@ -146,7 +152,7 @@ brand.remove = function(id) {
         }
     });
 }
-
+// Hàm đặt lại form
 brand.resetForm = function() {
     $('#name').val("");
     $('#brandId').val("0");
@@ -156,7 +162,7 @@ brand.resetForm = function() {
     var form = $('#Form').validate()
     form.resetForm();
 }
-
+// hàm show danh sách xóa mềm
 brand.history = function() {
     $.ajax({
         url: "/brands/trash",
@@ -183,7 +189,7 @@ brand.history = function() {
         }
     });
 }
-
+// Hàm khôi phục
 brand.restore = function(id) {
     bootbox.confirm({
         title: "Thông báo",
@@ -217,8 +223,8 @@ brand.restore = function(id) {
             }
         }
     });
-
 }
+//Hàm xóa vĩnh viễn
 brand.delete = function(id) {
     bootbox.confirm({
         title: "Thông báo",
@@ -256,6 +262,7 @@ brand.delete = function(id) {
         }
     });
 }
+//Hàm chuyển trang
 brand.next = function() {
     $('.container ').find('#title').text("History");
     $('.container').find('#comback').text("comback");
@@ -264,24 +271,23 @@ brand.next = function() {
     $('.table-responsive').load('/brands/history');
     brand.history();
     $('#modal').empty();
-    $('#a1').click(function() {
-        $('.table-responsive').load('/brands');
-        brand.showData();
+
+    $('#comback').click(function() {
+        $.get('/brands').done(function(data) {
+            $('body').html(data);
+        });
     });
-
 }
-
+// Hàm mở modal
 brand.showModal = function() {
     brand.resetForm();
     $('#modal').modal('show');
 }
-
-
 //hàm chạy
 $(document).ready(function() {
     brand.init();
 });
-
+// Hàm chạy đầu tiên
 brand.init = function() {
     brand.showData();
 };
