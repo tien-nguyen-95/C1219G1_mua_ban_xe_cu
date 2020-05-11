@@ -13,7 +13,12 @@ interface Reponsitory {
     public function update($data,$object);
 
     public function destroy($object);
+    //  các hàm xóa mềm
+    public function getAlltrash();
 
+    public function restore($id);
+
+    public function delete($id);
 };
 
 ?>

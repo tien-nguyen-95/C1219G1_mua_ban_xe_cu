@@ -17,14 +17,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('brands', 'BrandController');
 
-// Route::prefix('brands')->group(function(){
+Route::prefix('brands')->group(function(){
+    Route::get('/trash','BrandController@trash');
 
-//     Route::get('/','BrandController@index')->name('brands.index');
+    Route::get('/json','BrandController@json');
 
-//     Route::post('/create','BrandController@store')->name('brands.store');
+    Route::get('/','BrandController@index');
 
-//     Route::put('/{id}','BrandController@update')->name('brands.update');
+    Route::get('/history','BrandController@history');
 
-// });
+    Route::get('/{id}/restore','BrandController@restore');
+
+    Route::post('/create','BrandController@store');
+
+    Route::get('/{id}','BrandController@show');
+
+    Route::put('/{id}','BrandController@update');
+
+    Route::delete('/{id}/delete','BrandController@delete');
+
+    Route::delete('/{id}','BrandController@destroy');
+});

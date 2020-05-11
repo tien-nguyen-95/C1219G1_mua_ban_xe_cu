@@ -1,0 +1,27 @@
+.error {
+    color: red;
+}
+
+.fa-edit {
+    color: rgb(0, 255, 64);
+}
+
+.fa-trash {
+    color: red;
+}
+
+.fa-ban {
+    color: red;
+}
+
+span {
+    text-align: center;
+}
+
+#trash {
+    text-align: right;
+}
+
+#title {
+    text-align: center;
+}

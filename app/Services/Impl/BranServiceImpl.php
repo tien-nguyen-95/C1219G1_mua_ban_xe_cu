@@ -53,13 +53,13 @@ class BranServiceImpl implements BrandService
 
     public function update($request,$id)
     {
-        $oldBrand = $this->brandReponsitory->update($request, $id);
+        $oldBrand = $this->brandReponsitory->findById($id);
 
         if(!$oldBrand) {
             $newBrand = null;
             $statusCode = 404;
         }else {
-            $newBrand = $this->brandReponsitory->update($request,$id);
+            $newBrand = $this->brandReponsitory->update($request,$oldBrand);
             $statusCode = 200;
         }
 
@@ -76,7 +76,8 @@ class BranServiceImpl implements BrandService
         $brand = $this->brandReponsitory->findById($id);
 
         $statusCode = 404;
-        // $message = ""
+        $message = "Not Found";
+
         if($brand){
             $this->brandReponsitory->destroy($brand);
             $statusCode=200;
@@ -89,6 +90,22 @@ class BranServiceImpl implements BrandService
         ];
 
         return $data;
+    }
+    public function getAlltrash() {
+        $trashs = $this->brandReponsitory->getAlltrash();
+
+        return  $trashs;
+    }
+
+    public function restore($id){
+
+        return $this->brandReponsitory->restore($id);
+
+
+    }
+
+    public function delete($id){
+        return $this->brandReponsitory->delete($id);
     }
 };
 ?>

@@ -1,37 +1,29 @@
 @extends('partials.head')
 @section('content')
-    <div class="container">
-        <!-- Button to Open the Modal -->
-        <button type="button" id="add" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create</button>
-        <div>
-            <table id="table" class="table table-inverse">
-                <thead>
+ <h1 id="title">List Brand</h1>
+<div class="row">
+    <div class="col-12 mb-3">
+        <a id="comback" href="javascript:;" class="btn btn-info" onclick="brand.showModal()">Create</a>
+        <a id="trash" href="javascript:;" class="btn btn-info" onclick="brand.next()">thùng rác</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 table-responsive">
+        <table id="table" class="table table-hover table-striped">
+            <thead >
                 <tr>
                     <th>STT</th>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
-                </thead>
-                <tbody id="brands-list" name="brands-list">
-                    @if (!isset($brands) || count($brands)===0)
-                    {
-                        <p class="text-danger">Không có sản phẩm nào.</p>
-                    }@else
-                        @foreach($brands as $key => $brand)
-                    <tr id="link{{$brand->id}}">
-                        <td>{{$key++}}</td>
-                        <td>{{$brand->name}}</td>
-                        <td>
-                            <button class="btn btn-info open-modal" value="{{$brand->id}}">Edit</button>
-                            <button class="btn btn-danger delete-link" value="{{$brand->id}}">Delete</button>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+            </thead>
+            <tbody>
+                {{-- show Data --}}
+            </tbody>
+        </table>
     </div>
-@include('brand.create')
-@include('partials.ajax')
-    @endif
+</div>
+@include('brand.modal')
 @endsection
+
+

@@ -16,13 +16,16 @@ class BrandController extends Controller
         $this->brandService = $brandService;
     }
 
-    public function index()
+    public function json()
     {
         $brands = $this->brandService->getAll();
 
-       return view('brand.dashboard',compact('brands'));
+       return response()->json($brands,200);
     }
 
+    public function index() {
+        return view('brand.dashboard');
+    }
     public function show($id)
     {
         $dataBrand = $this->brandService->findById($id);
@@ -33,7 +36,6 @@ class BrandController extends Controller
 
     public function store(Request $request)
     {
-        // $this->validate();
         $dataBrand = $this->brandService->create($request->all());
 
         return response()->json($dataBrand['brands'],$dataBrand['statusCode']);
@@ -52,6 +54,32 @@ class BrandController extends Controller
     {
         $dataBrand = $this->brandService->destroy($id);
 
-        return response()->json($dataBrand['brands'],$dataBrand['statusCode']);
+        return response()->json($dataBrand['statusCode']);
     }
+    // các hàm xóa mềm
+    public function trash() {
+        $trashs = $this->brandService->getAlltrash();
+        return response()->json($trashs,200);
+
+    }
+
+    public function history() {
+        return view('brand.history');
+    }
+
+    public function restore($id){
+
+        $brand = $this->brandService->restore($id);
+        return response()->json($brand,200);
+
+
+
+    }
+
+    public function delete($id){
+
+        $brand =  $this->brandService->delete($id);
+        return response()->json($brand,200);
+    }
+
 }
