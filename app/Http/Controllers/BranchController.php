@@ -25,7 +25,7 @@ class BranchController extends Controller
     {
         $branches = $this->branchService->getAll();
 
-        return response()->view('admin.branch.table', compact('branches'),200);
+        return response()->json($branches, 200);
     }
 
     public function show($id)
@@ -65,16 +65,14 @@ class BranchController extends Controller
         } else {
             return response()->json(['error'=>$validator->errors()->messages()]);
         }
-        // return response()->json($dataBranch['branches'], $dataBranch['statusCode']);
+        return response()->json($dataBranch['branches'], $dataBranch['statusCode']);
     }
 
     public function edit($id)
     {
         $dataBranch = $this->branchService->findById($id);
 
-        $view = view('admin\branch\edit', ['dataBranch' => $dataBranch['branches']]);
-
-        return response()->make($view, $dataBranch['statusCode']);
+        return response()->json($dataBranch, 200);
     }
 
     public function update(Request $request, $id)
@@ -99,6 +97,8 @@ class BranchController extends Controller
         ]);
         if ($validator->passes()) {
             $dataBranch = $this->branchService->update($request->all(), $id);
+
+        return response()->json($dataBranch['branches'], $dataBranch['statusCode']);
         } else {
             return response()->json(['error'=>$validator->errors()->messages()]);
         }
@@ -114,6 +114,6 @@ class BranchController extends Controller
     {
         $branches = $this->branchService->getTrash();
 
-        return response()->view('admin.branch.trash', compact('branches'), 200);
+        return response()->json($branches, 200);
     }
 }

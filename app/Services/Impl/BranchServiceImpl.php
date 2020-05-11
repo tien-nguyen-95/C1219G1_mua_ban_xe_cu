@@ -56,14 +56,14 @@ class BranchServiceImpl implements BranchService
     public function update($request, $id)
     {
         $oldbranch = $this->branchRepository->findById($id);
-
-        if (!$oldbranch) {
-            $newbranch = null;
-            $statusCode = 404;
-        } else {
+        // if (!$oldbranch) {
+        //     $newbranch = null;
+        //     $statusCode = 404;
+        // } else {
             $newbranch = $this->branchRepository->update($request, $oldbranch);
+
             $statusCode = 200;
-        }
+        // }
 
         $data = [
             'statusCode' => $statusCode,
