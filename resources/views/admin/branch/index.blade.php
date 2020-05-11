@@ -1,49 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Chi nhánh</title>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" type="text/javascript" charset="utf-8" async defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css" />
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-</head>
-<body>
-
-    @include('admin.branch.table')
-    {{-- <div class="container" >
-        <button class="btn btn-info" data-url="{{ route('branch.create') }}" onclick="add(this)">Thêm mới</button>
-        <button class="btn btn-info" style="float: right" onclick="trash()"><i class="fas fa-trash"></i> Thùng rác</button>
-        <h2>Danh sách Chi nhánh</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên</th>
-                    <th>Điện thoại</th>
-                    <th>Địa chỉ</th>
-                    <th>Thời gian tạo</th>
-                    <th>Thời gian sửa</th>
-                    <th colspan="2">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody class="data-table">
-              @include('admin.branch.table')
-            </tbody>
-        </table>
-        <div class="crud-branch"></div>
+@extends('layouts.admin')
+@section('content')
+<div class="container-fluid" id="body">
+    <h1>Chi nhánh</h1>
+    <div class="row">
+        <div class="col-12 mb-3">
+            <a href="javascript:;" class="btn btn-info" onclick="branch.showModal()" id="addBranchBtn">Thêm mới</a>
+            <a href="javascript:;" class="btn btn-info" style="float: right" onclick="branch.getTrash()"><i class="fa fa-trash"></i> Thùng rác</a>
+        </div>
     </div>
-    <script src="  {{ asset('js/branch.js') }} "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script> --}}
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
-<script src="  {{ asset('js/branch.js') }} "></script>
-</html>
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <table id="tbBranch" class="table table-hover table-striped">
+                <thead >
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên Chi Nhánh</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="branchModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <form id="formBranch">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Thêm chi nhánh mới</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <input hidden id="branchId" name="branchId" value="0">
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Tên Chi Nhánh</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" id="name" name="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Số Điện thoại</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" id="phone" name="phone" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <label>Địa chỉ</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="tel" id="address" name="address" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-danger" onclick="branch.save()">Lưu</a>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
+@push('crud-ajax-js')
+    <script src="{{ asset('js/branch.js') }}"></script>
+@endpush

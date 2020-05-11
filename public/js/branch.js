@@ -1,79 +1,8 @@
-$(document).ready(function() {
-    init();
-});
-function init(msg=null){
-    $.get('/branch').done(function(data){
-        $('body').html(data);
-        if(msg)
-            messeger(msg);
-    });
-}
-
-function add(btn){
-    let url = $(btn).data('url');
-    $.get(url).done(function(data){
-        $('.crud-branch').html(data).find('.modal').modal('show');
-    });
-}
-
-function store(btn){
-    let data = $(btn.form).serialize();
-    $.post('/branch',data).done(function(data){
-        if($.isEmptyObject(data.error)){
-            $('#addBranchModel').modal('hide');
-            init('Tạo mới thành công');
-        } else{
-            printErrorMsg(data.error);
-        }
-    });
-}
-
-function edit(btn){
-    let url = $(btn).data('url');
-    $.get(url).done(function(data){
-        $('.crud-branch').html(data).find('.modal').modal('show');
-    });
-}
-
-function save(btn){
-    if (confirm('Xác nhận thay đổi?')){
-        let url = $(btn).data('url');
-        let data = $(btn.form).serialize();
-        $.ajax({
-            url:url,
-            method:'put',
-            data:data
-        }).done(function(data){
-            if($.isEmptyObject(data.error)){
-                $('#editBranchModel').modal('hide');
-                let msg = 'Cập nhật thành công';
-                init(msg);
-            } else{
-                printErrorMsg(data.error);
-            }
-        });
-    }
-}
-
-function destroy(btn){
-    if (confirm('Bạn chắc chắn muốn xóa?')){
-        let url = $(btn).data('url');
-        $.ajax({
-            url:url,
-            method:'delete'
-        }).done(function(){
-            let msg = 'Xóa thành công';
-            init(msg);
-        });
-    };
-
-}
-
-function messeger(_text){
+function messenger(_text){
     $.toast({
         heading: 'Thông báo',
         text: _text,
-        hideAfter: 5000,
+        hideAfter: 3000,
         position: 'top-center',
         showHideTransition: 'slide',
         icon: 'success'
@@ -88,17 +17,191 @@ function printErrorMsg (msg) {
     });
 }
 
-function trash(){
-    $.get('/branch_trash').done(function(data){
-        $('body').html(data);
-        $('.back').click(function(){
-            init();
-        });
+// function trash(){
+//     $.get('/branch_trash').done(function(data){
+//         $('#body').html(data);
+//         $('.back').click(function(){
+//             init();
+//         });
+//     });
+// }
+
+var branch = {} || branch;
+
+branch.showData = function () {
+    $.ajax({
+        url: "/branch",
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            $('#tbBranch tbody').empty();
+            $.each(data, function (i, v) {
+                $('#tbBranch tbody').append(
+                    `
+                    <tr>
+                        <td>${++i}</td>
+                        <td>${v.name}</td>
+                        <td>${v.phone}</td>
+                        <td>${v.address}</td>
+                        <td>
+                            <a href="javascript:;" onclick="branch.getDetail(${v.id})"><i class="fa fa-edit"></i></a>
+                            <a href="javascript:;" onclick="branch.remove(${v.id})"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    `
+                );
+            });
+            $('#tbUser').DataTable();
+        }
     });
 }
 
-$.ajaxSetup({
-headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+branch.showModal = function () {
+    branch.resetForm();
+    $('#branchModal').modal('show');
+};
+
+branch.remove = function (id) {
+let check = confirm("Bạn chắc chắn muốn xóa ???")
+    if(check){
+        $.ajax({
+            url: "/branch/" + id,
+            method: "DELETE",
+            dataType: "json",
+            contentType: 'application/json',
+            success: function (data) {
+                branch.showData();
+                messenger("Xóa thành công");
+            }
+        });
+    }
 }
+
+branch.getDetail = function (id) {
+    $.ajax({
+        url: "/branch/" + id +"/edit",
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+                $('#name').val(data.branches.name);
+                $('#phone').val(data.branches.phone);
+                $('#address').val(data.branches.address);
+                $('#branchId').val(data.branches.id);
+                $('#branchModal').find('.modal-title').text("Cập nhật chi nhánh");
+                $('#branchModal').modal('show');
+        }
+    });
+}
+
+branch.save = function () {
+    if ($('#formBranch').valid()) {
+        //create
+        if ($('#branchId').val() == 0) {
+            var objAdd = {};
+            objAdd.name = $('#name').val();
+            objAdd.phone = $('#phone').val();
+            objAdd.address = $('#address').val();
+
+            $.ajax({
+                url: "/branch",
+                method: "POST",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify(objAdd),
+                success: function (data) {
+                    if($.isEmptyObject(data.error)){
+                        $('#branchModal').modal('hide');
+                        messenger("Tạo mới thành công");
+                        branch.showData();
+                    }
+                    else{
+                        printErrorMsg(data.error);
+                    }
+                }
+            });
+        }
+        //update
+        else {
+            var objEdit = {};
+            objEdit.name = $('#name').val();
+            objEdit.phone = $('#phone').val();
+            objEdit.address = $('#address').val();
+            objEdit.id = $('#branchId').val();
+
+            data = JSON.stringify(objEdit);
+            console.log(JSON.stringify(objEdit));
+            $.ajax({
+                url: "/branch/" + objEdit.id,
+                method: "PUT",
+                // dataType: "json",
+                contentType: 'application/json',
+                data: data,
+                success: function (data) {
+                    if($.isEmptyObject(data.error)){
+                        console.log(data);
+                        $('#branchModal').modal('hide');
+                        messenger("Cập nhật thành công");
+                        branch.showData();
+                    }
+                    else{
+                        printErrorMsg(data.error);
+                    }
+                }
+            });
+        }
+
+    }
+}
+
+branch.resetForm = function () {
+    $('#name').val("");
+    $('#phone').val("");
+    $('#address').val("");
+    $('#branchId').val("0");
+    $('#branchModal').find('.modal-title').text("Thêm chi nhánh mới");
+    var form = $('#formBranch').validate();
+    form.resetForm();
+}
+
+branch.getTrash = function() {
+    $.ajax({
+        url: "branch_trash",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            $('#tbBranch tbody').empty();
+            $.each(data, function (i, v) {
+                $('#body').find('h1').text('Danh sách Chi nhánh đã xóa tạm');
+                $('.row').first().find('a').remove();
+                $('#tbBranch tbody').append(
+                    `
+                    <tr>
+                        <td>${++i}</td>
+                        <td>${v.name}</td>
+                        <td>${v.phone}</td>
+                        <td>${v.address}</td>
+                        <td>
+                            <a href="javascript:;" >hồi phục</a>
+                            <a href="javascript:;" ><i class="fa fa-trash"></i>xóa</a>
+                        </td>
+                    </tr>
+                    `
+                );
+            });
+            $('#tbUser').DataTable();
+        }
+    });
+}
+
+branch.init = function () {
+    branch.showData();
+}
+
+$(document).ready(function () {
+    branch.init();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
 });
