@@ -15,4 +15,10 @@ interface BranchService
     public function update($request, $id);
 
     public function destroy($id);
+
+    public function findTrashById($id);
+
+    public function restore($id);
+
+    public function delete($id);
 }

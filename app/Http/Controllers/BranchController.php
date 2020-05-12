@@ -72,4 +72,22 @@ class BranchController extends Controller
 
         return response()->json($branches, 200);
     }
+
+    public function findTrash($id){
+        $dataBranch = $this->branchService->findTrashById($id);
+
+        return response()->json($dataBranch, 200);
+    }
+
+    public function restore($id)
+    {
+        $dataBranch = $this->branchService->restore($id);
+        return response()->json($dataBranch,200);
+    }
+
+    public function delete($id)
+    {
+        $dataBranch = $this->branchService->delete($id);
+        return response()->json($dataBranch,200);
+    }
 }
