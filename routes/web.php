@@ -13,16 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::resource('category', 'CategoryController');
+Route::view('category-list', 'admin.category.index')->name('category.list');
+Route::get('category-trash', 'CategoryController@trash');
+Route::get('category-restore/{id}', 'CategoryController@restore');  
+Route::delete('category-delete/{id}', 'CategoryController@hardDelete');  
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
+
 Route::resource('branch', 'BranchController');
 Route::view('branch_list', 'admin.branch.index')->name('branch.list');
 Route::get('branch_trash', 'BranchController@trash');
+
 Route::get('branch_trash/{id}', 'BranchController@findTrash');
 Route::get('branch_restore/{id}', 'BranchController@restore');
 Route::get('branch_delete/{id}', 'BranchController@delete');
+
