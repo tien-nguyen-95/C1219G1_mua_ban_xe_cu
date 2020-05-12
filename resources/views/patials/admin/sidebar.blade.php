@@ -39,8 +39,12 @@
                     <i class="fas fa-list"></i>
                     <span>Chi Nhánh</span>
                 </a>
+                <a href="javascript:;" class="nav-link collapsed" id="managar_cate">
+                    <i class="fas fa-list"></i>
+                    <span>Quản lí danh mục</span>
+                </a>
             </li>
-
+           
 
 
             <!-- Nav Item - Log out -->

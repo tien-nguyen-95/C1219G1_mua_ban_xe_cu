@@ -51,7 +51,7 @@ branch.showData = function () {
                     `
                 );
             });
-            $('#tbUser').DataTable();
+            $('#tbBranch').DataTable();
         }
     });
 }

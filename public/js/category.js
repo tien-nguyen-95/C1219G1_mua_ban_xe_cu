@@ -42,11 +42,11 @@ var category = {} || category;
     } 
     
     category.save = function () {
-        if ($('#frmAddEditCategory').valid()) {
+        if ($('#formCategory').valid()) {
             //create a category
-            if ($('#CategoryId').val() == 0) {
+            if ($('#categoryId').val() == 0) {
                 var objAdd = {};
-                objAdd.name = $('#categoryName').val();
+                objAdd.name = $('#name').val();
                 // console.log(JSON.stringify(objAdd));
                 console.log(objAdd);
                 $.ajax({
@@ -60,13 +60,11 @@ var category = {} || category;
                         bootbox.alert("Thêm mới thành công");
                         $('#addEditModal').modal('hide');
                         category.showdata();
-                        
-                        
                     },
                     error: function(data){
                         // console.log(data.responseJSON.errors);
                         $.each(data.responseJSON.errors, function(i, v) {
-                            $('.errors-categoryName').text(v);
+                            $('.errors-name').text(v);
                         });
                         // console.log(data.responseJSON.errors.categoryName[0]);
                     }
@@ -145,33 +143,33 @@ var category = {} || category;
 
     category.remove = function(id) {
         bootbox.confirm({
-        title: "Remove Category?",
-        message: "Do you want to remove the category now",
-        buttons: {
-            cancel: {
-                label: '<i class="fa fa-times"></i> No'
+            title: "Remove Category?",
+            message: "Do you want to remove the category now",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> No'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Yes'
+                }
             },
-            confirm: {
-                label: '<i class="fa fa-check"></i> Yes'
+            callback: function (result) {
+                console.log('dele');
+                if (result) {
+                    $.ajax({
+                        url: "http://127.0.0.1:8000/category/" + id,
+                        method: "DELETE",
+                        dataType: "json",
+                        contentType: 'application/json',    
+                        success: function (data) {
+                            bootbox.alert("Remove successfully");
+                            category.showdata();
+                            
+                        }
+                    });
+                }
             }
-        },
-        callback: function (result) {
-            console.log('dele');
-            if (result) {
-                $.ajax({
-                    url: "http://127.0.0.1:8000/category/" + id,
-                    method: "DELETE",
-                    dataType: "json",
-                    contentType: 'application/json',    
-                    success: function (data) {
-                        bootbox.alert("Remove successfully");
-                        category.showdata();
-                        
-                    }
-                });
-            }
-        }
-    });
+        });
     }
 
     category.resetForm = function () {
@@ -268,7 +266,7 @@ var category = {} || category;
         
         $.ajax({
             type: "GET",
-            url: "http://127.0.0.1:8000/category-hard-delete/" + id,
+            url: "category/"+ id +"/edit",
             dataType: "JSON",
             success: function (response) {
                 console.log(response);

@@ -99,18 +99,12 @@ class CategoryServiceImpl implements CategoryService
 
     public function restore($id){
 
-        // return $this->categoryReponsitory->restore($id);
-        
-        $category = $this->categoryRepository->restore($id);
-
-        return $category;
-    
+        return $this->categoryRepository->restore($id);
     }
 
     public function hardDelete($id){
 
-        $category = $this->categoryRepository->hardDelete($id);
+        return $this->categoryRepository->hardDelete($id);
 
-        return $category;
     }
 }

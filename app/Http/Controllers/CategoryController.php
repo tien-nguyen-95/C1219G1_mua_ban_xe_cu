@@ -29,6 +29,12 @@ class CategoryController extends Controller
         return response()->json($dataCategory['categories'], $dataCategory['statusCode']);
     }
 
+    public function edit($id)
+    {
+        $dataCategory = $this->categoryService->findById($id);
+
+        return response()->json($dataCategory, 200);
+    }
 
     public function store(CategoryRequest $request)
     {
@@ -52,7 +58,6 @@ class CategoryController extends Controller
 
     public function trash()
     {
-
         $categories = $this->categoryService->getTrash();
 
         return response()->json($categories, 200);
@@ -60,13 +65,13 @@ class CategoryController extends Controller
 
     public function restore($id)
     {
-        $category = $this->categoryService->restore($id);
-        return response()->json($category, 200);
+        $dataCategory = $this->categoryService->restore($id);
+        return response()->json($dataCategory, 200);
     }
     
     public function hardDelete($id)
     {
-        $category = $this->categoryService->hardDelete($id);
-        return response()->json($category, 200);
+        $dataCategory = $this->categoryService->hardDelete($id);
+        return response()->json($dataCategory, 200);
     }
 }

@@ -31,6 +31,7 @@ class CategoryRequest extends FormRequest
     public function messages()
     {
         return [
+            'name.required' => 'Tên danh mục không được để trống',
             'name.min' => 'Tên danh mục phải nhiều hơn 5 ký tự',
             'name.unique' => 'Tên danh mục đã tồn tại'
         ];
