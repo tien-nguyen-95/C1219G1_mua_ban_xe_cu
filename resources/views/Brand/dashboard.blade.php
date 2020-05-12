@@ -3,8 +3,8 @@
  <h1 id="title">List Brand</h1>
 <div class="row">
     <div class="col-12 mb-3">
-        <a id="comback" href="javascript:;" class="btn btn-info" onclick="brand.showModal()">Create</a>
-        <a id="trash" href="javascript:;" class="btn btn-info" onclick="brand.next()">Trash</a>
+        <a id="comback" href="javascript:;" class="btn btn-success" onclick="brand.showModal()">Create</a>
+        <a id="trash" href="javascript:;" class="btn btn-warning" onclick="brand.next()">Trash</a>
     </div>
 </div>
 <div class="row">
