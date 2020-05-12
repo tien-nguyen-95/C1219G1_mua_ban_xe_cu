@@ -101,7 +101,7 @@ branch.save = function () {
             objAdd.name = $('#name').val();
             objAdd.phone = $('#phone').val();
             objAdd.address = $('#address').val();
-
+            console.log(objAdd);
             $.ajax({
                 url: "/branch",
                 method: "POST",
@@ -109,14 +109,12 @@ branch.save = function () {
                 contentType: 'application/json',
                 data: JSON.stringify(objAdd),
                 success: function (data) {
-                    if($.isEmptyObject(data.error)){
+
                         $('#branchModal').modal('hide');
                         messenger("Tạo mới thành công");
                         branch.showData();
-                    }
-                    else{
-                        printErrorMsg(data.error);
-                    }
+                },error: function(errors) {
+                    branch.showError(errors);
                 }
             });
         }
@@ -137,15 +135,12 @@ branch.save = function () {
                 contentType: 'application/json',
                 data: data,
                 success: function (data) {
-                    if($.isEmptyObject(data.error)){
                         console.log(data);
                         $('#branchModal').modal('hide');
                         messenger("Cập nhật thành công");
                         branch.showData();
-                    }
-                    else{
-                        printErrorMsg(data.error);
-                    }
+                },error: function(errors) {
+                    branch.showError(errors);
                 }
             });
         }
@@ -191,6 +186,16 @@ branch.getTrash = function() {
             $('#tbUser').DataTable();
         }
     });
+}
+
+branch.showError = function(errors){
+    if(errors.status == 422){
+        $('small.fieldError').remove();
+        $.each(errors.responseJSON.errors, function(i,v) {
+            $(`input[name=${i}]`).before(`<small class="text-danger fieldError">${v}</small>`);
+        });
+    }
+    console.clear();
 }
 
 branch.init = function () {
