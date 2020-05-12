@@ -9,5 +9,7 @@ interface Repository
     public function create($data);
     public function update($data, $object);
     public function destroy($object);
-
+    public function getTrash();
+    public function restore($id);
+    public function hardDelete($id);
 }

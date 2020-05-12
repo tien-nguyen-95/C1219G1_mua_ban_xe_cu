@@ -90,4 +90,27 @@ class CategoryServiceImpl implements CategoryService
         ];
         return $data;
     }
+    public function getTrash(){
+
+        $categories = $this->categoryRepository->getTrash();
+
+        return $categories;
+    }
+
+    public function restore($id){
+
+        // return $this->categoryReponsitory->restore($id);
+        
+        $category = $this->categoryRepository->restore($id);
+
+        return $category;
+    
+    }
+
+    public function hardDelete($id){
+
+        $category = $this->categoryRepository->hardDelete($id);
+
+        return $category;
+    }
 }

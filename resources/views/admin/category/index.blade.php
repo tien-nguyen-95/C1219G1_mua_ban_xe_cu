@@ -14,22 +14,23 @@
     <div class="container">
         <h1>List category</h1>
         <div class="col">
-            <a href="#ex1" class="btn btn-primary" onclick="category.showModal()">Add</a>
+            <a href="javascript:;" class="btn btn-primary" id="addcategory" onclick="category.showModal()">Add</a>
+            <a href="javascript:;" class="btn btn-primary" onclick="category.showTrash()">Trash</a>
         </div>
         <br>
 
-        <table class="table" id="categorydata">
+        <table class="table" id="categorydata" value="list">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">id</th>
                     <th scope="col">name</th>
-                    <th scope="col">created_at</th>
-                    <th scope="col" style="width:15%">Action</th>
+                    <th scope="col" id="date">created at</th>
+                    <th scope="col" style="width:%">Action</th>
                 </tr>
             </thead>
             <tbody> 
             </tbody>
-          </table>  
+        </table>  
     </div>
 	@include('admin.category.create')
 </body>

@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CategoryService;
-use DataTables;
-use Illuminate\Support\Facades\View;
-
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -20,9 +18,8 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = $this->categoryService->getAll();
-        
+
         return response()->json($categories, 200);
-        
     }
 
     public function show($id)
@@ -33,17 +30,14 @@ class CategoryController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        // return '345';
-
         $dataCategory = $this->categoryService->create($request->all());
-        
-        return response()->json($dataCategory['categories'], $dataCategory['statusCode']);
 
+        return response()->json($dataCategory['categories'], $dataCategory['statusCode']);
     }
 
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
         $dataCategory = $this->categoryService->update($request->all(), $id);
 
@@ -53,7 +47,26 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $dataCategory = $this->categoryService->destroy($id);
-
         return response()->json($dataCategory['message'], $dataCategory['statusCode']);
+    }
+
+    public function trash()
+    {
+
+        $categories = $this->categoryService->getTrash();
+
+        return response()->json($categories, 200);
+    }
+
+    public function restore($id)
+    {
+        $category = $this->categoryService->restore($id);
+        return response()->json($category, 200);
+    }
+    
+    public function hardDelete($id)
+    {
+        $category = $this->categoryService->hardDelete($id);
+        return response()->json($category, 200);
     }
 }

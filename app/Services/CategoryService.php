@@ -8,4 +8,7 @@ interface CategoryService
     public function create($request);
     public function update($request, $id);
     public function destroy($id);
+    public function getTrash();
+    public function restore($id);
+    public function hardDelete($id);
 }

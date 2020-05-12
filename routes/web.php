@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.category.index'); 
 });
 
+Route::get('category-trash', 'CategoryController@trash');
 Route::resource('category', 'CategoryController');
+Route::get('category-restore/{id}', 'CategoryController@restore');  
+Route::get('category-hard-delete/{id}', 'CategoryController@hardDelete');  

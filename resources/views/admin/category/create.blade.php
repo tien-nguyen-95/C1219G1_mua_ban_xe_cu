@@ -15,6 +15,7 @@
                     <label for="exampleInputEmail1">Name</label>
                     <input name="categoryName" type="text" id="categoryName" class="form-control" 
                     placeholder="Enter category name">
+                    <span id="error" class="errors-categoryName"></span>
                 </div>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <a type="button" class="btn btn-primary" onclick="category.save()">Save</a>

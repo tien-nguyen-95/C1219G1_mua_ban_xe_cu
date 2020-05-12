@@ -28,7 +28,8 @@ var category = {} || category;
                         </tr>
                         `
                     );
-                }); 
+                });
+                $('#categorydata').DataTable(); 
             }
         });
     }
@@ -46,7 +47,8 @@ var category = {} || category;
             if ($('#CategoryId').val() == 0) {
                 var objAdd = {};
                 objAdd.name = $('#categoryName').val();
-                // console.log(objAdd);
+                // console.log(JSON.stringify(objAdd));
+                console.log(objAdd);
                 $.ajax({
                     url: "http://127.0.0.1:8000/category",
                     type: "POST",
@@ -54,17 +56,23 @@ var category = {} || category;
                     contentType: 'application/json',    
                     data: JSON.stringify(objAdd),
                     success: function (data) {
-                        // console.log(data);
+                        console.log(data);
                         bootbox.alert("Thêm mới thành công");
                         $('#addEditModal').modal('hide');
                         category.showdata();
+                        
+                        
                     },
-                    error: function(e){
-                        console.log(e);
+                    error: function(data){
+                        // console.log(data.responseJSON.errors);
+                        $.each(data.responseJSON.errors, function(i, v) {
+                            $('.errors-categoryName').text(v);
+                        });
+                        // console.log(data.responseJSON.errors.categoryName[0]);
                     }
                 });
 
-            }else{      
+            }else{     
                 // update a category
                 bootbox.confirm({
                     title: "Cập nhật bây giở?",
@@ -78,7 +86,9 @@ var category = {} || category;
                         }
                     },
                     callback: function (result) {
+                        
                         if(result){
+                         
                             var objEdit = {};
                             objEdit.id = $('input[type=hidden]').val();
                             // console.log(objEdit.id);
@@ -95,7 +105,15 @@ var category = {} || category;
                                     bootbox.alert("Cập nhật thành công!");
                                     console.log(data);
                                     category.showdata();
+                                },
+                                error: function(data){
+                                    console.log(data.responseJSON.errors);
+                                    $.each(data.responseJSON.errors, function(i, v) {
+                                        $('.errors-categoryName').text(v);
+                                    });
+                                    // console.log(data.responseJSON.errors.categoryName[0]);
                                 }
+                                
                             }); 
                         }
                     }
@@ -105,7 +123,7 @@ var category = {} || category;
     }
 
     category.getDetail = function (id) {
-        
+        $('#error').empty(); 
         $.ajax({
             url: "http://127.0.0.1:8000/category/" + id + "/",
             method: "get",
@@ -146,8 +164,9 @@ var category = {} || category;
                     dataType: "json",
                     contentType: 'application/json',    
                     success: function (data) {
-                        category.showdata();
                         bootbox.alert("Remove successfully");
+                        category.showdata();
+                        
                     }
                 });
             }
@@ -161,34 +180,112 @@ var category = {} || category;
         $('input:hidden[name=CategoryId]').val("0");
         $('#addEditModal').find('.modal-title').text("Thêm mới danh mục");
         $('#frmAddEditCategory').find('a').text('Thêm');
-
+    
         var form = $('#frmAddEditCategory').validate();
         form.resetForm();
     }
 
-    category.init = function(){
-        $('#categorydata').DataTable();
-        $("#frmAddEditCategory").validate({
-            onfocusout: false,
-            onkeyup: false,
-            onclick: false,
-            rules: {
-                "categoryName": {
-                    required: true,
-                    maxlength: 60,
-                    minlength: 3
-                },
-            },
-            messages: {
-                "categoryName": {
-                    required: "Bắt buộc nhập tên danh mục",
-                    maxlength: "Nhập ít hơn 60 ký tự",
-                    minlength: "Nhập nhiều hơn 3 ký tự"
-                },
+    // category.formValid = function(){
+    //     $("#frmAddEditCategory").validate({
+    //         onfocusout: false,
+    //         onkeyup: false,
+    //         onclick: false,
+    //         rules: {
+    //             "categoryName": {
+    //                 required: true,
+    //                 maxlength: 60,
+    //                 minlength: 3
+    //             },
+    //         },
+    //         messages: {
+    //             "categoryName": {
+    //                 required: "Bắt buộc nhập tên danh mục",
+    //                 maxlength: "Nhập ít hơn 60 ký tự",
+    //                 minlength: "Nhập nhiều hơn 3 ký tự"
+    //             },
+    //         }
+	//     });
+    // }
+
+    category.showTrash = function () {  
+        $('.container').find('h1').text("Lish trash category");
+        $('#categorydata').find('#date').text('deleted at');
+        $('#addcategory').replaceWith(
+            `<a href="javascript:;" class="btn btn-dark" id="back" onclick="category.home()">Back</a>`
+        );
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8000/category-trash",
+            dataType: "JSON",
+            success: function (data) {
+                $('#categorydata tbody').empty();
+                console.log(data);
+                $.each(data, function (i, v) {
+                    // alert(v.name);
+                    $('#categorydata tbody').append(
+                        `
+                        <tr>
+                            <td>${v.id}</td>
+                            <td>${v.name}</td>
+                            <td>${v.deleted_at}</td>
+                            <td>
+                                <a href="javascript:;" onclick="category.restore(${v.id})" class="btn btn-info">Restore</a>
+                                <a href="javascript:;" onclick="category.hardDelete(${v.id})" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        `
+                    );
+                });
+                // $('#categorydata').DataTable(); 
             }
-	    });
+        });
+    }
+
+    category.home = function (){
+        $.get("http://127.0.0.1:8000", {}, function (data) {
+            $('body').html(data);
+        });
+    }
+
+    category.restore = function(id) {
+
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8000/category-restore/" + id,
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data);
+                bootbox.alert("Restore successfully");
+                category.showTrash();
+            },
+            error: function (errors){
+                console.log(errors);
+            }
+        });
+    }
+    
+    category.hardDelete = function(id) {
+        
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8000/category-hard-delete/" + id,
+            dataType: "JSON",
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (errors) {  
+                console.log(errors);
+            }
+        });
+    }
+
+
+    category.init = function(){
+        
+        // category.formValid();
         category.showdata();
     }
+
 
     $(document).ready(function () {
         category.init();
