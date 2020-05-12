@@ -57,6 +57,7 @@ branch.showData = function () {
 }
 
 branch.showModal = function () {
+    $('small.fieldError').remove();
     branch.resetForm();
     $('#branchModal').modal('show');
 };
@@ -89,6 +90,7 @@ branch.getDetail = function (id) {
                 $('#branchId').val(data.branches.id);
                 $('#branchModal').find('.modal-title').text("Cập nhật chi nhánh");
                 $('#branchModal').modal('show');
+                $('small.fieldError').remove();
         }
     });
 }
@@ -135,7 +137,6 @@ branch.save = function () {
                 contentType: 'application/json',
                 data: data,
                 success: function (data) {
-                        console.log(data);
                         $('#branchModal').modal('hide');
                         messenger("Cập nhật thành công");
                         branch.showData();
