@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.tag.index');
 });
+Route::resource('tag', 'TagController');
+// Route::get('tag_list', 'TagController@list');
+Route::get('tag-trash', 'TagController@trash');
+Route::delete('tag/{id}','TagController@delete');
+Route::get('tag-restore/{id}','TagController@restore');

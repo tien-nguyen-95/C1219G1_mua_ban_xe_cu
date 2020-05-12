@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\TagRepository;
+use App\Repositories\Impl\TagRepositoryImpl;
+use App\Services\TagService;
+use App\Services\Impl\TagServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+            TagRepository::class,
+            TagRepositoryImpl::class
+        );
+        $this->app->singleton(
+            TagService::class,
+            TagServiceImpl::class
+        );
     }
 
     /**
