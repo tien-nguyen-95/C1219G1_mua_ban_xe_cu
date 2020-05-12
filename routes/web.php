@@ -16,8 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin.category.index'); 
 });
-
 Route::get('category-trash', 'CategoryController@trash');
 Route::resource('category', 'CategoryController');
 Route::get('category-restore/{id}', 'CategoryController@restore');  
 Route::get('category-hard-delete/{id}', 'CategoryController@hardDelete');  
+
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+});
+Route::resource('branch', 'BranchController');
+Route::view('branch_list', 'admin.branch.index')->name('branch.list');
+Route::get('branch_trash', 'BranchController@trash');
+

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Repositories\Eloquent;
+
 use App\Repositories\Repository;
 
 abstract class EloquentRepository implements Repository
@@ -71,8 +73,6 @@ abstract class EloquentRepository implements Repository
 
     public function hardDelete($id){
 
-        $result = $this->model::onlyTrashed()->where('id', $id)->forceDelete();
-
-        return $result;
+        return $this->model::onlyTrashed()->where('id', $id)->forceDelete();
     }
 }

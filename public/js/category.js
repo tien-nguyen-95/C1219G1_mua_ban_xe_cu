@@ -37,8 +37,8 @@ var category = {} || category;
 
 
     category.showModal = function(){   
-        category.resetForm();    
-        $('#addEditModal').modal('show');  
+        // category.resetForm();    
+        $('#categoryModal').modal('show');  
     } 
     
     category.save = function () {
@@ -230,7 +230,7 @@ var category = {} || category;
                             <td>${v.deleted_at}</td>
                             <td>
                                 <a href="javascript:;" onclick="category.restore(${v.id})" class="btn btn-info">Restore</a>
-                                <a href="javascript:;" onclick="category.hardDelete(${v.id})" class="btn btn-danger">Delete</a>
+                                <a href="javascript:;" onclick="category.remove(${v.id})" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                         `

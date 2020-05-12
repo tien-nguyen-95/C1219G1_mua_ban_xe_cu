@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Services;
+
+interface BranchService
+{
+    public function getAll();
+
+    public function getTrash();
+
+    public function findById($id);
+
+    public function create($request);
+
+    public function update($request, $id);
+
+    public function destroy($id);
+}

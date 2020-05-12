@@ -7,6 +7,10 @@ use App\Repositories\Impl\CategoryRepositoryImpl;
 use App\Services\CategoryService;
 use App\Services\Impl\CategoryServiceImpl;
 use Illuminate\Support\ServiceProvider;
+use App\Services\BranchService;
+use App\Repositories\Impl\BranchRepositoryImpl;
+use App\Repositories\BranchRepository;
+use App\Services\Impl\BranchServiceImpl;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +29,15 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             CategoryService::class,
             CategoryServiceImpl::class
+        );
+        
+        $this->app->singleton(
+            BranchRepository::class,
+            BranchRepositoryImpl::class
+        );
+        $this->app->singleton(
+            BranchService::class,
+            BranchServiceImpl::class
         );
     }
 
