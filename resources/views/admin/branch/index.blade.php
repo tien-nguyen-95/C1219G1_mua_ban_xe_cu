@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 table-responsive">
+        <div class="col-12 table-responsive" id="tableBranch">
             <table id="tbBranch" class="table table-hover table-striped">
                 <thead >
                     <tr>
