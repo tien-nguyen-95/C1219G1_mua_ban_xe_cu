@@ -23,3 +23,6 @@ Route::get('/dashboard', function () {
 Route::resource('branch', 'BranchController');
 Route::view('branch_list', 'admin.branch.index')->name('branch.list');
 Route::get('branch_trash', 'BranchController@trash');
+Route::get('branch_trash/{id}', 'BranchController@findTrash');
+Route::get('branch_restore/{id}', 'BranchController@restore');
+Route::get('branch_delete/{id}', 'BranchController@delete');
