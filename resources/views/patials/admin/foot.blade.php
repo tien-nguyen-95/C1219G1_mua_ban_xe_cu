@@ -30,15 +30,4 @@
 @stack('crud-ajax-js')
 </body>
 </html>
-<script>
-    // $('#managar_cate').on('click', function(){
-    //     $.ajax({
-    //       type: "GET",
-    //       url: "/category-list",
-    //       dataType: "",
-    //       success: function (data) {
-    //         $('body').html(data);
-    //       }
-    //     });
-    // })
-</script>
+
