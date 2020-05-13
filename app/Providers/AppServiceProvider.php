@@ -48,10 +48,11 @@ class AppServiceProvider extends ServiceProvider
             TagService::class,
             TagServiceImpl::class
         );
-
+        $this->app->singleton(
             CategoryRepository::class,
             CategoryRepositoryImpl::class
         );
+        
         $this->app->singleton(
             CategoryService::class,
             CategoryServiceImpl::class
