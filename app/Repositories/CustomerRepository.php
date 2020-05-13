@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Repositories;
 
-interface CategoryRepository extends Repository
+interface CustomerRepository extends Repository
 {
     public function getTrash();
     public function restore($id);
