@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Repositories\TagRepository;
+use App\Repositories\Impl\TagRepositoryImpl;
+use App\Services\TagService;
+use App\Services\Impl\TagServiceImpl;
+
 
 use App\Services\BrandService;
 use App\Repositories\Impl\BrandRepositoryImpl;
@@ -35,6 +40,15 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(
+
+            TagRepository::class,
+            TagRepositoryImpl::class
+        );
+        $this->app->singleton(
+            TagService::class,
+            TagServiceImpl::class
+        );
+
             CategoryRepository::class,
             CategoryRepositoryImpl::class
         );
@@ -43,6 +57,7 @@ class AppServiceProvider extends ServiceProvider
             CategoryServiceImpl::class
         );
         
+
         $this->app->singleton(
             BranchRepository::class,
             BranchRepositoryImpl::class
@@ -51,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             BranchService::class,
             BranchServiceImpl::class
+
         );
 
         $this->app->singleton(
