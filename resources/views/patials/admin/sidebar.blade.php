@@ -43,6 +43,11 @@
                     <i class="fas fa-list"></i>
                     <span>Quản lí danh mục</span>
                 </a>
+
+                <a href="{{ route('brands.index') }}" class="nav-link collapsed">
+                    <i class="fas fa-list"></i>
+                    <span>Thương Hiệu</span>
+                </a>
             </li>
            
 
