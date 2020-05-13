@@ -44,8 +44,8 @@ branch.showData = function () {
                         <td>${v.phone}</td>
                         <td>${v.address}</td>
                         <td>
-                            <a href="javascript:;" onclick="branch.getDetail(${v.id})"><i class="fa fa-edit"></i></a>
-                            <a href="javascript:;" onclick="branch.remove(${v.id})"><i class="fa fa-trash"></i></a>
+                            <a href="javascript:;" title="Sửa" style="font-size:30px" onclick="branch.getDetail(${v.id})"><i class="fa fa-edit"></i></a>
+                            <a href="javascript:;" title="Chuyển tới thùng rác" style="font-size:30px;color:gray" onclick="branch.remove(${v.id})"><i class="fa fa-trash-alt"></i></a>
                         </td>
                     </tr>
                     `
@@ -149,6 +149,38 @@ branch.save = function () {
     }
 }
 
+branch.restore = function(id){
+    let check = confirm("Bạn chắc chắn muốn khôi phục ???")
+    if(check){
+        $.ajax({
+            url: "/branch_restore/" + id,
+            method: "GET",
+            dataType: "json",
+            contentType: 'application/json',
+            success: function (data) {
+                branch.getTrash();
+                messenger("KHôi phục thành công");
+            }
+        });
+    }
+}
+
+branch.delete = function(id){
+    let check = confirm("Bạn chắc chắn muốn xoá ???")
+    if(check){
+        $.ajax({
+            url: "/branch_delete/" + id,
+            method: "GET",
+            dataType: "json",
+            contentType: 'application/json',
+            success: function (data) {
+                branch.getTrash();
+                messenger("KHôi phục thành công");
+            }
+        });
+    }
+}
+
 branch.resetForm = function () {
     $('#name').val("");
     $('#phone').val("");
@@ -165,11 +197,37 @@ branch.getTrash = function() {
         method: "GET",
         dataType: "json",
         success: function(data) {
-            $('#tbBranch tbody').empty();
+            $('.row').first().replaceWith(
+                `
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <a href="javascript:;" class="btn btn-info" onclick="branch.back()" >Back</a>
+                    </div>
+                </div>
+                `
+            );
+            $('#tableBranch').replaceWith(
+                `
+                <div class="col-12 table-responsive" id="tableBranch">
+                    <table id="tbTrashBranch" class="table table-hover table-striped">
+                        <thead >
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên Chi Nhánh</th>
+                                <th>Số điện thoại</th>
+                                <th>Địa chỉ</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                `
+            );
             $.each(data, function (i, v) {
                 $('#body').find('h1').text('Danh sách Chi nhánh đã xóa tạm');
-                $('.row').first().find('a').remove();
-                $('#tbBranch tbody').append(
+                $('#tbTrashBranch tbody').append(
                     `
                     <tr>
                         <td>${++i}</td>
@@ -177,16 +235,51 @@ branch.getTrash = function() {
                         <td>${v.phone}</td>
                         <td>${v.address}</td>
                         <td>
-                            <a href="javascript:;" >hồi phục</a>
-                            <a href="javascript:;" ><i class="fa fa-trash"></i>xóa</a>
+                            <a href="javascript:;" title="Phục hồi" style="font-size:30px;color:green" onclick="branch.restore(${v.id})" ><i class="fa fa-trash-restore"></i></a>
+                            <a href="javascript:;" title="Xóa vĩnh viễn" style="font-size:30px;color:red" onclick="branch.delete(${v.id})" ><i class="fa fa-trash-alt"></i></a>
                         </td>
                     </tr>
                     `
                 );
             });
-            $('#tbUser').DataTable();
+            $('#tbTrashBranch').DataTable();
         }
     });
+}
+
+
+
+branch.back = function() {
+    $('.row').first().replaceWith(
+        `
+        <div class="row">
+            <div class="col-12 mb-3">
+                <a href="javascript:;" class="btn btn-info" onclick="branch.showModal()" id="addBranchBtn">Thêm mới</a>
+                <a href="javascript:;" class="btn btn-info" style="float: right" onclick="branch.getTrash()"><i class="fa fa-trash"></i> Thùng rác</a>
+            </div>
+        </div>
+        `
+    );
+    $('#tableBranch').replaceWith(
+        `
+        <div class="col-12 table-responsive" id="tableBranch">
+            <table id="tbBranch" class="table table-hover table-striped">
+                <thead >
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên Chi Nhánh</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        `
+    );
+    branch.showData();
 }
 
 branch.showError = function(errors){

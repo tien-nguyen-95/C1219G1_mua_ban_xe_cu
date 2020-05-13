@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+
+use App\Services\BrandService;
+use App\Repositories\Impl\BrandRepositoryImpl;
+use App\Repositories\BrandRepository;
+use App\Services\Impl\BrandServiceImpl;
+
 use App\Repositories\CategoryRepository;
 use App\Repositories\Impl\CategoryRepositoryImpl;
 use App\Services\CategoryService;
@@ -41,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
             BranchRepository::class,
             BranchRepositoryImpl::class
         );
+      
         $this->app->singleton(
             BranchService::class,
             BranchServiceImpl::class
@@ -50,9 +57,20 @@ class AppServiceProvider extends ServiceProvider
             CustomerRepository::class,
             CustomerRepositoryImpl::class
         );
+      
         $this->app->singleton(
             CustomerService::class,
             CustomerServiceImpl::class
+        );
+      
+        $this->app->singleton(
+            BrandRepository::class,
+            BrandRepositoryImpl::class
+        );
+        $this->app->singleton(
+            BrandService::class,
+            BrandServiceImpl::class
+
         );
     }
 
