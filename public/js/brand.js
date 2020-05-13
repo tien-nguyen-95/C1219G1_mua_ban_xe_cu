@@ -27,6 +27,7 @@ brand.showData = function() {
 }
 //Hàm lấy đối tượng chỉnh sửa
 brand.getDetail = function(id) {
+    $('#error').empty();
     $.ajax({
         url: "/brands/" + id,
         method: "GET",
@@ -154,6 +155,7 @@ brand.remove = function(id) {
 }
 // Hàm đặt lại form
 brand.resetForm = function() {
+    $('#error').empty();
     $('#name').val("");
     $('#brandId').val("0");
     $('#modal').find('.modal-title').text("Create New Brand");
@@ -276,6 +278,7 @@ brand.next = function() {
     $('#table').remove();
     $('.table-responsive').load('/brands/history');
     brand.history();
+    $('#comeback').reset();
     $('#modal').empty();
 }
 
@@ -308,6 +311,7 @@ brand.comeback = function() {
         `
     );
     brand.showData();
+
 }
 
 // Hàm mở modal
