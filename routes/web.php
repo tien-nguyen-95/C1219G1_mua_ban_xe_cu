@@ -14,21 +14,61 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
-    return view('admin.tag.index');
+    return view('welcome');
 });
-// Route::view('tag_list', 'admin.tag.index')->name('tag.list');
+Route::view('tag_list', 'admin.tag.index')->name('tag.list');
 Route::resource('tag', 'TagController');
 // Route::get('tag_list', 'TagController@list');
 Route::get('tag-trash', 'TagController@trash');
 Route::delete('tag/{id}','TagController@delete');
 Route::put('tag-restore/{id}','TagController@restore');
 
+// category
+Route::resource('category', 'CategoryController');
+Route::view('category-list', 'admin.category.index')->name('category.list');
+Route::get('category-trash', 'CategoryController@trash');
+Route::get('category-restore/{id}', 'CategoryController@restore');  
+Route::delete('category-delete/{id}', 'CategoryController@hardDelete');  
+
+// customer
+Route::resource('customer', 'CustomerController');
+Route::view('customer-list', 'admin.customer.index')->name('customer.list');
+
 
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
+
 Route::resource('branch', 'BranchController');
 Route::view('branch_list', 'admin.branch.index')->name('branch.list');
 Route::get('branch_trash', 'BranchController@trash');
+
+Route::get('branch_trash/{id}', 'BranchController@findTrash');
+Route::get('branch_restore/{id}', 'BranchController@restore');
+Route::get('branch_delete/{id}', 'BranchController@delete');
+
+
+Route::prefix('brands')->group(function(){
+    Route::get('/trash','BrandController@trash');
+
+    Route::get('/json','BrandController@json');
+
+    Route::get('/','BrandController@index')->name('brands.index');
+
+    Route::get('/history','BrandController@history');
+
+    Route::get('/{id}/restore','BrandController@restore');
+
+    Route::post('/create','BrandController@store');
+
+    Route::get('/{id}','BrandController@show');
+
+    Route::put('/{id}','BrandController@update');
+
+    Route::delete('/{id}/delete','BrandController@delete');
+
+    Route::delete('/{id}','BrandController@destroy');
+});

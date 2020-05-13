@@ -77,7 +77,7 @@ class BranchServiceImpl implements BranchService
         $branch = $this->branchRepository->findById($id);
 
         $statusCode = 404;
-        $message = "User not found";
+        $message = "Branch not found";
         if ($branch) {
             $this->branchRepository->destroy($branch);
             $statusCode = 200;
@@ -96,5 +96,55 @@ class BranchServiceImpl implements BranchService
         $branches = $this->branchRepository->getTrash();
 
         return $branches;
+    }
+
+    public function findTrashById($id)
+    {
+        $branch = $this->branchRepository->findTrashById($id);
+        $status = 200;
+
+        if (!$branch)
+            $status = 404;
+
+        $data = [
+            'status' => $status,
+            'data' => $branch
+        ];
+
+        return $data;
+    }
+
+    public function restore($id){
+        $branch = $this->branchRepository->findTrashById($id);
+        $statusCode = 404;
+        $message = "Branch not found";
+        if ($branch) {
+            $this->branchRepository->restore($branch);
+            $statusCode = 200;
+            $message = "Restore success!";
+        }
+
+        $data = [
+            'statusCode' => $statusCode,
+            'message' => $message
+        ];
+        return $data;
+    }
+
+    public function delete($id){
+        $branch = $this->branchRepository->findTrashById($id);
+        $statusCode = 404;
+        $message = "Branch not found";
+        if ($branch) {
+            $this->branchRepository->delete($branch);
+            $statusCode = 200;
+            $message = "Delete success!";
+        }
+
+        $data = [
+            'statusCode' => $statusCode,
+            'message' => $message
+        ];
+        return $data;
     }
 }

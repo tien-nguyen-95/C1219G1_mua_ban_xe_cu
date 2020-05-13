@@ -1,12 +1,11 @@
 <?php
 
+
 namespace App\Services;
 
-interface BranchService
+interface BrandService
 {
     public function getAll();
-
-    public function getTrash();
 
     public function findById($id);
 
@@ -16,9 +15,11 @@ interface BranchService
 
     public function destroy($id);
 
-    public function findTrashById($id);
+    //  các hàm xóa mềm
+    public function getAlltrash();
 
     public function restore($id);
 
     public function delete($id);
 }
+?>
