@@ -13,13 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
+// category
 Route::resource('category', 'CategoryController');
 Route::view('category-list', 'admin.category.index')->name('category.list');
 Route::get('category-trash', 'CategoryController@trash');
 Route::get('category-restore/{id}', 'CategoryController@restore');  
 Route::delete('category-delete/{id}', 'CategoryController@hardDelete');  
+
+// customer
+Route::resource('customer', 'CustomerController');
+Route::view('customer-list', 'admin.customer.index')->name('customer.list');
+
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');

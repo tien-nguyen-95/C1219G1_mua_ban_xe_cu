@@ -14,11 +14,16 @@ use App\Services\CategoryService;
 use App\Services\Impl\CategoryServiceImpl;
 
 use Illuminate\Support\ServiceProvider;
+
 use App\Services\BranchService;
 use App\Repositories\Impl\BranchRepositoryImpl;
 use App\Repositories\BranchRepository;
 use App\Services\Impl\BranchServiceImpl;
 
+use App\Repositories\CustomerRepository;
+use App\Repositories\Impl\CustomerRepositoryImpl;
+use App\Services\CustomerService;
+use App\Services\Impl\CustomerServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,11 +47,22 @@ class AppServiceProvider extends ServiceProvider
             BranchRepository::class,
             BranchRepositoryImpl::class
         );
+      
         $this->app->singleton(
             BranchService::class,
             BranchServiceImpl::class
         );
 
+        $this->app->singleton(
+            CustomerRepository::class,
+            CustomerRepositoryImpl::class
+        );
+      
+        $this->app->singleton(
+            CustomerService::class,
+            CustomerServiceImpl::class
+        );
+      
         $this->app->singleton(
             BrandRepository::class,
             BrandRepositoryImpl::class
@@ -54,6 +70,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             BrandService::class,
             BrandServiceImpl::class
+
         );
     }
 
