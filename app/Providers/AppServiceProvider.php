@@ -7,6 +7,10 @@ use App\Repositories\Impl\TagRepositoryImpl;
 use App\Services\TagService;
 use App\Services\Impl\TagServiceImpl;
 use Illuminate\Support\ServiceProvider;
+use App\Services\BranchService;
+use App\Repositories\Impl\BranchRepositoryImpl;
+use App\Repositories\BranchRepository;
+use App\Services\Impl\BranchServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +28,15 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             TagService::class,
             TagServiceImpl::class
+        );
+        $this->app->singleton(
+            BranchRepository::class,
+            BranchRepositoryImpl::class
+        );
+        $this->app->singleton(
+            BranchService::class,
+            BranchServiceImpl::class
+
         );
     }
 

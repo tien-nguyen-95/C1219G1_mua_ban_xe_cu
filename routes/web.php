@@ -17,8 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin.tag.index');
 });
+// Route::view('tag_list', 'admin.tag.index')->name('tag.list');
 Route::resource('tag', 'TagController');
 // Route::get('tag_list', 'TagController@list');
 Route::get('tag-trash', 'TagController@trash');
 Route::delete('tag/{id}','TagController@delete');
-Route::get('tag-restore/{id}','TagController@restore');
+Route::put('tag-restore/{id}','TagController@restore');
+
+
+
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+});
+Route::resource('branch', 'BranchController');
+Route::view('branch_list', 'admin.branch.index')->name('branch.list');
+Route::get('branch_trash', 'BranchController@trash');

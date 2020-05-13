@@ -1,10 +1,6 @@
 
     var tag = {} || tag;
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-    }
-});
+
 tag.showData = function () {
     $.ajax({
         url: "http://127.0.0.1:8000/tag",
@@ -195,14 +191,12 @@ tag.showTrash = function (){
 };
 
 tag.back = function(){
-   $.ajax({
-       type: "get",
-       url: "http://127.0.0.1:8000/",
-       dataType: "",
-       success: function (data) {
-           $('body').html(data);
-       }
-   });
+    $('.container').find('h1').text('Tag');
+    $('#tbTag').find('#date').text('Created_at');
+    $('#create').empty();
+    $('#addTag').replaceWith(
+        `<a href="javascript:;" class="btn btn-info" onclick="tag.showModal()">Create</a>`
+    );
 };
 tag.restore = function(id){
     $.ajax({
@@ -219,5 +213,10 @@ tag.restore = function(id){
 };
 $(document).ready(function () {
     tag.showData();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
 });
 

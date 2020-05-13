@@ -1,19 +1,11 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        {{-- <link rel="stylesheet" href="css/site.css"> --}}
-        <meta name="_token" content="{{ csrf_token() }}" />
-    </head>
-
-    <body>
-        <div class="container">
-            <h1>Tags Management</h1>
+@extends('layouts.admin')
+@section('content')
+        <div class="container-fluid">
+            <h1>Tag</h1>
             <div class="row">
                 <div class="col-12 mb-3" id="addTag">
-                    <a href="javascript:;" class="btn btn-info" onclick="tag.showModal()">Create</a>
-                    <a href="javascript:;" class="btn btn-info" onclick="tag.showTrash()">Trash</a>
+                    <a href="javascript:;" class="btn btn-info" onclick="tag.showModal()" id="create">Create</a>
+                    <a href="javascript:;" class="btn btn-info" style="float: right" onclick="tag.showTrash()" id="trash">Trash</a>
                 </div>
             </div>
             <div class="row">
@@ -59,22 +51,16 @@
                             placeholder="Enter category">
                             <span class="error-category"></span>
                         </div>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <a type="button" class="btn btn-primary" onclick="tag.save()">Save</a>
+                        <a type="button" class="btn btn-danger" onclick="tag.save()">Save</a>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+
                     </form>
                 </div>
             </div>
             </div>
         </div>
-    </body>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.js"></script>
-
-    <script src="js/tag.js"></script>
-</html>
+@endsection
+@push('crud-ajax-js')
+    {{-- <script src="{{ asset('js/tag.js') }}"></script> --}}
+    <script src="{{ asset('js/tag.js') }}"></script>
+@endpush
