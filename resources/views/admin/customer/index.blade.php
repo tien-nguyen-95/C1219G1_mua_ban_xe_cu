@@ -28,7 +28,89 @@
         </table>
     </div>
 </div>
-<!-- Modal -->
+
+
+<div class="modal" id="thongtin">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title"><i class="fa fa-user-circle"></i> Thông tin khách hàng</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div class="row form-group">
+                <div class="col-4">
+                    <strong>Mã khách hàng:</strong>
+                </div>
+                <div class="col-8">
+                    <p id="id"></p>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-4">
+                    <strong>Họ và tên:</strong>
+                </div>
+                <div class="col-8">
+                    <p id="name"></p>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-4">
+                    <strong>Email:</strong>
+                </div>
+                <div class="col-8">
+                    <p id="email"></p>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-4">
+                    <strong>Địa chỉ:</strong>
+                </div>
+                <div class="col-8">
+                    <p id="address"></p>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-4">
+                    <strong>Số điện thoại:</strong>
+                </div>
+                <div class="col-8">
+                    <p id="phone"></p>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-4">
+                    <strong>Ngày tạo</strong>
+                </div>
+                <div class="col-8">
+                    <p id="created_at"></p>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-4">
+                    <strong>Ngày cập nhật</strong>
+                </div>
+                <div class="col-8">
+                    <p id="updated_at"></p>
+                </div>
+            </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
+{{-- Modal --}}
 <div id="customerModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <form id="formCustomer">
@@ -41,7 +123,7 @@
                 <input type="hidden" id="customerId" name="customerId" value="0">
                 <div class="modal-body">
                     <div class="row form-group">
-                    <div class="col-3">
+                        <div class="col-3">
                             <label>Tên khách hàng</label>
                         </div>
                         <div class="col-9">
@@ -79,12 +161,19 @@
                 </div>
                 <div class="modal-footer">
                     <a href="javascript:;" class="btn btn-danger" onclick="customer.save()">Thêm</a>
+                    <input class="btn btn-primary" type="reset" id="configreset" value="Reset">
                     <button type="button" class="btn btn-info" data-dismiss="modal">Đóng</button>
                 </div>
             </>
         </form>
     </div>
 </div>
+
+<!-- The Modal -->
+
+
+
+
 @endsection
 @push('crud-ajax-js')
     <script src="{{ asset('js/customer.js') }}"></script>

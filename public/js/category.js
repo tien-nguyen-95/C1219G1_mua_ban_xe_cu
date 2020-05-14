@@ -144,10 +144,11 @@ category.save = function () {
                             contentType: 'application/json',
                             data: JSON.stringify(objEdit),
                             success: function (data) {
-                                $('#addEditModal').modal('hide');
+                                category.showData();
+                                $('#categoryModal').modal('hide');
                                 messenger("Cập nhật thành công");
                                 console.log(data);
-                                category.showData();
+                                
                             },
                             error: function(data){
                                 console.log(data);

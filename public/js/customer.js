@@ -30,9 +30,12 @@ customer.showData = function(){
                     return {
                         name: obj.name,
                         email: obj.email,
-                        created_at: obj.created_at,
-                        action: `<a href="javascript:;" class="text-warning mx-auto btn" onclick="customer.getDetail(${obj.id})"><i class="fa fa-edit"></i></a>
-                                <a href="javascript:;" class="text-danger mx-auto btn" onclick="customer.remove(${obj.id})"><i class="fa fa-trash"></i></a>`
+                        created_at: obj.created_at, 
+                        action: `
+                                <a href="javascript:;" class="text-info mx-auto btn" onclick="customer.show(${obj.id})" title="thông tin"><i class="fa fa-info-circle"></i></a>
+                                <a href="javascript:;" class="text-warning mx-auto btn" onclick="customer.getDetail(${obj.id})" title="sửa"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:;" class="text-danger mx-auto btn" onclick="customer.remove(${obj.id})" title="xóa"><i class="fa fa-trash"></i></a>
+                                `
                     }
                 })
             }
@@ -147,6 +150,37 @@ customer.save = function () {
     }
 }
 
+customer.remove = function(id) {
+    bootbox.confirm({
+        title: "Xóa khách hàng?",
+        message: "Bạn có chắc muốn xóa bây giờ?",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> No'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Yes'
+            }
+        },
+        callback: function (result) {
+            console.log('dele');
+            if (result) {
+                $.ajax({
+                    url: "/customer/" + id,
+                    method: "DELETE",
+                    dataType: "json",
+                    contentType: 'application/json',    
+                    success: function (data) {
+                        customer.table.ajax.reload(null,false);
+                        // category.showTrash();
+                        messenger("Xóa thành công");
+                    }
+                });
+            }
+        }
+    });
+}
+
 customer.resetForm = function () {
     $('input:hidden[name=customerId]').val("0");
     $('#name').val("");
@@ -161,6 +195,26 @@ customer.resetForm = function () {
     $('#formCustomer').find('a').text('Thêm');
     var form = $('#formCustomer').validate();
     form.resetForm();
+}
+
+customer.show = function(id) {
+    $("#thongtin").modal('show');
+    $.ajax({
+        type: "GET",
+        url: "/customer/" + id,
+        dataType: "JSON",
+        contentType: 'application/json',
+        success: function (data) {
+            console.log(data.name);
+            $('p#id').text(data.id);
+            $('p#name').text(data.name);
+            $('p#phone').text(data.phone);
+            $('p#email').text(data.email);
+            $('p#address').text(data.address);
+            $('p#created_at').text(data.created_at);
+            $('p#updated_at').text(data.updated_at);
+        }
+    });
 }
 
 customer.showModal = function(){

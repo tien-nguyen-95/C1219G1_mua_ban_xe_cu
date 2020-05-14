@@ -9,9 +9,9 @@ interface Repository
     public function create($data);
     public function update($data, $object);
 
-    // public function restore($id);
+    public function restore($id);
 
-    // public function delete($id);
+    public function delete($id);
 
     public function destroy($object);
 
