@@ -199,7 +199,7 @@ category.resetForm = function () {
     $('#name').val("");
     $('#categoryId').val("0");
     $('.errors-name').empty();
-    $('#categoryhModal').find('.modal-title').text("Thêm danh mục mới");
+    $('#formCategory').find('.modal-title').text("Thêm mới danh mục");
     $('#formCategory').find('a').text('Thêm');
     var form = $('#formCategory').validate();
     form.resetForm();

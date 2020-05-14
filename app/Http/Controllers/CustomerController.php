@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CustomerService;
-// use App\Http\Requests\CustomerRequest;
+use App\Http\Requests\CustomerRequest;
 
 class CustomerController extends Controller
 {
@@ -36,14 +36,14 @@ class CustomerController extends Controller
         return response()->json($dataCustomer, 200);
     }
 
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
         $dataCustomer = $this->customerService->create($request->all());
 
         return response()->json($dataCustomer['customers'], $dataCustomer['statusCode']);
     }
 
-    public function update(Request $request, $id)
+    public function update(CustomerRequest $request, $id)
     {
         $dataCustomer = $this->customerService->update($request->all(), $id);
 
