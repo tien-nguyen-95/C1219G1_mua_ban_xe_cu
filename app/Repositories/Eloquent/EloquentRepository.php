@@ -71,7 +71,7 @@ abstract class EloquentRepository implements Repository
         return $this->model::onlyTrashed()->where('id', $id)->restore();
     }
 
-    public function hardDelete($id){
+    public function delete($id){
 
         return $this->model::onlyTrashed()->where('id', $id)->forceDelete();
     }
