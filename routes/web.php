@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,16 +14,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+//tag
+Route::view('tag_list', 'admin.tag.index')->name('tag.list');
+Route::resource('tag', 'TagController');
+Route::get('tag-trash', 'TagController@trash');
+Route::delete('tag-delete/{id}','TagController@delete');
+Route::get('tag-restore/{id}','TagController@restore');
+
 // category
 Route::resource('category', 'CategoryController');
 Route::view('category-list', 'admin.category.index')->name('category.list');
 Route::get('category-trash', 'CategoryController@trash');
-Route::get('category-restore/{id}', 'CategoryController@restore');  
-Route::delete('category-delete/{id}', 'CategoryController@hardDelete');  
+Route::get('category-restore/{id}', 'CategoryController@restore');
+Route::delete('category-delete/{id}', 'CategoryController@hardDelete');
 
 // customer
 Route::resource('customer', 'CustomerController');
 Route::view('customer-list', 'admin.customer.index')->name('customer.list');
+
 
 
 Route::get('/dashboard', function () {
