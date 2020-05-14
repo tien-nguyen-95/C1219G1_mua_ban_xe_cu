@@ -4,6 +4,7 @@
 
 @include('patials.admin.navbar')
 
-@yield('content')
-
+<div class="container-fluid" id="body">
+    @yield('content')
+</div>
 @include('patials.admin.foot')

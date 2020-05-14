@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Eloquent;
 
-
 use App\Repositories\Repository;
 
 abstract class EloquentRepository implements Repository
@@ -61,18 +60,21 @@ abstract class EloquentRepository implements Repository
         $object->delete();
     }
 
-    public function getTrash()
-    {
+    public function getTrash(){
+
         $result = $this->model->onlyTrashed()->get();
         return $result;
     }
+
+
+
+
     public function restore($id)
     {
         return $this->model::onlyTrashed()->where('id', $id)->restore();
     }
 
     public function delete($id){
-
         return $this->model::onlyTrashed()->where('id', $id)->forceDelete();
     }
 }
