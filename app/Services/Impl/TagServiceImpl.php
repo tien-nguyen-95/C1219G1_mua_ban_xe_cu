@@ -98,13 +98,13 @@ class TagServiceImpl implements TagService
     }
     public function restore($id){
 
-        $tags = $this->brandReponsitory->restore($id);
+        $tags = $this->tagRepository->restore($id);
 
         return $tags;
     }
 
     public function delete($id){
-        $tags = $this->brandReponsitory->delete($id);
+        $tags = $this->tagRepository->delete($id);
 
         return $tags;
     }

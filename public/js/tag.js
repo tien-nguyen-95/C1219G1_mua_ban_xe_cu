@@ -8,9 +8,9 @@ tag.showData = function () {
         dataType: "json",
         success: function (data) {
             console.log(data);
-            $('#tbTag tbody').empty();
+            $('#tbTagData tbody').empty();
             $.each(data, function (i, v) {
-                $('#tbTag tbody').append(
+                $('#tbTagData tbody').append(
                     `
                     <tr>
                         <td>${v.title}</td>
@@ -24,7 +24,7 @@ tag.showData = function () {
                     `
                 );
             });
-            $('#tbTag').DataTable();
+            $('#tbTagData').DataTable();
 
         },
         error : function(e){
@@ -58,6 +58,7 @@ tag.remove = function (id) {
                     contentType: 'application/json',
                     success: function (data) {
                         tag.showData();
+                        tag.showTrash();
                         bootbox.alert("Remove successfully");
                     }
                 });
@@ -155,22 +156,17 @@ tag.resetForm = function () {
     form.resetForm();
 }
 tag.showTrash = function (){
-    $('.container').find('h1').text('Tag Trash List');
-    $('#tbTag').find('#date').text('Delete_at');
-    $('#addTag').replaceWith(
-        `<a href="javascript:;" class="btn btn-dark" id="back" onclick="tag.back()">Back</a>`
-    );
     $.ajax({
-        url: "http://127.0.0.1:8000/tag-trash",
+        url: "/tag-trash",
         method: "GET",
         dataType: "json",
         success: function (data) {
 
-            $('#tbTag tbody').empty();
+            $('#tbTagTrash tbody').empty();
             console.log(data);
             $.each(data, function (i, v) {
                 // alert(v.title);
-                $('#tbTag tbody').append(
+                $('#tbTagTrash tbody').append(
                     `
                     <tr>
                         <td>${v.title}</td>
@@ -178,7 +174,7 @@ tag.showTrash = function (){
                         <td>${v.deleted_at}</td>
                         <td>
                             <a href="javascript:;" onclick="tag.restore(${v.id})" class="btn btn-info">Restore</a>
-                            <a href="javascript:;" onclick="tag.remove(${v.id})" class="btn btn-danger">Delete</a>
+                            <a href="javascript:;" onclick="tag.delete(${v.id})" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     `
@@ -198,21 +194,59 @@ tag.back = function(){
         `<a href="javascript:;" class="btn btn-info" onclick="tag.showModal()">Create</a>`
     );
 };
-tag.restore = function(id){
+tag.restore = function (id){
     $.ajax({
-        url: "http://127.0.0.1:8000/tag-restore/" + id,
-        method: "GET",
-        dataType: "json",
+        type: "GET",
+        url: "/tag-restore/" + id,
+        dataType: "JSON",
         success: function (data) {
             console.log(data);
-
-
-
+            bootbox.alert("Khôi phục danh mục thành công");
+            tag.showTrash();
+            tag.showData();
         },
+        error: function (errors){
+            console.log(errors);
+        }
     });
-};
+}
+
+tag.delete = function(id){
+    bootbox.confirm({
+        title: "Xóa tag này?",
+        message: "Bạn có chắc muốn xóa hoàn toàn tag này?",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> No'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Yes'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "/tag-delete/" + id,
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data);
+                        bootbox.alert("Xóa hoàn toàn thành công");
+                        tag.showTrash();
+
+                    },
+                    error: function (errors){
+                        console.log(errors);
+                    }
+                });
+            }
+        }
+    });
+}
 $(document).ready(function () {
     tag.showData();
+    tag.showTrash();
+    // tag.showTrash();
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
