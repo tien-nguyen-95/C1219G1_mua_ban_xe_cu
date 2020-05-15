@@ -173,7 +173,7 @@ customer.remove = function(id) {
                     success: function (data) {
                         customer.table.ajax.reload(null,false);
                         // category.showTrash();
-                        messenger("Xóa thành công");
+                        messenger("Xóa tạm thời thành công");
                     }
                 });
             }
@@ -198,6 +198,7 @@ customer.resetForm = function () {
 }
 
 customer.show = function(id) {
+    // console.log("show");
     $("#thongtin").modal('show');
     $.ajax({
         type: "GET",
@@ -205,7 +206,7 @@ customer.show = function(id) {
         dataType: "JSON",
         contentType: 'application/json',
         success: function (data) {
-            console.log(data.name);
+            // console.log(data.name);
             $('p#id').text(data.id);
             $('p#name').text(data.name);
             $('p#phone').text(data.phone);
@@ -216,6 +217,90 @@ customer.show = function(id) {
         }
     });
 }
+
+customer.getDataTrash = function(){
+    $.ajax({
+        url: "/customer-trash",
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            $('#tbCustomerTrash tbody').empty();
+            $.each(data, function (i, v) {
+                $('#tbCustomerTrash tbody').append(
+                    `
+                    <tr>
+                        <td>${v.name}</td>
+                        <td>${v.email}</td>  
+                        <td>${v.deleted_at}</td>
+                        <td>
+                            <a href="javascript:;" onclick="customer.restore(${v.id})"><i class="fa fa-retweet"></i></a>
+                            <a href="javascript:;" onclick="customer.delete(${v.id})"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    `
+                );
+            });
+            $('#tbCustomerTrash').DataTable();
+        }
+    });
+}
+
+
+customer.showTrash = function(){
+    customer.getDataTrash();
+    $("#customerTrashModal").modal('show');
+    
+}
+
+customer.restore = function (id){
+    $.ajax({
+        type: "PUT",
+        url: "/customer-restore/" + id,
+        dataType: "JSON",
+        success: function (data) {
+            console.log(data);
+            messenger("Khôi phục thành công");
+            customer.getDataTrash();
+            customer.table.ajax.reload(null,false);
+        },
+        error: function (errors){
+            console.log(errors);
+        }
+    });
+}
+
+customer.delete = function(id){
+    bootbox.confirm({
+        title: "Xóa vỉnh viễn khách hàng?",
+        message: "Bạn có chắc muốn xóa bây giờ?",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> No'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Yes'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "/customer-delete/" + id,
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data);
+                        messenger("Xóa thành công");
+                        customer.getDataTrash();
+                    },
+                    error: function (errors){
+                        console.log(errors);
+                    }
+                });
+            }
+        }
+    });
+}
+
 
 customer.showModal = function(){
     customer.resetForm();

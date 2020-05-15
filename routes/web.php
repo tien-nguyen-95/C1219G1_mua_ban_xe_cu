@@ -36,7 +36,9 @@ Route::delete('category-delete/{id}', 'CategoryController@hardDelete');
 // customer
 Route::resource('customer', 'CustomerController');
 Route::view('customer-list', 'admin.customer.index')->name('customer.list');
-
+Route::get('customer-trash', 'CustomerController@trash');
+Route::put('customer-restore/{id}', 'CustomerController@restore');
+Route::delete('customer-delete/{id}', 'CustomerController@delete');
 
 
 Route::get('/dashboard', function () {
