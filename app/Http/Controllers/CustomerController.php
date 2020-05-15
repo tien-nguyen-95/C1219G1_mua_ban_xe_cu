@@ -55,4 +55,23 @@ class CustomerController extends Controller
         $dataCustomer = $this->customerService->destroy($id);
         return response()->json($dataCustomer['message'], $dataCustomer['statusCode']);
     }
+
+    public function trash()
+    {
+        $customers = $this->customerService->getTrash();
+
+        return response()->json($customers, 200);
+    }
+
+    public function restore($id)
+    {
+        $dataCustomer = $this->customerService->restore($id);
+        return response()->json($dataCustomer, 200);
+    }
+    
+    public function delete($id)
+    {
+        $dataCustomer = $this->customerService->delete($id);
+        return response()->json($dataCustomer, 200);
+    }
 }
