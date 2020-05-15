@@ -2,37 +2,37 @@
 
 namespace App\Services\Impl;
 
-use App\Repositories\BranchRepository;
-use App\Services\BranchService;
+use App\Repositories\UserRepository;
+use App\Services\UserService;
 
-class BranchServiceImpl implements BranchService
+class UserServiceImpl implements UserService
 {
-    protected $branchRepository;
+    protected $userRepository;
 
 
-    public function __construct(BranchRepository $branchRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->branchRepository = $branchRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function getAll()
     {
-        $branches = $this->branchRepository->getAll();
+        $users = $this->userRepository->getAll();
 
-        return $branches;
+        return $users;
     }
 
     public function findById($id)
     {
-        $branch = $this->branchRepository->findById($id);
+        $user = $this->userRepository->findById($id);
 
         $statusCode = 200;
-        if (!$branch)
+        if (!$user)
             $statusCode = 404;
 
             $data = [
                 'statusCode' => $statusCode,
-                'branches' => $branch
+                'users' => $user
             ];
 
         return $data;
@@ -40,14 +40,14 @@ class BranchServiceImpl implements BranchService
 
     public function create($request)
     {
-        $branch = $this->branchRepository->create($request);
+        $user = $this->userRepository->create($request);
         $statusCode = 201;
-        if (!$branch)
+        if (!$user)
             $statusCode = 500;
 
         $data = [
             'statusCode' => $statusCode,
-            'branches' => $branch
+            'users' => $user
         ];
 
         return $data;
@@ -55,31 +55,31 @@ class BranchServiceImpl implements BranchService
 
     public function update($request, $id)
     {
-        $oldbranch = $this->branchRepository->findById($id);
-        if (!$oldbranch) {
-            $newbranch = null;
+        $oldUser = $this->userRepository->findById($id);
+        if (!$oldUser) {
+            $newUser = null;
             $statusCode = 404;
         } else {
-            $newbranch = $this->branchRepository->update($request, $oldbranch);
+            $newUser = $this->userRepository->update($request, $oldUser);
 
             $statusCode = 200;
         }
 
         $data = [
             'statusCode' => $statusCode,
-            'branches' => $newbranch
+            'useres' => $newUser
         ];
         return $data;
     }
 
     public function destroy($id)
     {
-        $branch = $this->branchRepository->findById($id);
+        $user = $this->userRepository->findById($id);
 
         $statusCode = 404;
-        $message = "Branch not found";
-        if ($branch) {
-            $this->branchRepository->destroy($branch);
+        $message = "User not found";
+        if ($user) {
+            $this->userRepository->destroy($user);
             $statusCode = 200;
             $message = "Delete success!";
         }
@@ -93,33 +93,33 @@ class BranchServiceImpl implements BranchService
 
     public function getTrash()
     {
-        $branches = $this->branchRepository->getTrash();
+        $useres = $this->userRepository->getTrash();
 
-        return $branches;
+        return $useres;
     }
 
     public function findTrashById($id)
     {
-        $branch = $this->branchRepository->findTrashById($id);
+        $user = $this->userRepository->findTrashById($id);
         $status = 200;
 
-        if (!$branch)
+        if (!$user)
             $status = 404;
 
         $data = [
             'status' => $status,
-            'data' => $branch
+            'data' => $user
         ];
 
         return $data;
     }
 
     public function restore($id){
-        $branch = $this->branchRepository->findTrashById($id);
+        $user = $this->userRepository->findTrashById($id);
         $statusCode = 404;
-        $message = "Branch not found";
-        if ($branch) {
-            $this->branchRepository->restore($branch);
+        $message = "User not found";
+        if ($user) {
+            $this->userRepository->restore($user);
             $statusCode = 200;
             $message = "Restore success!";
         }
@@ -132,11 +132,11 @@ class BranchServiceImpl implements BranchService
     }
 
     public function delete($id){
-        $branch = $this->branchRepository->findTrashById($id);
+        $user = $this->UserRepository->findTrashById($id);
         $statusCode = 404;
-        $message = "Branch not found";
-        if ($branch) {
-            $this->branchRepository->delete($branch);
+        $message = "User not found";
+        if ($user) {
+            $this->userRepository->delete($user);
             $statusCode = 200;
             $message = "Delete success!";
         }

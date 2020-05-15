@@ -44,8 +44,8 @@ branch.showData = function () {
                         <td>${v.phone}</td>
                         <td>${v.address}</td>
                         <td>
-                            <a href="javascript:;" title="Sửa" style="font-size:30px" onclick="branch.getDetail(${v.id})"><i class="fa fa-edit"></i></a>
-                            <a href="javascript:;" title="Chuyển tới thùng rác" style="font-size:30px;color:gray" onclick="branch.remove(${v.id})"><i class="fa fa-trash-alt"></i></a>
+                            <a href="javascript:;" title="Sửa" style="font-size:20px" onclick="branch.getDetail(${v.id})"><i class="fa fa-edit"></i></a>
+                            <a href="javascript:;" title="Chuyển tới thùng rác" style="font-size:20px;color:gray" onclick="branch.remove(${v.id})"><i class="fa fa-trash-alt"></i></a>
                         </td>
                     </tr>
                     `

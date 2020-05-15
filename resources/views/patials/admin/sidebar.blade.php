@@ -46,10 +46,19 @@
                     <i class="fas fa-list"></i>
                     <span>Quản lí danh mục</span>
                 </a>
+            </li>
 
+            <li class="nav-item">
                 <a href="{{ route('brands.index') }}" class="nav-link collapsed">
                     <i class="fas fa-list"></i>
                     <span>Thương Hiệu</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('user.list') }}" class="nav-link collapsed" >
+                    <i class="fas fa-user"></i>
+                    <span>Quản lí Người dùng</span>
                 </a>
             </li>
 
@@ -59,7 +68,7 @@
                     <span>Quản lí khách hàng</span>
                 </a>
             </li>
-           
+
 
 
 
