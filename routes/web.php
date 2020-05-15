@@ -15,15 +15,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
 Route::get('/', function () {
     return view('welcome');
 });
+//tag
 Route::view('tag_list', 'admin.tag.index')->name('tag.list');
 Route::resource('tag', 'TagController');
-// Route::get('tag_list', 'TagController@list');
 Route::get('tag-trash', 'TagController@trash');
-Route::delete('tag/{id}','TagController@delete');
-Route::put('tag-restore/{id}','TagController@restore');
+Route::delete('tag-delete/{id}','TagController@delete');
+Route::get('tag-restore/{id}','TagController@restore');
 
 // category
 Route::resource('category', 'CategoryController');
@@ -35,7 +36,9 @@ Route::delete('category-delete/{id}', 'CategoryController@hardDelete');
 // customer
 Route::resource('customer', 'CustomerController');
 Route::view('customer-list', 'admin.customer.index')->name('customer.list');
-
+Route::get('customer-trash', 'CustomerController@trash');
+Route::put('customer-restore/{id}', 'CustomerController@restore');
+Route::delete('customer-delete/{id}', 'CustomerController@delete');
 
 
 Route::get('/dashboard', function () {

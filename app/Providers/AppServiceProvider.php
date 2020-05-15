@@ -57,6 +57,7 @@ class AppServiceProvider extends ServiceProvider
             CategoryRepository::class,
             CategoryRepositoryImpl::class
         );
+        
         $this->app->singleton(
             CategoryService::class,
             CategoryServiceImpl::class

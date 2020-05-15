@@ -92,17 +92,20 @@ class CustomerServiceImpl implements CustomerService
 
     public function getTrash(){
 
+        $customers = $this->customerRepository->getTrash();
+
+        return $customers;
         
     }
 
     public function restore($id)
     {
-       
+        return $this->customerRepository->restore($id);
     }
 
-    public function hardDelete($id){
+    public function delete($id){
 
-       
+        return $this->customerRepository->delete($id);
     }
     
 }
