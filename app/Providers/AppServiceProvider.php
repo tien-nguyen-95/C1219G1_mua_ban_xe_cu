@@ -25,6 +25,11 @@ use App\Repositories\Impl\BranchRepositoryImpl;
 use App\Repositories\BranchRepository;
 use App\Services\Impl\BranchServiceImpl;
 
+use App\Services\UserService;
+use App\Repositories\Impl\UserRepositoryImpl;
+use App\Repositories\UserRepository;
+use App\Services\Impl\UserServiceImpl;
+
 use App\Repositories\CustomerRepository;
 use App\Repositories\Impl\CustomerRepositoryImpl;
 use App\Services\CustomerService;
@@ -48,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
             TagService::class,
             TagServiceImpl::class
         );
-
+        $this->app->singleton(
             CategoryRepository::class,
             CategoryRepositoryImpl::class
         );
@@ -56,13 +61,13 @@ class AppServiceProvider extends ServiceProvider
             CategoryService::class,
             CategoryServiceImpl::class
         );
-        
+
 
         $this->app->singleton(
             BranchRepository::class,
             BranchRepositoryImpl::class
         );
-      
+
         $this->app->singleton(
             BranchService::class,
             BranchServiceImpl::class
@@ -70,15 +75,26 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            UserService::class,
+            UserServiceImpl::class
+
+        );
+
+        $this->app->singleton(
+            UserRepository::class,
+            UserRepositoryImpl::class
+        );
+
+        $this->app->singleton(
             CustomerRepository::class,
             CustomerRepositoryImpl::class
         );
-      
+
         $this->app->singleton(
             CustomerService::class,
             CustomerServiceImpl::class
         );
-      
+
         $this->app->singleton(
             BrandRepository::class,
             BrandRepositoryImpl::class
