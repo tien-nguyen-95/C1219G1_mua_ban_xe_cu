@@ -12,7 +12,7 @@ class BranchController extends Controller
 {
     protected $branchService;
 
-    public function __construct(branchService $branchService)
+    public function __construct(BranchService $branchService)
     {
         $this->middleware(function($request, $next){
             if($request->ajax()){

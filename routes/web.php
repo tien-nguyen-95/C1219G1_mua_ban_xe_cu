@@ -43,13 +43,15 @@ Route::delete('category-delete/{id}', 'CategoryController@hardDelete');
 // customer
 Route::resource('customer', 'CustomerController');
 Route::view('customer-list', 'admin.customer.index')->name('customer.list');
-
+Route::get('customer-trash', 'CustomerController@trash');
+Route::put('customer-restore/{id}', 'CustomerController@restore');
+Route::delete('customer-delete/{id}', 'CustomerController@delete');
 
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
-
+// branch
 Route::resource('branch', 'BranchController');
 Route::view('branch_list', 'admin.branch.index')->name('branch.list');
 Route::get('branch_trash', 'BranchController@trash');
@@ -57,6 +59,11 @@ Route::get('branch_trash', 'BranchController@trash');
 Route::get('branch_trash/{id}', 'BranchController@findTrash');
 Route::get('branch_restore/{id}', 'BranchController@restore');
 Route::get('branch_delete/{id}', 'BranchController@delete');
+
+//use
+
+Route::resource('user', 'UserController');
+Route::view('user_list', 'admin.user.index')->name('user.list');
 
 
 Route::prefix('brands')->group(function(){
@@ -80,3 +87,11 @@ Route::prefix('brands')->group(function(){
 
     Route::delete('/{id}','BrandController@destroy');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::view('/welcome', 'welcome');
+
+Route::get('/home', 'HomeController@index')->name('home');

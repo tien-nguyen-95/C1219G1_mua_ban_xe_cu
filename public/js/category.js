@@ -144,10 +144,11 @@ category.save = function () {
                             contentType: 'application/json',
                             data: JSON.stringify(objEdit),
                             success: function (data) {
-                                $('#addEditModal').modal('hide');
+                                category.showData();
+                                $('#categoryModal').modal('hide');
                                 messenger("Cập nhật thành công");
                                 console.log(data);
-                                category.showData();
+                                
                             },
                             error: function(data){
                                 console.log(data);
@@ -199,7 +200,7 @@ category.resetForm = function () {
     $('#name').val("");
     $('#categoryId').val("0");
     $('.errors-name').empty();
-    $('#categoryhModal').find('.modal-title').text("Thêm danh mục mới");
+    $('#formCategory').find('.modal-title').text("Thêm mới danh mục");
     $('#formCategory').find('a').text('Thêm');
     var form = $('#formCategory').validate();
     form.resetForm();

@@ -13,9 +13,8 @@ interface Repository
     public function update($data, $object);
 
     public function restore($id);
-
+  
     public function delete($id);
 
     public function destroy($object);
-
 }

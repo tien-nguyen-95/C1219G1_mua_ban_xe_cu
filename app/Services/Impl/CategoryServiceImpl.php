@@ -105,7 +105,7 @@ class CategoryServiceImpl implements CategoryService
 
     public function delete($id){
 
-        return $this->categoryRepository->hardDelete($id);
+        return $this->categoryRepository->delete($id);
 
     }
 }
