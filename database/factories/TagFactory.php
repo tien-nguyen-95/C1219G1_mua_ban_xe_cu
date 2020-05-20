@@ -5,10 +5,10 @@
 use App\Tag;
 use Faker\Generator as Faker;
 use phpDocumentor\Reflection\Types\Nullable;
-
-$factory->define(Tag::class, function (Faker $faker) {
+use App\Category;
+$factory->define(Tag::class, function ($faker) use ($factory) {
     return [
-        'title' => $faker->firstName,
-        'category'=>$faker->colorName,
+        'title' => $faker->title,
+        'category_id' =>$factory->create(App\Category::class)->id
     ];
 });

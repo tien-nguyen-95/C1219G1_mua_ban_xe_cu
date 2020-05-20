@@ -36,22 +36,22 @@
             <!-- Nav Item - News -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('branch.list') }}" >
-                    <i class="fas fa-list"></i>
-                    <span>Chi Nhánh</span>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Quản lý chi nhánh</span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('category.list') }}" class="nav-link collapsed" id="managar_cate">
                     <i class="fas fa-list"></i>
-                    <span>Quản lí danh mục</span>
+                    <span>Quản lý danh mục</span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('brands.index') }}" class="nav-link collapsed">
-                    <i class="fas fa-list"></i>
-                    <span>Thương Hiệu</span>
+                    <i class="fas fa-copyright"></i>
+                    <span>Quản lý thương Hiệu</span>
                 </a>
             </li>
 
@@ -64,8 +64,15 @@
 
             <li class="nav-item">
                 <a href="{{ route('customer.list') }}" class="nav-link collapsed" id="managar_cate">
-                    <i class="fas fa-list"></i>
-                    <span>Quản lí khách hàng</span>
+                    <i class="fas fa-users"></i>
+                    <span>Quản lý khách hàng</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('tag.list') }}" class="nav-link collapsed" id="managar_cate">
+                    <i class="fas fa-tags"></i>
+                    <span>Quản lý thẻ</span>
                 </a>
             </li>
 
