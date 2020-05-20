@@ -92,17 +92,17 @@ class CustomerServiceImpl implements CustomerService
 
     public function getTrash(){
 
-        
+
     }
 
     public function restore($id)
     {
-       
+
     }
 
-    public function hardDelete($id){
+    public function delete($id){
 
-       
+
     }
-    
+
 }

@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-interface TagService
+interface GuaranteeService
 {
     public function getAll();
     public function findById($id);

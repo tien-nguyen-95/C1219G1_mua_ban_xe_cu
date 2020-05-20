@@ -68,8 +68,8 @@ class CategoryController extends Controller
         $dataCategory = $this->categoryService->restore($id);
         return response()->json($dataCategory, 200);
     }
-    
-    public function hardDelete($id)
+
+    public function delete($id)
     {
         $dataCategory = $this->categoryService->hardDelete($id);
         return response()->json($dataCategory, 200);

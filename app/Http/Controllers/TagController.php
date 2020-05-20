@@ -6,6 +6,9 @@ use App\Services\TagService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
+use App\Services\CategoryService;
+use App\Category;
+use Illuminate\Support\Facades\App;
 
 class TagController extends Controller
 {
@@ -18,19 +21,23 @@ class TagController extends Controller
 
     public function index()
     {
-        $tags = $this->tagService->getAll();
+        $datas = $this->tagService->getAll();
+        foreach($datas as $data){
+            $data->category->name;
+        }
 
-        return response()->json($tags, 200);
+        return response()->json($datas, 200);
     }
 
     public function show($id)
     {
         $dataTag = $this->tagService->findById($id);
+        // $dataTag->category->name;
 
         return response()->json($dataTag['tags'], $dataTag['statusCode']);
     }
 
-    public function store(TagRequest $request)
+    public function store(Request $request)
     {
         $dataTag = $this->tagService->create($request->all());
 
@@ -52,9 +59,13 @@ class TagController extends Controller
     }
     public function trash()
     {
-        $dataTag = $this->tagService->getTrash();
+        $datas = $this->tagService->getTrash();
 
-        return response()->json($dataTag, 200);
+        foreach($datas as $data){
+            $data->category->name;
+        }
+
+        return response()->json($datas, 200);
     }
     public function restore($id){
 
@@ -67,5 +78,6 @@ class TagController extends Controller
         $tags =  $this->tagService->delete($id);
         return response()->json($tags,200);
     }
+
 
 }
