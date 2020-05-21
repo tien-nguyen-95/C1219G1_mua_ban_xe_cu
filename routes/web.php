@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,29 @@ Route::prefix('brands')->group(function(){
     Route::delete('/{id}/delete','BrandController@delete');
 
     Route::delete('/{id}','BrandController@destroy');
+});
+
+Route::prefix('products')->group(function(){
+
+    Route::get('/trash','ProductController@trash');
+
+    Route::get('/json','ProductController@json');
+
+    Route::get('/','ProductController@index');
+
+    Route::get('/history','ProductController@history');
+
+    Route::get('/{id}/restore','ProductController@restore');
+
+    Route::post('/create','ProductController@store');
+
+    Route::get('/{id}','ProductController@show');
+
+    Route::put('/{id}','ProductController@update');
+
+    Route::delete('/{id}/delete','ProductController@delete');
+
+    Route::delete('/{id}','ProductController@destroy');
 });
 
 //position

@@ -82,7 +82,6 @@ branch.save = function () {
                 contentType: 'application/json',
                 data: JSON.stringify(objAdd),
                 success: function (data) {
-
                         $('#branchModal').modal('hide');
                         messenger("Tạo mới thành công !!!");
                         branch.showData();

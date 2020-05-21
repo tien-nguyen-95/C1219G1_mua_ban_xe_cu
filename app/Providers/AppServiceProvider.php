@@ -44,6 +44,10 @@ use App\Repositories\Impl\CustomerRepositoryImpl;
 use App\Services\CustomerService;
 use App\Services\Impl\CustomerServiceImpl;
 
+use App\Repositories\ProductRepository;
+use App\Repositories\Impl\ProductRepositoryImpl;
+use App\Services\ProductService;
+use App\Services\Impl\ProductServiceImpl;
 use App\Services\PositionService;
 use App\Repositories\Impl\PositionRepositoryImpl;
 use App\Repositories\PositionRepository;
@@ -140,6 +144,18 @@ class AppServiceProvider extends ServiceProvider
             BrandServiceImpl::class
 
         );
+
+        $this->app->singleton(
+            ProductRepository::class,
+            ProductRepositoryImpl::class
+        );
+        $this->app->singleton(
+            ProductService::class,
+            ProductServiceImpl::class
+
+        );
+
+
         $this->app->singleton(
 
             GuaranteeRepository::class,

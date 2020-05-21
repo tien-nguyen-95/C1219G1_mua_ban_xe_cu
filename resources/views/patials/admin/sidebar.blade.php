@@ -60,6 +60,11 @@
                 <i class="fas fa-user-friends"></i>
                 <span>Quản lý người dùng</span>
                 </a>
+
+                <a href="/products" class="nav-link collapsed">
+                    <i class="fas fa-list"></i>
+                    <span>Khách hàng</span>
+                </a>
                 <div id="collapseUser" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('staff.list') }}"><i class="fas fa-user-tie"></i> Danh sách nhân viên</a>

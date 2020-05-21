@@ -14,7 +14,13 @@ class Branch extends Model
 
     protected $fillable = ['name','phone','address'];
 
-    public function guarantees(){
+    public function products()
+    {
+        return $this->hasMany(Product::class,'branch_id','id');
+    }
+
+    public function guarantees()
+    {
         return $this->hasMany(Guarantee::class,'branch_id','id');
     }
 }
