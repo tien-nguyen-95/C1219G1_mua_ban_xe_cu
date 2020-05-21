@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+use Illuminate\Support\ServiceProvider;
 
 use App\Repositories\GuaranteeRepository;
 use App\Repositories\Impl\GuaranteeRepositoryImpl;
@@ -23,7 +24,10 @@ use App\Repositories\Impl\CategoryRepositoryImpl;
 use App\Services\CategoryService;
 use App\Services\Impl\CategoryServiceImpl;
 
-use Illuminate\Support\ServiceProvider;
+use App\Repositories\StaffRepository;
+use App\Repositories\Impl\StaffRepositoryImpl;
+use App\Services\StaffService;
+use App\Services\Impl\StaffServiceImpl;
 
 use App\Services\BranchService;
 use App\Repositories\Impl\BranchRepositoryImpl;
@@ -39,6 +43,11 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\Impl\CustomerRepositoryImpl;
 use App\Services\CustomerService;
 use App\Services\Impl\CustomerServiceImpl;
+
+use App\Services\PositionService;
+use App\Repositories\Impl\PositionRepositoryImpl;
+use App\Repositories\PositionRepository;
+use App\Services\Impl\PositionServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -78,6 +87,27 @@ class AppServiceProvider extends ServiceProvider
             BranchService::class,
             BranchServiceImpl::class
 
+        );
+
+        $this->app->singleton(
+            PositionRepository::class,
+            PositionRepositoryImpl::class
+        );
+
+        $this->app->singleton(
+            PositionService::class,
+            PositionServiceImpl::class,
+        );
+
+        $this->app->singleton(
+            StaffRepository::class,
+            StaffRepositoryImpl::class
+        );
+
+
+        $this->app->singleton(
+            StaffService::class,
+            StaffServiceImpl::class
         );
 
         $this->app->singleton(

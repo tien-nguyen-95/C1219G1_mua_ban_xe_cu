@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+
 //tag
 Route::view('tag-list', 'admin.tag.index')->name('tag.list');
 Route::resource('tag', 'TagController');
@@ -47,10 +51,6 @@ Route::get('customer-trash', 'CustomerController@trash');
 Route::put('customer-restore/{id}', 'CustomerController@restore');
 Route::delete('customer-delete/{id}', 'CustomerController@delete');
 
-
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-});
 // branch
 Route::resource('branch', 'BranchController');
 Route::view('branch_list', 'admin.branch.index')->name('branch.list');
@@ -88,10 +88,26 @@ Route::prefix('brands')->group(function(){
     Route::delete('/{id}','BrandController@destroy');
 });
 
-Auth::routes();
+//position
+
+Route::resource('position', 'PositionController');
+Route::view('position_list', 'admin.position.index')->name('position.list');
+Route::get('position_trash', 'PositionController@trash');
+
+Route::get('position_trash/{id}', 'PositionController@findTrash');
+Route::get('position_restore/{id}', 'PositionController@restore');
+Route::get('position_delete/{id}', 'PositionController@delete');
+
+// staff
+
+Route::resource('staff', 'StaffController');
+Route::view('staff_list', 'admin.staff.index')->name('staff.list');
+Route::get('staff_trash', 'StaffController@trash');
+
+Route::get('staff_trash/{id}', 'StaffController@findTrash');
+Route::get('staff_restore/{id}', 'StaffController@restore');
+Route::get('staff_delete/{id}', 'StaffController@delete');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::view('/welcome', 'welcome');
-
-Route::get('/home', 'HomeController@index')->name('home');
