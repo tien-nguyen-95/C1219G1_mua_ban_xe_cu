@@ -15,15 +15,15 @@ class CreateStaffsTable extends Migration
     {
         Schema::create('staffs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50)->unique();
-            $table->tinyInteger('gender');
-            $table->date('birthday');
-            $table->string('phone', );
-            $table->longText('image');
-            $table->integer('account_id');
-            $table->integer('position_id');
-            $table->string('address', 255);
-            $table->integer('branch');
+            $table->string('name')->nullable();
+            $table->unsignedInteger('user_id');
+            $table->tinyInteger('gender')->default('1');
+            $table->date('birthday')->nullable();
+            $table->string('phone', )->nullable();
+            $table->longText('image')->nullable();
+            $table->unsignedInteger('position_id');
+            $table->string('address')->nullable();
+            $table->unsignedInteger('branch_id');
             $table->softDeletes();
             $table->timestamps();
         });

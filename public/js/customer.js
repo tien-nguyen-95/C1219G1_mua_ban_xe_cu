@@ -30,7 +30,7 @@ customer.showData = function(){
                     return {
                         name: obj.name,
                         email: obj.email,
-                        created_at: obj.created_at, 
+                        created_at: obj.created_at,
                         action: `
                                 <a href="javascript:;" class="text-info mx-auto btn" onclick="customer.show(${obj.id})" title="thông tin"><i class="fa fa-info-circle"></i></a>
                                 <a href="javascript:;" class="text-warning mx-auto btn" onclick="customer.getDetail(${obj.id})" title="sửa"><i class="fa fa-edit"></i></a>
@@ -69,7 +69,7 @@ customer.getDetail = function (id) {
             $('#customerModal').find('.modal-title').text("Cập nhật danh mục");
             $('#customerModal').find('a').text("Cập nhật");
             $('#customerModal').modal('show');
-            
+
         }
     });
 }
@@ -88,7 +88,7 @@ customer.save = function () {
                 url: "/customer",
                 data: JSON.stringify(objAdd),
                 dataType: "JSON",
-                contentType: 'application/json',    
+                contentType: 'application/json',
                 success: function (data) {
                     console.log(data);
                     $('#customerModal').modal('hide');
@@ -130,7 +130,6 @@ customer.save = function () {
                             contentType: 'application/json',
                             data: JSON.stringify(objEdit),
                             success: function (data) {
-                                console.log(data);
                                 $('#customerModal').modal('hide');
                                 customer.table.ajax.reload(null,false);
                                 messenger("Cập nhật thành công");
@@ -141,8 +140,8 @@ customer.save = function () {
                                     $(`.errors-${key}`).text(val);
                                 });
                             }
-                            
-                        }); 
+
+                        });
                     }
                 }
             });
@@ -169,7 +168,7 @@ customer.remove = function(id) {
                     url: "/customer/" + id,
                     method: "DELETE",
                     dataType: "json",
-                    contentType: 'application/json',    
+                    contentType: 'application/json',
                     success: function (data) {
                         customer.table.ajax.reload(null,false);
                         // category.showTrash();
@@ -230,7 +229,7 @@ customer.getDataTrash = function(){
                     `
                     <tr>
                         <td>${v.name}</td>
-                        <td>${v.email}</td>  
+                        <td>${v.email}</td>
                         <td>${v.deleted_at}</td>
                         <td>
                             <a href="javascript:;" onclick="customer.restore(${v.id})"><i class="fa fa-retweet"></i></a>
@@ -249,7 +248,7 @@ customer.getDataTrash = function(){
 customer.showTrash = function(){
     customer.getDataTrash();
     $("#customerTrashModal").modal('show');
-    
+
 }
 
 customer.restore = function (id){
@@ -317,7 +316,7 @@ customer.init = function() {
 
 
 $(document).ready(function () {
-    
+
     customer.init();
     $.ajaxSetup({
         headers: {
