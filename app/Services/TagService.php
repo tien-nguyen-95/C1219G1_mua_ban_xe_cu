@@ -11,4 +11,5 @@ interface TagService
     public function getTrash();
     public function restore($id);
     public function delete($id);
+
 }

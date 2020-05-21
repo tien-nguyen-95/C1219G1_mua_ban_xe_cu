@@ -7,7 +7,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="javascipt:;">
             <div class="sidebar-brand-icon">
                 <i class="fas fa-user-secret"></i>
             </div>
@@ -19,7 +19,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="{{ route('home') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
             </li>
@@ -36,35 +36,58 @@
             <!-- Nav Item - News -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('branch.list') }}" >
-                    <i class="fas fa-list"></i>
-                    <span>Chi Nhánh</span>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Quản lý chi nhánh</span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('category.list') }}" class="nav-link collapsed" id="managar_cate">
                     <i class="fas fa-list"></i>
-                    <span>Quản lí danh mục</span>
+                    <span>Quản lý danh mục</span>
                 </a>
+            </li>
 
+            <li class="nav-item">
                 <a href="{{ route('brands.index') }}" class="nav-link collapsed">
-                    <i class="fas fa-list"></i>
-                    <span>Thương Hiệu</span>
+                    <i class="fas fa-copyright"></i>
+                    <span>Quản lý thương Hiệu</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-user-friends"></i>
+                <span>Quản lý người dùng</span>
                 </a>
 
                 <a href="/products" class="nav-link collapsed">
                     <i class="fas fa-list"></i>
                     <span>Khách hàng</span>
                 </a>
+                <div id="collapseUser" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ route('staff.list') }}"><i class="fas fa-user-tie"></i> Danh sách nhân viên</a>
+                    <a class="collapse-item" href="{{ route('user.list') }}"><i class="fas fa-user"></i> Danh sách tài khoản</a>
+                    <a class="collapse-item" href="{{ route('position.list') }}"><i class="fas fa-user-secret"></i> Danh sách chức vụ</a>
+                </div>
+                </div>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('customer.list') }}" class="nav-link collapsed" id="managar_cate">
-                    <i class="fas fa-list"></i>
-                    <span>Quản lí khách hàng</span>
+                    <i class="fas fa-users"></i>
+                    <span>Quản lý khách hàng</span>
                 </a>
             </li>
-           
+
+            <li class="nav-item">
+                <a href="{{ route('tag.list') }}" class="nav-link collapsed" id="managar_cate">
+                    <i class="fas fa-tags"></i>
+                    <span>Quản lý thẻ</span>
+                </a>
+            </li>
+
 
 
 

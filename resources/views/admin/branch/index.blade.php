@@ -4,8 +4,8 @@
     <h1>Chi nhánh</h1>
     <div class="row">
         <div class="col-12 mb-3">
-            <a href="javascript:;" class="btn btn-info" onclick="branch.showModal()" id="addBranchBtn">Thêm mới</a>
-            <a href="javascript:;" class="btn btn-info" style="float: right" onclick="branch.getTrash()"><i class="fa fa-trash"></i> Thùng rác</a>
+            <a href="javascript:;" class="btn btn-primary" onclick="branch.showModal()" id="addBranchBtn">Thêm mới</a>
+            <a href="javascript:;" class="btn btn-dark" style="float: right" onclick="branch.getTrash()"><i class="fa fa-trash"></i> Thùng rác</a>
         </div>
     </div>
     <div class="row">
@@ -73,5 +73,6 @@
 </div>
 @endsection
 @push('crud-ajax-js')
+    <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/branch.js') }}"></script>
 @endpush

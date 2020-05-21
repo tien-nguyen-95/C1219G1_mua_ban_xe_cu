@@ -25,7 +25,6 @@ class TagRequest extends FormRequest
     {
         return [
           'title' => 'required| min:3 | max:50 | unique:tags,title,'.$this->id,
-          'category' => 'required| min:3 | max:50',
           'created_at' =>'date_format:d-m-Y H:i:s',
           'deleted_at' =>'date_format:d-m-Y H:i:s'
         ];
@@ -37,9 +36,9 @@ class TagRequest extends FormRequest
             'title.min' =>'Tối thiểu 3 ký tự',
             'title.max' =>'Tối đa 50 ký tự',
             'title.unique' =>'Tiêu đề đã tồn tại',
-            'category.required' =>'Hãy nhập danh mục',
-            'category.min' =>'Tối thiểu 3 ký tự',
-            'category.max' =>'Tối đa 50 ký tự',
+            // 'category_id.required' =>'Hãy nhập danh mục',
+            // 'category_id.min' =>'Tối thiểu 3 ký tự',
+            // 'category_id.max' =>'Tối đa 50 ký tự',
         ];
     }
 }

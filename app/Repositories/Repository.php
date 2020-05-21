@@ -5,7 +5,7 @@ namespace App\Repositories;
 interface Repository
 {
     public function getAll();
-    
+
     public function findById($id);
 
     public function create($data);
@@ -13,9 +13,8 @@ interface Repository
     public function update($data, $object);
 
     public function restore($id);
-
-    public function getTrash();
+  
+    public function delete($id);
 
     public function destroy($object);
-
 }

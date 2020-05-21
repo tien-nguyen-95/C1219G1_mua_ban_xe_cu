@@ -42,9 +42,11 @@ abstract class EloquentRepository implements Repository
 
     public function create($data)
     {
+        // return $data;
         try {
             $object = $this->model->create($data);
         } catch (\Exception $e) {
+            // return $e->getMessage();
             return null;
         }
         return $object;
@@ -72,8 +74,9 @@ abstract class EloquentRepository implements Repository
         return $this->model::onlyTrashed()->where('id', $id)->restore();
     }
 
-    public function hardDelete($id){
-
+    public function delete($id)
+    {
         return $this->model::onlyTrashed()->where('id', $id)->forceDelete();
     }
 }
+

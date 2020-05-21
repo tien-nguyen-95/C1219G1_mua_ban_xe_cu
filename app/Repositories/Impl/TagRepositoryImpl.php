@@ -16,4 +16,6 @@ class TagRepositoryImpl extends EloquentRepository  implements TagRepository
         $model = Tag::class;
         return $model;
     }
+
+
 }
