@@ -24,11 +24,18 @@ Auth::routes();
 
 
 //tag
-Route::view('tag_list', 'admin.tag.index')->name('tag.list');
+Route::view('tag-list', 'admin.tag.index')->name('tag.list');
 Route::resource('tag', 'TagController');
 Route::get('tag-trash', 'TagController@trash');
 Route::delete('tag-delete/{id}','TagController@delete');
 Route::get('tag-restore/{id}','TagController@restore');
+
+//guarantee
+Route::view('guarantee-list', 'admin.guarantee.index')->name('guarantee.list');
+Route::resource('guarantee', 'GuaranteeController');
+Route::get('guarantee-trash', 'GuaranteeController@trash');
+Route::delete('guarantee-delete/{id}','GuaranteeController@delete');
+Route::get('guarantee-restore/{id}','GuaranteeController@restore');
 
 // category
 Route::resource('category', 'CategoryController');

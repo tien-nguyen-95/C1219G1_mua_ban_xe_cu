@@ -3,6 +3,11 @@
 namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 
+use App\Repositories\GuaranteeRepository;
+use App\Repositories\Impl\GuaranteeRepositoryImpl;
+use App\Services\GuaranteeService;
+use App\Services\Impl\GuaranteeServiceImpl;
+
 use App\Repositories\TagRepository;
 use App\Repositories\Impl\TagRepositoryImpl;
 use App\Services\TagService;
@@ -134,6 +139,15 @@ class AppServiceProvider extends ServiceProvider
             BrandService::class,
             BrandServiceImpl::class
 
+        );
+        $this->app->singleton(
+
+            GuaranteeRepository::class,
+            GuaranteeRepositoryImpl::class
+        );
+        $this->app->singleton(
+            GuaranteeService::class,
+            GuaranteeServiceImpl::class
         );
     }
 

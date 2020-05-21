@@ -1,11 +1,11 @@
 <?php
 namespace App\Repositories\Impl;
 
-use App\Tag;
-use App\Repositories\TagRepository;
+use App\Guarantee;
+use App\Repositories\GuaranteeRepository;
 use App\Repositories\Eloquent\EloquentRepository;
 
-class TagRepositoryImpl extends EloquentRepository  implements TagRepository
+class GuaranteeRepositoryImpl extends EloquentRepository  implements GuaranteeRepository
 {
     /**
      * get Model
@@ -13,7 +13,7 @@ class TagRepositoryImpl extends EloquentRepository  implements TagRepository
      */
     public function getModel()
     {
-        $model = Tag::class;
+        $model = Guarantee::class;
         return $model;
     }
 
