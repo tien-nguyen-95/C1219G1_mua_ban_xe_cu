@@ -51,6 +51,11 @@
                     <i class="fas fa-list"></i>
                     <span>Thương Hiệu</span>
                 </a>
+
+                <a href="/products" class="nav-link collapsed">
+                    <i class="fas fa-list"></i>
+                    <span>Khách hàng</span>
+                </a>
             </li>
 
             <li class="nav-item">

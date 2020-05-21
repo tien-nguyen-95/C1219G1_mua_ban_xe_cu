@@ -12,4 +12,8 @@ class Branch extends Model
     protected $table = 'branches';
 
     protected $fillable = ['name','phone','address'];
+
+    public function products(){
+        return $this->hasMany(Product::class,'branch_id','id');
+    }
 }
