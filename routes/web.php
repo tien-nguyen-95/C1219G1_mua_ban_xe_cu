@@ -95,3 +95,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::view('/welcome', 'welcome');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

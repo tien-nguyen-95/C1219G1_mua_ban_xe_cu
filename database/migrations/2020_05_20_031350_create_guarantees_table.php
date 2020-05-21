@@ -18,7 +18,7 @@ class CreateGuaranteesTable extends Migration
             $table->integer('customer_id')->unsigned();
             $table->integer('staff_id')->unsigned();
             $table->integer('product_id')->unsigned();
-            $table->string('issue',255);
+            $table->longText('issue',255);
             $table->integer('branch_id')->unsigned();
             $table->date('date_in');
             $table->date('date_out');
