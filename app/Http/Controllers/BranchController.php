@@ -19,8 +19,13 @@ class BranchController extends Controller
                 return $next($request);
             }
             abort(404);
-        });
+        })->except('list');
         $this->branchService = $branchService;
+    }
+
+    public function list()
+    {
+        return view('admin.branch.index');
     }
 
     public function index()
@@ -28,16 +33,6 @@ class BranchController extends Controller
         $branches = $this->branchService->getAll();
 
         return response()->json($branches, 200);
-    }
-
-    public function show($id)
-    {
-
-    }
-
-    public function create(){
-        $view = view('admin\branch\create');
-        return response()->make($view,200);
     }
 
     public function store(BranchRequest $request)

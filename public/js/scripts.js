@@ -1,7 +1,7 @@
 function selectData (nameData)
 {
     $.ajax({
-        url : "/"+nameData,
+        url : "/"+nameData+"/index",
         method: "GET",
         dataType: "json",
         success: function(data){
@@ -30,15 +30,15 @@ function selectData (nameData)
 }
 
 
-function messenger(_text)
+function messenger(_text, _head = 'Thông báo', _icon = 'success')
 {
     $.toast({
-        heading: 'Thông báo',
+        heading: _head,
         text: _text,
         hideAfter: 3000,
         position: 'top-center',
         showHideTransition: 'slide',
-        icon: 'success'
+        icon: _icon
     })
 }
 

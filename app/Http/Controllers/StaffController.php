@@ -14,13 +14,18 @@ class StaffController extends Controller
 
     public function __construct(StaffService $staffService)
     {
-        // $this->middleware(function($request, $next){
-        //     if($request->ajax()){
-        //         return $next($request);
-        //     }
-        //     abort(404);
-        // });
+        $this->middleware(function($request, $next){
+            if($request->ajax()){
+                return $next($request);
+            }
+            abort(404);
+        })->except('list');
         $this->staffService = $staffService;
+    }
+
+    public function list()
+    {
+        return view('admin.staff.index');
     }
 
     public function index()
@@ -66,7 +71,11 @@ class StaffController extends Controller
     public function trash()
     {
         $staffs = $this->staffService->getTrash();
-
+        foreach($staffs as $item){
+            $staffs->user_id = $item->user->email;
+            $staffs->position_id = $item->position->email;
+            $staffs->branch_id = $item->branch->email;
+        }
         return response()->json($staffs, 200);
     }
 
