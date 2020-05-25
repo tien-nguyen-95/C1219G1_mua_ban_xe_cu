@@ -80,11 +80,28 @@
             </li>
 
             <li class="nav-item">
+                <a href="/products" class="nav-link collapsed">
+                    <i class="fas fa-list"></i>
+                    <span>Quản lý sản phẩm</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a href="{{ route('customer.list') }}" class="nav-link collapsed" id="managar_cate">
                     <i class="fas fa-users"></i>
                     <span>Quản lý khách hàng</span>
                 </a>
             </li>
+
+
+            <li class="nav-item">
+                <a href="{{ route('bill.list') }}" class="nav-link collapsed" id="managar_cate">
+                    <i class="fas fa-list"></i>
+                    <span>Quản lí hóa đơn</span>
+                </a>
+            </li>
+
+
 
 
 

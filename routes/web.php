@@ -3,6 +3,7 @@
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -52,6 +53,13 @@ Route::view('customer-list', 'admin.customer.index')->name('customer.list');
 Route::get('customer-trash', 'CustomerController@trash');
 Route::put('customer-restore/{id}', 'CustomerController@restore');
 Route::delete('customer-delete/{id}', 'CustomerController@delete');
+//bill
+Route::resource('bill', 'BillController');
+Route::view('bill-list', 'admin.bill.index')->name('bill.list');
+
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+});
 
 // branch
 Route::group(['middleware' => 'can:boss', 'prefix'=>'/branch'], function () {
@@ -120,8 +128,6 @@ Route::prefix('brands')->group(function(){
 
     Route::get('/','BrandController@index')->name('brands.index');
 
-    Route::get('/history','BrandController@history');
-
     Route::get('/{id}/restore','BrandController@restore');
 
     Route::post('/create','BrandController@store');
@@ -135,15 +141,17 @@ Route::prefix('brands')->group(function(){
     Route::delete('/{id}','BrandController@destroy');
 });
 
+
+Auth::routes();
+
 Route::prefix('products')->group(function(){
+
 
     Route::get('/trash','ProductController@trash');
 
     Route::get('/json','ProductController@json');
 
     Route::get('/','ProductController@index');
-
-    Route::get('/history','ProductController@history');
 
     Route::get('/{id}/restore','ProductController@restore');
 
