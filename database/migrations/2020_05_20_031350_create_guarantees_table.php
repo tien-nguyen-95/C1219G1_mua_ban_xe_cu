@@ -22,10 +22,7 @@ class CreateGuaranteesTable extends Migration
             $table->integer('branch_id')->unsigned();
             $table->date('date_in');
             $table->date('date_out');
-            $table->foreign('customer_id')->references('id')->on('customers');
-            $table->foreign('staff_id')->references('id')->on('staffs');
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('branch_id')->references('id')->on('branches');
+
             $table->timestamps();
             $table->softDeletes();
         });

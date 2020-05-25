@@ -13,18 +13,18 @@ class StaffsTableSeeder extends Seeder
     {
         DB::table('staffs')->insert([
             'name' => 'Nam',
-            'user_id' => '4',
+            'user_id' => '1',
             'gender' => '1',
             'birthday' => '1995-02-18',
             'phone' => '012356789',
             'image' => null,
             'position_id' => '1',
             'address' => 'phong điền',
-            'branch_id' => '2'
+            'branch_id' => '1'
         ]);
         DB::table('staffs')->insert([
             'name' => 'Thuật',
-            'user_id' => '2',
+            'user_id' => '1',
             'gender' => '1',
             'birthday' => '1996-07-13',
             'phone' => '012356459',
@@ -35,14 +35,14 @@ class StaffsTableSeeder extends Seeder
         ]);
         DB::table('staffs')->insert([
             'name' => 'Tiến',
-            'user_id' => '3',
+            'user_id' => '1',
             'gender' => '1',
             'birthday' => '1995-02-23',
             'phone' => '012352289',
             'image' => null,
-            'position_id' => '5',
+            'position_id' => '1',
             'address' => 'Nam định',
-            'branch_id' => '2'
+            'branch_id' => '1'
         ]);
     }
 }

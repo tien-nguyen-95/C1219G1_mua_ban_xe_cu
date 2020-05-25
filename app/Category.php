@@ -9,11 +9,20 @@ use App\Tag;
 class Category extends Model
 {
     use SoftDeletes;
+    
     protected $table = 'categories';
+
     protected $fillable =['name'];
+
     protected $dates = ['deleted_at'];
 
-    public function tags(){
+    public function products()
+    {
+        return $this->hasMany(Product::class,'category_id','id');
+    }
+
+    public function tags()
+    {
         return $this->hasMany(Tag::class,'category_id','id');
     }
 }

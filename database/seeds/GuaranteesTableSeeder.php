@@ -13,8 +13,8 @@ class GuaranteesTableSeeder extends Seeder
     {
         DB::table('guarantees')->insert([
             'customer_id' => '1',
-            'staff_id' => '4',
-            'product_id' => '3',
+            'staff_id' => '1',
+            'product_id' => '1',
             'issue' => 'Thay đèn',
             'branch_id' => '2',
             'date_in' => '2020-05-10',
@@ -31,8 +31,8 @@ class GuaranteesTableSeeder extends Seeder
         ]);
         DB::table('guarantees')->insert([
             'customer_id' => '3',
-            'staff_id' => '4',
-            'product_id' => '5',
+            'staff_id' => '3',
+            'product_id' => '1',
             'issue' => 'Thay côn',
             'branch_id' => '3',
             'date_in' => '2020-05-13',

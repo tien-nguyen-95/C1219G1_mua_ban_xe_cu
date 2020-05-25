@@ -1,31 +1,3 @@
-function messenger(_text){
-    $.toast({
-        heading: 'Thông báo',
-        text: _text,
-        hideAfter: 3000,
-        position: 'top-center',
-        showHideTransition: 'slide',
-        icon: 'success'
-    })
-}
-
-function printErrorMsg (msg) {
-    console.log(msg);
-    $('span.alert-danger').remove();
-    $.each( msg, function( key, value ) {
-        $(`input[name=${key}]`).before(`<span class="alert-danger" >${value}</span>`);
-    });
-}
-
-// function trash(){
-//     $.get('/branch_trash').done(function(data){
-//         $('#body').html(data);
-//         $('.back').click(function(){
-//             init();
-//         });
-//     });
-// }
-
 var branch = {} || branch;
 
 branch.showData = function () {
@@ -103,7 +75,6 @@ branch.save = function () {
             objAdd.name = $('#name').val();
             objAdd.phone = $('#phone').val();
             objAdd.address = $('#address').val();
-            console.log(objAdd);
             $.ajax({
                 url: "/branch",
                 method: "POST",
@@ -111,39 +82,40 @@ branch.save = function () {
                 contentType: 'application/json',
                 data: JSON.stringify(objAdd),
                 success: function (data) {
-
                         $('#branchModal').modal('hide');
-                        messenger("Tạo mới thành công");
+                        messenger("Tạo mới thành công !!!");
                         branch.showData();
                 },error: function(errors) {
-                    branch.showError(errors);
+                    showError(errors);
                 }
             });
         }
         //update
         else {
-            var objEdit = {};
-            objEdit.name = $('#name').val();
-            objEdit.phone = $('#phone').val();
-            objEdit.address = $('#address').val();
-            objEdit.id = $('#branchId').val();
+            let check = confirm("Bạn chắc chắn muốn thay đổi ???");
+            if(check){
+                var objEdit = {};
+                objEdit.name = $('#name').val();
+                objEdit.phone = $('#phone').val();
+                objEdit.address = $('#address').val();
+                objEdit.id = $('#branchId').val();
 
-            data = JSON.stringify(objEdit);
-            console.log(JSON.stringify(objEdit));
-            $.ajax({
-                url: "/branch/" + objEdit.id,
-                method: "PUT",
-                // dataType: "json",
-                contentType: 'application/json',
-                data: data,
-                success: function (data) {
-                        $('#branchModal').modal('hide');
-                        messenger("Cập nhật thành công");
-                        branch.showData();
-                },error: function(errors) {
-                    branch.showError(errors);
-                }
-            });
+                data = JSON.stringify(objEdit);
+                $.ajax({
+                    url: "/branch/" + objEdit.id,
+                    method: "PUT",
+                    // dataType: "json",
+                    contentType: 'application/json',
+                    data: data,
+                    success: function (data) {
+                            $('#branchModal').modal('hide');
+                            messenger("Cập nhật thành công !!!");
+                            branch.showData();
+                    },error: function(errors) {
+                        showError(errors);
+                    }
+                });
+            }
         }
 
     }
@@ -159,7 +131,7 @@ branch.restore = function(id){
             contentType: 'application/json',
             success: function (data) {
                 branch.getTrash();
-                messenger("KHôi phục thành công");
+                messenger("KHôi phục thành công !!!");
             }
         });
     }
@@ -175,7 +147,7 @@ branch.delete = function(id){
             contentType: 'application/json',
             success: function (data) {
                 branch.getTrash();
-                messenger("KHôi phục thành công");
+                messenger("Xóa thành công");
             }
         });
     }
@@ -280,16 +252,6 @@ branch.back = function() {
         `
     );
     branch.showData();
-}
-
-branch.showError = function(errors){
-    if(errors.status == 422){
-        $('small.fieldError').remove();
-        $.each(errors.responseJSON.errors, function(i,v) {
-            $(`input[name=${i}]`).before(`<small class="text-danger fieldError">${v}</small>`);
-        });
-    }
-    console.clear();
 }
 
 branch.init = function () {
