@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
+use App\Branch;
 
 class GuaranteeController extends Controller
 {
@@ -20,24 +21,21 @@ class GuaranteeController extends Controller
 
     public function index()
     {
-        $datas = $this->guaranteeService->getAll();
-        foreach($datas as $data){
-            $data->branches->name;
+        $datas = $this->guaranteeService->getAllForeign();
 
-        }
 
         return response()->json($datas, 200);
     }
 
     public function show($id)
     {
-        $dataGuarantee = $this->guaranteeService->findById($id);
+        $dataGuarantee = $this->guaranteeService->getByIdForeign($id);
 
 
-        return response()->json($dataGuarantee['guarantee'], $dataGuarantee['statusCode']);
+        return response()->json($dataGuarantee, 200);
     }
 
-    public function store(Request $request)
+    public function store(GuaranteeRequest $request)
     {
         $dataGuarantee = $this->guaranteeService->create($request->all());
 
@@ -60,11 +58,12 @@ class GuaranteeController extends Controller
     public function trash()
     {
         $datas = $this->guaranteeService->getTrash();
-
         foreach($datas as $data){
-            $data->branches->name;
+            $data->product->name;
+            $data->customer->name;
+            $data->branch->name;
+            $data->staff->name;
         }
-
         return response()->json($datas, 200);
     }
     public function restore($id){

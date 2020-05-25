@@ -93,7 +93,7 @@ tag.getDetail = function (id) {
             $('#TagId').val(data.id);
             $('#Category').val(data.category_id);
             $('#addEditTag').find('.modal-title').text("Sửa thẻ");
-            $('.modal-footer').find('a').text('Update');
+            $('.modal-footer').find('a').text('Sửa');
 
             // $('#addEditTag').modal('show');
 
@@ -125,9 +125,9 @@ tag.save = function () {
                 },
                 error: function(data){
                     console.log(data);
-                    // $.each(data.responseJSON.errors, function (i, v) {
-                    //     $(`.error-${i}`).text(v);
-                    // });
+                    $.each(data.responseJSON.errors, function (i, v) {
+                        $(`.error-${i}`).text(v);
+                    });
                 }
 
             });
@@ -194,8 +194,8 @@ tag.showTrash = function (){
                         <td>${v.category.name}</td>
                         <td>${v.deleted_at}</td>
                         <td>
-                            <a href="javascript:;" onclick="tag.restore(${v.id})" class="btn btn-info">Restore</a>
-                            <a href="javascript:;" onclick="tag.delete(${v.id})" class="btn btn-danger">Delete</a>
+                            <a href="javascript:;" onclick="tag.restore(${v.id})" class="fa fa-trash-restore"></a>
+                            <a href="javascript:;" onclick="tag.delete(${v.id})" class="fa fa-ban"></a>
                         </td>
                     </tr>
                     `
@@ -207,14 +207,7 @@ tag.showTrash = function (){
     });
 };
 
-// tag.back = function(){
-//     $('.container').find('h1').text('Tag');
-//     $('#tbTag').find('#date').text('Created_at');
-//     $('#create').empty();
-//     $('#addTag').replaceWith(
-//         `<a href="javascript:;" class="btn btn-info" onclick="tag.showModal()">Create</a>`
-//     );
-// };
+
 tag.restore = function (id){
     bootbox.confirm({
         title: "Trở lại danh sách ?",

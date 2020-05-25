@@ -24,5 +24,11 @@ class CustomerTableSeeder extends Seeder
             'email' => 'Tamg@gamil.com',
             'address' => 'tp.Vinh'
         ]);
+        DB::table('customers')->insert([
+            'name' => 'Nguyen Nam',
+            'phone' => '123555479',
+            'email' => 'Nam@gamil.com',
+            'address' => 'tp.Hue'
+        ]);
     }
 }

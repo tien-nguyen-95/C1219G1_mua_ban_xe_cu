@@ -28,7 +28,11 @@ class Staff extends Model
         return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 
-    
+
+    public function guarantees()
+    {
+        return $this->hasMany(Guarantee::class, 'staff_id','id');
+    }
     public function products() 
     {
         return $this->hasMany(Product::class,'staff_id','id');

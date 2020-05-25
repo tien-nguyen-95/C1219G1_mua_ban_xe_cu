@@ -20,6 +20,17 @@ class GuaranteeServiceImpl implements GuaranteeService
 
         return $guarantees;
     }
+    public function getAllForeign()
+    {
+        $guarantees = $this->guaranteeRepository->getAllForeign();
+
+        return $guarantees;
+    }
+    public function getByIdForeign($id)
+    {
+        $guarantee = $this->guaranteeRepository->getByIdForeign($id);
+        return $guarantee;
+    }
 
     public function findById($id)
     {
@@ -74,7 +85,7 @@ class GuaranteeServiceImpl implements GuaranteeService
 
     public function destroy($id)
     {
-        $tag = $this->guaranteeRepository->findById($id);
+        $guarantee = $this->guaranteeRepository->findById($id);
 
         $statusCode = 404;
         $message = "Guarantee not found";
