@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Bill extends Model
 {
     use SoftDeletes;
-    protected $fillable =['customer_id', 'product_id', 'staff_id', 'branch_id', 'deposit', 'payment', 
+    protected $fillable =['customer_id', 'product_id', 'staff_id', 'branch_id', 'deposit', 'payment',
                             'status', 'complete', 'payment_at', 'delivered_at'];
-    protected $dates = ['deleted_at'];
+    // protected $dates = ['deleted_at'];
 
     public function customer(){
         return $this->belongsTo(Customer::class, 'customer_id', 'id');

@@ -34,7 +34,7 @@
 
 
 
-
+            @can('boss')
             <!-- Nav Item - News -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('branch.list') }}" >
@@ -63,7 +63,25 @@
                     <span>Quản lý thương Hiệu</span>
                 </a>
             </li>
+            @endcan
 
+            @can('confirm')
+            <li class="nav-item">
+                <a href="/products" class="nav-link collapsed">
+                    <i class="fas fa-list"></i>
+                    <span>Quản lý sản phẩm</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('bill.list') }}" class="nav-link collapsed" id="managar_cate">
+                    <i class="fas fa-list"></i>
+                    <span>Quản lí hóa đơn</span>
+                </a>
+            </li>
+            @endcan
+
+            @can('admin')
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapsePages">
                 <i class="fas fa-user-friends"></i>
@@ -73,17 +91,12 @@
                 <div id="collapseUser" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('staff.list') }}"><i class="fas fa-user-tie"></i> Danh sách nhân viên</a>
+                    @can('boss')
                     <a class="collapse-item" href="{{ route('user.list') }}"><i class="fas fa-user"></i> Danh sách tài khoản</a>
                     <a class="collapse-item" href="{{ route('position.list') }}"><i class="fas fa-user-secret"></i> Danh sách chức vụ</a>
+                    @endcan
                 </div>
                 </div>
-            </li>
-
-            <li class="nav-item">
-                <a href="/products" class="nav-link collapsed">
-                    <i class="fas fa-list"></i>
-                    <span>Quản lý sản phẩm</span>
-                </a>
             </li>
 
             <li class="nav-item">
@@ -92,19 +105,7 @@
                     <span>Quản lý khách hàng</span>
                 </a>
             </li>
-
-
-            <li class="nav-item">
-                <a href="{{ route('bill.list') }}" class="nav-link collapsed" id="managar_cate">
-                    <i class="fas fa-list"></i>
-                    <span>Quản lí hóa đơn</span>
-                </a>
-            </li>
-
-
-
-
-
+            @endcan
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

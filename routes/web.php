@@ -62,33 +62,38 @@ Route::get('/dashboard', function () {
 });
 
 // branch
-Route::group(['middleware' => 'can:boss', 'prefix'=>'/branch'], function () {
+Route::group(['middleware' => 'auth', 'prefix'=>'/branch'], function () {
     Route::get('/','BranchController@list')->name('branch.list');
     Route::get('/index','BranchController@index');
-    Route::post('/','BranchController@store');
-    Route::get('/{id}/edit', 'BranchController@edit');
-    Route::put('/{id}', 'BranchController@update');
-    Route::delete('/{id}', 'BranchController@destroy');
-    Route::get('/trash', 'BranchController@trash');
-    Route::get('/trash/{id}', 'BranchController@findTrash');
-    Route::get('/restore/{id}', 'BranchController@restore');
-    Route::get('/delete/{id}', 'BranchController@delete');
+
+    Route::group(['middleware' => 'can:boss'], function () {
+        Route::post('/','BranchController@store');
+        Route::get('/{id}/edit', 'BranchController@edit');
+        Route::put('/{id}', 'BranchController@update');
+        Route::delete('/{id}', 'BranchController@destroy');
+        Route::get('/trash', 'BranchController@trash');
+        Route::get('/trash/{id}', 'BranchController@findTrash');
+        Route::get('/restore/{id}', 'BranchController@restore');
+        Route::get('/delete/{id}', 'BranchController@delete');
+    });
 
 });
 
 // staff
-Route::group(['middleware' => 'can:admin', 'prefix'=>'/staff'], function () {
+Route::group(['middleware' => 'auth', 'prefix'=>'/staff'], function () {
     Route::get('/','StaffController@list')->name('staff.list');
     Route::get('/index','StaffController@index');
-    Route::post('/','StaffController@store');
     Route::get('/{id}/edit', 'StaffController@edit');
     Route::put('/{id}', 'StaffController@update');
-    Route::delete('/{id}', 'StaffController@destroy');
-    Route::get('/trash', 'StaffController@trash');
-    Route::get('/trash/{id}', 'StaffController@findTrash');
-    Route::get('/restore/{id}', 'StaffController@restore');
-    Route::get('/delete/{id}', 'StaffController@delete');
 
+    Route::group(['middleware' => 'can:admin'], function () {
+        Route::post('/','StaffController@store');
+        Route::delete('/{id}', 'StaffController@destroy');
+        Route::get('/trash', 'StaffController@trash');
+        Route::get('/trash/{id}', 'StaffController@findTrash');
+        Route::get('/restore/{id}', 'StaffController@restore');
+        Route::get('/delete/{id}', 'StaffController@delete');
+    });
 });
 
 //user
@@ -106,18 +111,20 @@ Route::group(['middleware' => 'auth', 'prefix'=>'/user'], function () {
 });
 
 // position
-Route::group(['middleware' => 'can:boss', 'prefix'=>'/position'], function () {
+Route::group(['middleware' => 'auth', 'prefix'=>'/position'], function () {
     Route::get('/','PositionController@list')->name('position.list');
     Route::get('/index','PositionController@index');
-    Route::post('/','PositionController@store');
-    Route::get('/{id}/edit', 'PositionController@edit');
-    Route::put('/{id}', 'PositionController@update');
-    Route::delete('/{id}', 'PositionController@destroy');
-    Route::get('/trash', 'PositionController@trash');
-    Route::get('/trash/{id}', 'PositionController@findTrash');
-    Route::get('/restore/{id}', 'PositionController@restore');
-    Route::get('/delete/{id}', 'PositionController@delete');
 
+    Route::group(['middleware' => 'can:boss'], function () {
+        Route::post('/','PositionController@store');
+        Route::get('/{id}/edit', 'PositionController@edit');
+        Route::put('/{id}', 'PositionController@update');
+        Route::delete('/{id}', 'PositionController@destroy');
+        Route::get('/trash', 'PositionController@trash');
+        Route::get('/trash/{id}', 'PositionController@findTrash');
+        Route::get('/restore/{id}', 'PositionController@restore');
+        Route::get('/delete/{id}', 'PositionController@delete');
+    });
 });
 
 
