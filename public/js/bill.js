@@ -141,14 +141,22 @@ bill.showDetail = function ()
         dataType: "JSON",
         success: function (data) {
             // console.log(data.name);
-            $('p#id').text(data.id);
-            $('p#name').text(data.name);
-            $('p#phone').text(data.phone);
-            $('p#email').text(data.email);
-            $('p#address').text(data.address);
-            $('p#created_at').text(data.created_at);
-            $('p#updated_at').text(data.updated_at);
+            $("#billId").val(data.bills.id);
+            $("#customer_id").val(data.bills.customer_id);
+            
+            $("#staff_id").val(data.bills.staff_id);
+            $("#product_id").val(data.bills.product_id);
+            $("#branch_id").val(data.bills.branch_id);
+        
+            $('#status').val(data.bills.status);
+            $('#complete').val(data.bills.complete);
 
+            $('input[name="payment_at"]').val(data.bills.payment_at);
+            $('input[name="delivered_at"]').val(data.bills.delivered_at);
+
+            $('#deposit').val(data.bills.deposit);
+            $('#payment').val(data.bills.payment);
+        
             $("#thongtin").modal('show');
         }
     });
@@ -249,6 +257,7 @@ bill.save = function () {
 
 
 bill.resetForm = function () {
+    $(".sml-er").empty();
     $('#billId').val("0");
     $('#customer_id').val("");
     $('#staff_id').val("");
@@ -282,7 +291,7 @@ bill.showModal= function()
         this.value = this.value.replace(/[^0-9]/g, '');
         console.log(this.value);
     });
-    // bill.resetForm();
+    bill.resetForm();
     $('#billModal').modal('show'); 
 }
 

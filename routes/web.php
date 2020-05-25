@@ -3,7 +3,7 @@
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Auth::routes();
 
 
 //tag
@@ -96,7 +96,7 @@ Route::prefix('brands')->group(function(){
 });
 
 
-Auth::routes();
+// Auth::routes();
 
 Route::prefix('products')->group(function(){
 
