@@ -16,9 +16,14 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code',20);
-            $table->string('name',255);
+            $table->string('title');
+            $table->string('name');
             $table->longText('image');
             $table->integer('model_year');
+            $table->integer('register_year');
+            $table->integer('miles');
+            $table->string('color');
+            $table->string('origin');
             $table->integer('import_price');
             $table->integer('export_price');
             $table->enum('status', ['show', 'busy' ,'sold'])->default('show');

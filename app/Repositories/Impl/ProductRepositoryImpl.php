@@ -22,12 +22,43 @@ class ProductRepositoryImpl extends EloquentRepository implements ProductReposit
     { 
         $result = $this->model->all();
         foreach ($result  as $val) {
-            $result->branch_name  = $val->branch->name;
-            $result->brand_name  = $val->brand->name;
-            $result->tag_name  = $val->tag->name;
-            $result->category_name   = $val->category->name;
+            $val->branch->name;
+            $val->brand->name;
+            $val->tag->name;
+            $val->category->name;
+            $val->staff->name;
        }
 
         return $result;
     }
+
+
+    public function findByIdJoin($id)
+    {
+        $result = $this->model->find($id);
+            
+            $result->branch->name;
+            $result->brand->name;
+            $result->tag->name;
+            $result->category->name;
+            $result->staff->name;
+
+        return $result;
+    }
+
+    public function getTrash(){
+
+        $result = $this->model->onlyTrashed()->get();
+
+        foreach ($result  as $val) {
+            $val->branch->name;
+            $val->brand->name;
+            $val->tag->name;
+            $val->category->name;
+            $val->staff->name;
+       }
+
+        return $result;
+    }
+  
 };

@@ -74,8 +74,6 @@ Route::prefix('brands')->group(function(){
 
     Route::get('/','BrandController@index')->name('brands.index');
 
-    Route::get('/history','BrandController@history');
-
     Route::get('/{id}/restore','BrandController@restore');
 
     Route::post('/create','BrandController@store');
@@ -96,8 +94,6 @@ Route::prefix('products')->group(function(){
     Route::get('/json','ProductController@json');
 
     Route::get('/','ProductController@index');
-
-    Route::get('/history','ProductController@history');
 
     Route::get('/{id}/restore','ProductController@restore');
 

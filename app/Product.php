@@ -15,7 +15,7 @@ class Product extends Model
 
     protected $casts = ['image'=>'array', ];
 
-    protected  $fillable = ['code','name','image','category_id','brand_id','tag_id','model_year','import_price','export_price','branch_id','status','staff_id'];
+    protected  $fillable = ['code','title','name','image','model_year','register_year','miles','color','origin','import_price','export_price','status','branch_id','brand_id','tag_id','category_id','staff_id'];
 
     public function branch()
     {
@@ -34,6 +34,11 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class);
     }
 
 }

@@ -7,7 +7,7 @@ interface ProductService
 {
     public function getAllJoin();
 
-    public function findById($id);
+    public function findByIdJoin($id);
 
     public function create($request);
 
@@ -16,7 +16,7 @@ interface ProductService
     public function destroy($id);
 
     //  các hàm xóa mềm
-    public function getAlltrash();
+    public function getTrash();
 
     public function restore($id);
 
