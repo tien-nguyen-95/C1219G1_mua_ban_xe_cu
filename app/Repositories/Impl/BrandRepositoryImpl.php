@@ -10,10 +10,12 @@ class BrandRepositoryImpl extends EloquentRepository implements BrandRepository
     public function getModel()
     {
         $model = Brand::class;
+
         return $model;
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         return   $this->model::onlyTrashed()->where('id', $id)->forceDelete();
     }
 };

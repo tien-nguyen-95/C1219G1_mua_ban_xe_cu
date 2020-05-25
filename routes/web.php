@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
-// use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,12 +21,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+
 //tag
-Route::view('tag_list', 'admin.tag.index')->name('tag.list');
+Route::view('tag-list', 'admin.tag.index')->name('tag.list');
 Route::resource('tag', 'TagController');
 Route::get('tag-trash', 'TagController@trash');
 Route::delete('tag-delete/{id}','TagController@delete');
 Route::get('tag-restore/{id}','TagController@restore');
+
+//guarantee
+Route::view('guarantee-list', 'admin.guarantee.index')->name('guarantee.list');
+Route::resource('guarantee', 'GuaranteeController');
+Route::get('guarantee-trash', 'GuaranteeController@trash');
+Route::delete('guarantee-delete/{id}','GuaranteeController@delete');
+Route::get('guarantee-restore/{id}','GuaranteeController@restore');
 
 // category
 Route::resource('category', 'CategoryController');
@@ -39,7 +52,6 @@ Route::view('customer-list', 'admin.customer.index')->name('customer.list');
 Route::get('customer-trash', 'CustomerController@trash');
 Route::put('customer-restore/{id}', 'CustomerController@restore');
 Route::delete('customer-delete/{id}', 'CustomerController@delete');
-
 //bill
 Route::resource('bill', 'BillController');
 Route::view('bill-list', 'admin.bill.index')->name('bill.list');
@@ -47,6 +59,7 @@ Route::view('bill-list', 'admin.bill.index')->name('bill.list');
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
+
 // branch
 Route::resource('branch', 'BranchController');
 Route::view('branch_list', 'admin.branch.index')->name('branch.list');
@@ -69,8 +82,6 @@ Route::prefix('brands')->group(function(){
 
     Route::get('/','BrandController@index')->name('brands.index');
 
-    Route::get('/history','BrandController@history');
-
     Route::get('/{id}/restore','BrandController@restore');
 
     Route::post('/create','BrandController@store');
@@ -84,10 +95,51 @@ Route::prefix('brands')->group(function(){
     Route::delete('/{id}','BrandController@destroy');
 });
 
-// Auth::routes();
+
+Auth::routes();
+
+Route::prefix('products')->group(function(){
+
+
+    Route::get('/trash','ProductController@trash');
+
+    Route::get('/json','ProductController@json');
+
+    Route::get('/','ProductController@index');
+
+    Route::get('/{id}/restore','ProductController@restore');
+
+    Route::post('/create','ProductController@store');
+
+    Route::get('/{id}','ProductController@show');
+
+    Route::put('/{id}','ProductController@update');
+
+    Route::delete('/{id}/delete','ProductController@delete');
+
+    Route::delete('/{id}','ProductController@destroy');
+});
+
+//position
+
+Route::resource('position', 'PositionController');
+Route::view('position_list', 'admin.position.index')->name('position.list');
+Route::get('position_trash', 'PositionController@trash');
+
+Route::get('position_trash/{id}', 'PositionController@findTrash');
+Route::get('position_restore/{id}', 'PositionController@restore');
+Route::get('position_delete/{id}', 'PositionController@delete');
+
+// staff
+
+Route::resource('staff', 'StaffController');
+Route::view('staff_list', 'admin.staff.index')->name('staff.list');
+Route::get('staff_trash', 'StaffController@trash');
+
+Route::get('staff_trash/{id}', 'StaffController@findTrash');
+Route::get('staff_restore/{id}', 'StaffController@restore');
+Route::get('staff_delete/{id}', 'StaffController@delete');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::view('/welcome', 'welcome');
-
-Route::get('/home', 'HomeController@index')->name('home');

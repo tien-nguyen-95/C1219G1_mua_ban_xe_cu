@@ -90,7 +90,7 @@ class CategoryServiceImpl implements CategoryService
         ];
         return $data;
     }
-    
+
     public function getTrash(){
 
         $categories = $this->categoryRepository->getTrash();

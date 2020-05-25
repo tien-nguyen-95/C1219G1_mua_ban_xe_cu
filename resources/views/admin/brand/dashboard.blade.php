@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('content')
- <h1 id="title" style=" text-align: center;">List Brand</h1>
+ <h1 id="title" style=" text-align: center;">Danh sách thương hiệu</h1>
 <div class="row">
     <div class="col-12 mb-3" id="btnBrand">
-        <a id="comeback" href="javascript:;" class="btn btn-success" onclick="brand.showModal()">Create</a>
-        <a id="trash" href="javascript:;" class="btn btn-warning" onclick="brand.next()">Trash</a>
+        <a href="javascript:;" class="btn btn-success" onclick="brand.showModal()" id="comeback"><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm mới</a>
+        <a id="trash" href="javascript:;" class="btn btn-warning" onclick="brand.next()"><i class="fas fa-trash"></i>Thùng rác</a>
     </div>
 </div>
 <div class="row">
@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                
+
             </tbody>
         </table>
     </div>

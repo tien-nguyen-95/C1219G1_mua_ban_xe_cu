@@ -30,6 +30,7 @@ abstract class EloquentRepository implements Repository
     public function getAll()
     {
         $result = $this->model->all();
+
         return $result;
     }
 
@@ -44,6 +45,7 @@ abstract class EloquentRepository implements Repository
         try {
             $object = $this->model->create($data);
         } catch (\Exception $e) {
+
             return null;
         }
         return $object;
@@ -63,9 +65,10 @@ abstract class EloquentRepository implements Repository
     public function getTrash(){
 
         $result = $this->model->onlyTrashed()->get();
+        
         return $result;
     }
-  
+
     public function restore($id)
     {
         return $this->model::onlyTrashed()->where('id', $id)->restore();

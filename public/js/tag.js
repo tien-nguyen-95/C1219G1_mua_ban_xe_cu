@@ -13,8 +13,9 @@ tag.showData = function () {
                 $('#tbTagData tbody').append(
                     `
                     <tr>
+                        <td>${++i}</td>
                         <td>${v.title}</td>
-                        <td>${v.category}</td>
+                        <td>${v.category.name}</td>
                         <td>${v.created_at}</td>
                         <td>
                             <a href="javascript:;" onclick="tag.getDetail(${v.id})"><i class="fa fa-edit"></i></a>
@@ -35,12 +36,26 @@ tag.showData = function () {
 }
 tag.showModal = function () {
     tag.resetForm();
+    $.ajax({
+        url: "http://127.0.0.1:8000/category",
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            // console.log(data);
+            $.each(data, function (i, v){
+                $('#Category').append(
+                    `<option value="${v.id}">${v.name}</option>`
+                );
+            });
+
+        }
+    });
     $('#addEditTag').modal('show');
 };
 tag.remove = function (id) {
     bootbox.confirm({
-        title: "Remove tag?",
-        message: "Do you want to the tag move trash now ?",
+        title: "Tạm xóa thẻ?",
+        message: "Chuyển thẻ này đến mục tạm xóa ?",
         buttons: {
             cancel: {
                 label: '<i class="fa fa-times"></i> No'
@@ -59,7 +74,7 @@ tag.remove = function (id) {
                     success: function (data) {
                         tag.showData();
                         tag.showTrash();
-                        bootbox.alert("Remove successfully");
+                        bootbox.alert("Thẻ này đã chuyển đến mục xóa tạm");
                     }
                 });
             }
@@ -67,20 +82,24 @@ tag.remove = function (id) {
     });
 }
 tag.getDetail = function (id) {
+
     $.ajax({
         url: "http://127.0.0.1:8000/tag/" + id,
         method: "GET",
         dataType: "json",
         success: function (data) {
+            console.log(data);
             $('#Title').val(data.title);
             $('#TagId').val(data.id);
-            $('#Category').val(data.category);
-            $('#addEditTag').find('.modal-title').text("Update Tag");
+            $('#Category').val(data.category_id);
+            $('#addEditTag').find('.modal-title').text("Sửa thẻ");
             $('.modal-footer').find('a').text('Update');
 
-            $('#addEditTag').modal('show');
+            // $('#addEditTag').modal('show');
+
         }
     });
+    tag.showModal();
 }
 tag.save = function () {
     if ($('#formAddEditTag').valid()) {
@@ -88,26 +107,27 @@ tag.save = function () {
         if ($('#TagId').val() == 0) {
             var objAdd = {};
             objAdd.title = $('#Title').val();
-            objAdd.category = $('#Category').val();
+            objAdd.category_id = $('#Category').val();
             console.log(objAdd);
             $.ajax({
+
                 url: "http://127.0.0.1:8000/tag",
                 method: "POST",
                 dataType: "json",
                 contentType: 'application/json',
                 data: JSON.stringify(objAdd),
                 success: function (data) {
-                    console.log(data)
-                    bootbox.alert("Tag has been created successfully");
+                    console.log(data);
+                    bootbox.alert("Thêm thẻ mới thành công");
                     $('#addEditTag').modal('hide');
                     tag.showData();
 
                 },
                 error: function(data){
                     console.log(data);
-                    $.each(data.responseJSON.errors, function (i, v) {
-                        $(`.error-${i}`).text(v);
-                    });
+                    // $.each(data.responseJSON.errors, function (i, v) {
+                    //     $(`.error-${i}`).text(v);
+                    // });
                 }
 
             });
@@ -116,7 +136,7 @@ tag.save = function () {
         else {
             var objEdit = {};
             objEdit.title = $('#Title').val();
-            objEdit.category = $('#Category').val();
+            objEdit.category_id = $('#Category').val();
             objEdit.id =  $('input[type=hidden]').val();
             console.log(objEdit);
             $.ajax({
@@ -126,7 +146,7 @@ tag.save = function () {
                 contentType: 'application/json',
                 data: JSON.stringify(objEdit),
                 success: function (data) {
-                    bootbox.alert("Tag has been updated successfully");
+                    bootbox.alert("Sửa thẻ thành công");
                     $('#addEditTag').modal('hide');
                     tag.showData();
 
@@ -145,11 +165,11 @@ tag.save = function () {
 }
 tag.resetForm = function () {
     $('#Title').val("");
-    $('#Category').val("");
+    // $('#Category').val("");
     $('.error-title').empty();
-    $('.error-category').empty();
+    // $('.error-category').empty();
     $('#TagId').val("0");
-    $('#addEditTag').find('.modal-title').text("Create New Tag");
+    $('#addEditTag').find('.modal-title').text("Thêm thẻ mới");
     $('.modal-footer').find('a').text('Create');
 
     var form = $('#formAddEditTag').validate();
@@ -169,8 +189,9 @@ tag.showTrash = function (){
                 $('#tbTagTrash tbody').append(
                     `
                     <tr>
+                        <td>${++i}</td>
                         <td>${v.title}</td>
-                        <td>${v.category}</td>
+                        <td>${v.category.name}</td>
                         <td>${v.deleted_at}</td>
                         <td>
                             <a href="javascript:;" onclick="tag.restore(${v.id})" class="btn btn-info">Restore</a>
@@ -186,35 +207,51 @@ tag.showTrash = function (){
     });
 };
 
-tag.back = function(){
-    $('.container').find('h1').text('Tag');
-    $('#tbTag').find('#date').text('Created_at');
-    $('#create').empty();
-    $('#addTag').replaceWith(
-        `<a href="javascript:;" class="btn btn-info" onclick="tag.showModal()">Create</a>`
-    );
-};
+// tag.back = function(){
+//     $('.container').find('h1').text('Tag');
+//     $('#tbTag').find('#date').text('Created_at');
+//     $('#create').empty();
+//     $('#addTag').replaceWith(
+//         `<a href="javascript:;" class="btn btn-info" onclick="tag.showModal()">Create</a>`
+//     );
+// };
 tag.restore = function (id){
-    $.ajax({
-        type: "GET",
-        url: "/tag-restore/" + id,
-        dataType: "JSON",
-        success: function (data) {
-            console.log(data);
-            bootbox.alert("Khôi phục danh mục thành công");
-            tag.showTrash();
-            tag.showData();
+    bootbox.confirm({
+        title: "Trở lại danh sách ?",
+        message: "Khôi phục thẻ này trở lại danh sách thẻ ?",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> No'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Yes'
+            }
         },
-        error: function (errors){
-            console.log(errors);
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    type: "GET",
+                    url: "/tag-restore/" + id,
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data);
+                        bootbox.alert("Khôi phục thẻ thành công");
+                        tag.showTrash();
+                        tag.showData();
+                    },
+                    error: function (errors){
+                        console.log(errors);
+                    }
+
+                });
+            }
         }
     });
 }
-
 tag.delete = function(id){
     bootbox.confirm({
-        title: "Xóa tag này?",
-        message: "Bạn có chắc muốn xóa hoàn toàn tag này?",
+        title: "Xóa thẻ này?",
+        message: "Bạn có chắc muốn xóa hoàn toàn thẻ này?",
         buttons: {
             cancel: {
                 label: '<i class="fa fa-times"></i> No'
