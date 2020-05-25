@@ -23,7 +23,6 @@ class ProductController extends Controller
     public function json()
     {
         $products = $this->productService->getAllJoin();
-
         return response()->json($products, 200);
     }
 
@@ -35,7 +34,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $dataProduct = $this->productService->findByIdJoin($id);
-       
+
         return response()->json($dataProduct['products'], $dataProduct['statusCode']);
     }
 
@@ -52,7 +51,7 @@ class ProductController extends Controller
         //     $image = Str::random(5) . "_" . $name_image;
         //     }
         //     $file->move("img/banner", $image);
-        
+
         $dataProduct = $this->productService->create($request->all());
 
         return response()->json($dataProduct['products'], $dataProduct['statusCode']);
@@ -78,7 +77,7 @@ class ProductController extends Controller
     public function trash()
     {
         $trashs = $this->productService->getTrash();
-     
+
         return response()->json($trashs, 200);
     }
 

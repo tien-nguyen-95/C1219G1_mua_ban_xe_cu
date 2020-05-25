@@ -24,7 +24,7 @@ function printErrorMsg (msg) {
 bill.showData = function(){
     function formatNumber (num) {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-    }    
+    }
     bill.table = $('#tbBill').DataTable({
         ajax: {
             url : "/bill",
@@ -38,7 +38,7 @@ bill.showData = function(){
                     return {
                         customer_name: obj.customer.name,
                         branch_name: obj.branch.name,
-                        payment: payment, 
+                        payment: payment,
                         billType: billType,
                         status: billComplete,
                         action: `
@@ -62,29 +62,29 @@ bill.showData = function(){
 }
 
 bill.getCustomer = function ()
-{ 
+{
     $.ajax({
         type: "GET",
         url: "/customer",
         dataType: "JSON",
-        success: function (data) { 
+        success: function (data) {
             // $("#customer_id").empty();
             $.each(data, function(i,v){
                 $("#customer_id").append(
                     `
                     <option value="${v.id}">${v.name}</option>
-                    `  
-                ); 
+                    `
+                );
             });
         }
     });
 }
 
-bill.getBranch = function () 
-{  
+bill.getBranch = function ()
+{
     $.ajax({
         type: "GET",
-        url: "/branch",
+        url: "/branch/index",
         dataType: "JSON",
         success: function (data) {
             // $("#branch_id").empty();
@@ -93,13 +93,13 @@ bill.getBranch = function ()
                     `
                     <option value="${v.id}">${v.name}</option>
                     `
-                ); 
+                );
             });
         }
     });
 }
 
-bill.getDetail = function (id) 
+bill.getDetail = function (id)
 {
     $(".sml-er").empty();
     $.ajax({
@@ -107,16 +107,16 @@ bill.getDetail = function (id)
         method: "GET",
         dataType: "json",
         success: function (data) {
-           
+
             console.log(data);
-           
+
             $("#billId").val(data.bills.id);
             $("#customer_id").val(data.bills.customer_id);
-            
+
             $("#staff_id").val(data.bills.staff_id);
             $("#product_id").val(data.bills.product_id);
             $("#branch_id").val(data.bills.branch_id);
-        
+
             $('#status').val(data.bills.status);
             $('#complete').val(data.bills.complete);
 
@@ -125,7 +125,7 @@ bill.getDetail = function (id)
 
             $('#deposit').val(data.bills.deposit);
             $('#payment').val(data.bills.payment);
-            
+
             $('#billModal').find('.modal-title').text("Cập nhật hóa đơn");
             $('#billModal').find('a').text("Cập nhật");
             $("#billModal").modal('show');
@@ -163,10 +163,10 @@ bill.save = function () {
             objAdd.product_id   = $('#product_id').val();
             objAdd.branch_id    = $('#branch_id').val();
             objAdd.staff_id     = $('#staff_id').val();
-            
+
             objAdd.complete     = $("#complete").val();
             objAdd.status       = $("#status").val();
-            
+
             objAdd.delivered_at = $('input[name="delivered_at"]').val();
             objAdd.payment_at   = $('input[name="payment_at"]').val();
             objAdd.deposit      = $('input[name="deposit"]').val();
@@ -179,7 +179,7 @@ bill.save = function () {
                 type: "POST",
                 dataType: "JSON",
                 data: JSON.stringify(objAdd),
-                contentType: 'application/json',    
+                contentType: 'application/json',
                 success: function (data) {
                     console.log(data);
                     $('#billModal').modal('hide');
@@ -238,8 +238,8 @@ bill.save = function () {
                                     $(`.errors-${key}`).text(val);
                                 });
                             }
-                            
-                        }); 
+
+                        });
                     }
                 }
             });
@@ -269,8 +269,8 @@ bill.resetForm = function () {
 
 bill.showModal= function()
 {
-    $('#payment_at').datetimepicker({ 
-        format:'YYYY-MM-DD', 
+    $('#payment_at').datetimepicker({
+        format:'YYYY-MM-DD',
         // locale: 'ru'
     });
 
@@ -283,10 +283,10 @@ bill.showModal= function()
         console.log(this.value);
     });
     // bill.resetForm();
-    $('#billModal').modal('show'); 
+    $('#billModal').modal('show');
 }
 
-bill.init = function() 
+bill.init = function()
 {
     bill.showData();
     bill.getCustomer();
@@ -296,7 +296,7 @@ bill.init = function()
 
 
 $(document).ready(function () {
-    
+
     bill.init();
     $.ajaxSetup({
         headers: {

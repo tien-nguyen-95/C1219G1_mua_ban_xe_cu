@@ -12,16 +12,16 @@ class StaffTableSeeder extends Seeder
      */
     public function run()
     {
-        $staff4 = new Staff();
-        $staff4->name = 'Chí phèo';
-        $staff4->user_id = 1;
-        $staff4->gender = 1;
-        $staff4->birthday = '1995/12/09';
-        $staff4->phone = '0912121314';
-        $staff4->address = '1 Làng Vũ Đại';
-        $staff4->branch_id = 1;
-        $staff4->position_id = 1;
-        $staff4->save();
+        $staff1 = new Staff();
+        $staff1->name = 'Chí phèo';
+        $staff1->user_id = 1;
+        $staff1->gender = 1;
+        $staff1->birthday = '1995/12/09';
+        $staff1->phone = '0912121314';
+        $staff1->address = '1 Làng Vũ Đại';
+        $staff1->branch_id = 1;
+        $staff1->position_id = 1;
+        $staff1->save();
 
         $staff2 = new Staff();
         $staff2->name = 'Thị nở';

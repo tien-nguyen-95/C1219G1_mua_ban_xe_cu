@@ -43,13 +43,13 @@ product.showData = function () {
 
 product.getAllcategory = function () {
     $.ajax({
-        url: "http://127.0.0.1:8000/category",
+        url: "/category",
         method: "GET",
         dataType: "json",
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#category_id").append(`
-                <option  value="${v.id}">${v.name}</option>               
+                <option  value="${v.id}">${v.name}</option>
                 `);
             });
         },
@@ -58,13 +58,13 @@ product.getAllcategory = function () {
 
 product.getAllbrand = function () {
     $.ajax({
-        url: "http://127.0.0.1:8000/brands/json",
+        url: "/brands/json",
         method: "GET",
         dataType: "json",
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#brand_id").append(`
-                <option value="${v.id}">${v.name}</option>               
+                <option value="${v.id}">${v.name}</option>
                 `);
             });
         },
@@ -73,13 +73,13 @@ product.getAllbrand = function () {
 
 product.getAlltag = function () {
     $.ajax({
-        url: "http://127.0.0.1:8000/tag",
+        url: "/tag",
         method: "GET",
         dataType: "json",
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#tag_id").append(`
-                <option value="${v.id}">${v.title}</option>               
+                <option value="${v.id}">${v.title}</option>
                 `);
             });
         },
@@ -88,13 +88,13 @@ product.getAlltag = function () {
 
 product.getAllbranch = function () {
     $.ajax({
-        url: "http://127.0.0.1:8000/branch",
+        url: "/branch/index",
         method: "GET",
         dataType: "json",
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#branch_id").append(`
-                <option value="${v.id}">${v.name}</option>               
+                <option value="${v.id}">${v.name}</option>
                 `);
             });
         },
@@ -103,13 +103,13 @@ product.getAllbranch = function () {
 
 product.getAllStaff = function () {
     $.ajax({
-        url: "http://127.0.0.1:8000/staff",
+        url: "/staff/index",
         method: "GET",
         dataType: "json",
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#staff_id").append(`
-                <option value="${v.id}">${v.name}</option>               
+                <option value="${v.id}">${v.name}</option>
                 `);
             });
         },
@@ -616,3 +616,4 @@ function formatCurrency(input, blur) {
     caret_pos = updated_len - original_len + caret_pos;
     input[0].setSelectionRange(caret_pos, caret_pos);
 }
+
