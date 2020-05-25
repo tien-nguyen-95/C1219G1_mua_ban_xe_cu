@@ -66,5 +66,6 @@
 </div>
 @endsection
 @push('crud-ajax-js')
+    <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/user.js') }}"></script>
 @endpush

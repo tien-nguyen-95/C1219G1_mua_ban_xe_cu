@@ -180,7 +180,7 @@
                     <h4 class="modal-title"><i class="fa fa-user" aria-hidden="true"></i> Khách hàng tạm xóa</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="tbCustomerTrash1">
                     <div class="table-responsive-sm">
                         <table class="table table-sm" id="tbCustomerTrash" width="100%">
                             <thead>
@@ -192,7 +192,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
+
                             </tbody>
                         </table>
                       </div>

@@ -2,7 +2,7 @@ var staff = {} || staff;
 
 staff.showData = function () {
     $.ajax({
-        url: "/staff",
+        url: "/staff/index",
         method: "GET",
         dataType: "json",
         success: function (data) {
@@ -82,7 +82,7 @@ staff.getDetail = function (id) {
             $('#staffModal').find('.modal-title').text("Cập nhật nhân viên");
             $('#staffModal').modal('show');
             $('small.fieldError').remove();
-        }
+        },
     });
 }
 
@@ -154,7 +154,7 @@ staff.restore = function(id){
     let check = confirm("Bạn chắc chắn muốn khôi phục ???")
     if(check){
         $.ajax({
-            url: "/staff_restore/" + id,
+            url: "/staff/restore/" + id,
             method: "GET",
             dataType: "json",
             contentType: 'application/json',
@@ -170,7 +170,7 @@ staff.delete = function(id){
     let check = confirm("Bạn chắc chắn muốn xoá ???")
     if(check){
         $.ajax({
-            url: "/staff_delete/" + id,
+            url: "/staff/delete/" + id,
             method: "GET",
             dataType: "json",
             contentType: 'application/json',
@@ -200,7 +200,7 @@ staff.resetForm = function () {
 
 staff.getTrash = function() {
     $.ajax({
-        url: "staff_trash",
+        url: "staff/trash",
         method: "GET",
         dataType: "json",
         success: function(data) {
@@ -221,6 +221,7 @@ staff.getTrash = function() {
                             <tr>
                                 <th>STT</th>
                                 <th>Tên Nhân viên</th>
+                                <th>Email</th>
                                 <th>Giới tính</th>
                                 <th>Sinh nhật</th>
                                 <th>Điện thoại</th>
@@ -238,20 +239,20 @@ staff.getTrash = function() {
                 `
             );
             $.each(data, function (i, v) {
-                $('#body').find('h1').text('Danh sách Chức vụ xóa tạm');
+                $('#body').find('h1').text('Danh sách Nhân viên xóa tạm');
                 $('#tbTrashStaff tbody').append(
                     `
                     <tr>
                         <td>${++i}</td>
                         <td>${v.name}</td>
-                        <td>${v.user_id}</td>
-                        <td>${v.gender}</td>
-                        <td>${v.birthday}</td>
+                        <td>${v.user.email}</td>
+                        <td>${v.gender?"Nam":"Nữ"}</td>
+                        <td>${dateForm(v.birthday)}</td>
                         <td>${v.phone}</td>
                         <td>${v.image}</td>
-                        <td>${v.position_id}</td>
+                        <td>${v.position.name}</td>
                         <td>${v.address}</td>
-                        <td>${v.branch_id}</td>
+                        <td>${v.branch.name}</td>
                         <td>
                             <a href="javascript:;" title="Phục hồi" style="font-size:30px;color:green" onclick="staff.restore(${v.id})" ><i class="fa fa-trash-restore"></i></a>
                             <a href="javascript:;" title="Xóa vĩnh viễn" style="font-size:30px;color:red" onclick="staff.delete(${v.id})" ><i class="fa fa-trash-alt"></i></a>

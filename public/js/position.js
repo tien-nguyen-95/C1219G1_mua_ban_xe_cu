@@ -2,7 +2,7 @@ var position = {} || position;
 
 position.showData = function () {
     $.ajax({
-        url: "/position",
+        url: "/position/index",
         method: "GET",
         dataType: "json",
         success: function (data) {

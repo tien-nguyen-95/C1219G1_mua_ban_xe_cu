@@ -1,0 +1,12 @@
+.errors-customerName, .errors-staffName, .errors-productName,.errors-statusBill, 
+.errors-branchName, .errors-completeBill, .errors-payment_at,.errors-delivered_at,
+.errors-deposit,.errors-payment {
+    color: red;
+}
+.error {
+    color: red;
+    font-size: 0.8rem;
+    position: relative;
+    line-height: 1;
+    width: 12.5rem;
+}

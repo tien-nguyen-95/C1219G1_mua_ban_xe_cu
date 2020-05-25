@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Services\UserService;
-
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -16,8 +18,12 @@ class UserController extends Controller
                 return $next($request);
             }
             abort(404);
-        });
+        })->except('list');
         $this->userService = $userService;
+    }
+
+    public function list(){
+        return view('admin.user.index');
     }
 
     public function index()
@@ -29,13 +35,21 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $dataUser = $this->userService->findById($id);
+        if(Gate::allows('boss')||$id == Auth::id()){
+            $dataUser = $this->userService->findById($id);
+        }else {
+           abort(401);
+        }
 
         return response()->json($dataUser, 200);
     }
 
     public function update(Request $request, $id){
-        $dataUser = $this->userService->update($request->all(), $id);
+        if(Gate::allows('boss')||$id == Auth::id()){
+            $dataUser = $this->userService->update($request->all(), $id);
+        }else {
+           abort(401);
+        }
         return response()->json($dataUser['users'], $dataUser['statusCode']);
     }
 

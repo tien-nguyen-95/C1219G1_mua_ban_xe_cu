@@ -1,27 +1,9 @@
 var user = {} || user;
 
-function messenger(_text){
-    $.toast({
-        heading: 'Thông báo',
-        text: _text,
-        hideAfter: 3000,
-        position: 'top-center',
-        showHideTransition: 'slide',
-        icon: 'success'
-    })
-}
-
-function printErrorMsg (msg) {
-    console.log(msg);
-    $('span.alert-danger').remove();
-    $.each( msg, function( key, value ) {
-        $(`input[name=${key}]`).before(`<span class="alert-danger" >${value}</span>`);
-    });
-}
 
 user.showData = function() {
     $.ajax({
-        url:"/user",
+        url:"/user/index",
         method: "GET",
         dataType: "json",
         success: function(data){
@@ -57,6 +39,11 @@ user.getDetail = function(id){
             $('#email').text(data.users.email);
             $('#role').text(data.users.role);
             $('#userModal').modal('show');
+        },
+        error: function(res){
+            if(res.status == 401){
+                messenger('Bạn không có quyền thao tác này', 'Cảnh báo', 'error')
+            }
         }
     });
 }
@@ -71,6 +58,11 @@ user.remove = function (id) {
             success: function(data) {
                 user.showData();
                 messenger("Xóa thành công");
+            },
+            error: function(res) {
+                if(res.status == 403){
+                    messenger('Bạn không có quyền thao tác này', 'Cảnh báo', 'error')
+                }
             }
         });
     }

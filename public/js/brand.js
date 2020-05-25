@@ -271,7 +271,7 @@ brand.next = function() {
     $('#btnBrand').replaceWith(
         `
         <div class="col-12 mb-3" id="btnBrand">
-            <a id="trash" href="javascript:;" class="btn btn-warning" onclick="brand.comeback()">Comeback</a>
+            <a id="trash" href="javascript:;" class="btn btn-primary" onclick="brand.comeback()"><i class="fas fa-arrow-circle-left"></i>Quay lại</a>
         </div>
         `
     );
@@ -284,8 +284,8 @@ brand.comeback = function(){
     $('#btnBrand').replaceWith(
         `
         <div class="col-12 mb-3" id="btnBrand">
-            <a id="comeback" href="javascript:;" class="btn btn-success" onclick="brand.showModal()">Create</a>
-            <a id="trash" href="javascript:;" class="btn btn-warning" onclick="brand.next()">Trash</a>
+        <a href="javascript:;" class="btn btn-success" onclick="brand.showModal()" id="comeback"><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm mới</a>
+        <a id="trash" href="javascript:;" class="btn btn-warning" onclick="brand.next()"><i class="fas fa-trash"></i>Thùng rác</a>
         </div>
         `
     );

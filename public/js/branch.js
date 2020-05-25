@@ -2,7 +2,7 @@ var branch = {} || branch;
 
 branch.showData = function () {
     $.ajax({
-        url: "/branch",
+        url: "/branch/index",
         method: "GET",
         dataType: "json",
         success: function (data) {
@@ -125,7 +125,7 @@ branch.restore = function(id){
     let check = confirm("Bạn chắc chắn muốn khôi phục ???")
     if(check){
         $.ajax({
-            url: "/branch_restore/" + id,
+            url: "/branch/restore/" + id,
             method: "GET",
             dataType: "json",
             contentType: 'application/json',
@@ -141,7 +141,7 @@ branch.delete = function(id){
     let check = confirm("Bạn chắc chắn muốn xoá ???")
     if(check){
         $.ajax({
-            url: "/branch_delete/" + id,
+            url: "/branch/delete/" + id,
             method: "GET",
             dataType: "json",
             contentType: 'application/json',
@@ -165,7 +165,7 @@ branch.resetForm = function () {
 
 branch.getTrash = function() {
     $.ajax({
-        url: "branch_trash",
+        url: "branch/trash",
         method: "GET",
         dataType: "json",
         success: function(data) {

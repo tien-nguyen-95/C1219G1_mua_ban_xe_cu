@@ -19,10 +19,10 @@ class CreateBillsTable extends Migration
             $table->integer('product_id');
             $table->integer('staff_id');
             $table->integer('branch_id');
-            $table->integer('deposit');
-            $table->integer('payment');
-            $table->boolean('status');
-            $table->boolean('complete');
+            $table->integer('deposit');// tiền đặt cọc
+            $table->integer('payment');// tổng tiền phải trả
+            $table->boolean('status'); // hóa đơn mua:true, hóa đơn bán:false
+            $table->boolean('complete'); // true:đá hoàn thành kiểm tra thanh toán
             $table->date('payment_at');
             $table->date('delivered_at');
             $table->timestamps();

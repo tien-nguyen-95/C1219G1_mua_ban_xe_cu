@@ -1,26 +1,15 @@
 <?php
-
-
 namespace App\Services;
 
-interface ProductService
+interface BillService
 {
-    public function getAllJoin();
-
-    public function findByIdJoin($id);
-
+    public function getAll();
+    public function findById($id);
     public function create($request);
-
     public function update($request, $id);
-
     public function destroy($id);
-
-    //  các hàm xóa mềm
     public function getTrash();
-
     public function restore($id);
-
     public function delete($id);
-    //
+    
 }
-?>

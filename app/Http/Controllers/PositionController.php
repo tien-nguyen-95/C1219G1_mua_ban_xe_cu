@@ -19,8 +19,13 @@ class PositionController extends Controller
                 return $next($request);
             }
             abort(404);
-        });
+        })->except('list');
         $this->positionService = $positionService;
+    }
+
+    public function list()
+    {
+        return view('admin.position.index');
     }
 
     public function index()
