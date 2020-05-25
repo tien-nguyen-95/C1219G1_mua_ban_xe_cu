@@ -63,7 +63,7 @@
 
                 <a href="/products" class="nav-link collapsed">
                     <i class="fas fa-list"></i>
-                    <span>Khách hàng</span>
+                    <span>Quản lý sản phẩm</span>
                 </a>
                 <div id="collapseUser" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">

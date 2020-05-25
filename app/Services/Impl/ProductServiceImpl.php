@@ -20,9 +20,9 @@ class ProductServiceImpl implements ProductService
         return $products;
     }
 
-    public function findById($id)
+    public function findByIdJoin($id)
     {
-        $product = $this->productRepository->findById($id);
+        $product = $this->productRepository->findByIdJoin($id);
 
         $statusCode = 200;
         if(!$product)
@@ -53,10 +53,10 @@ class ProductServiceImpl implements ProductService
 
     public function update($request,$id)
     {
-        $oldProduct= $this->productRepository->findById($id);
+        $oldProduct= $this->productRepository->findByIdJoin($id);
 
         if(!$oldProduct) {
-            $newBrand = null;
+            $newProduct = null;
             $statusCode = 404;
         }else {
             $newProduct = $this->productRepository->update($request,$oldProduct);
@@ -73,7 +73,7 @@ class ProductServiceImpl implements ProductService
 
     public function destroy($id)
     {
-        $product = $this->productRepository->findById($id);
+        $product = $this->productRepository->findByIdJoin($id);
 
         $statusCode = 404;
         $message = "Not Found";
@@ -91,7 +91,7 @@ class ProductServiceImpl implements ProductService
 
         return $data;
     }
-    public function getAlltrash() 
+    public function getTrash() 
     {
         $products = $this->productRepository->getTrash();
 

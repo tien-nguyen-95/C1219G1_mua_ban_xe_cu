@@ -34,22 +34,14 @@ class ProductController extends Controller
     }
     public function show($id)
     {
-
-        $dataProduct = $this->productService->findById($id);
-        // $dataProduct[0]->branch_id = "sss";
-        // $dataProduct->sida = "Haha";
-        $dataProduct['products']->brand_id = 'ádfsafc';
-        // $dataProduct->branch_id   = $dataProduct->branch->name;
-
-        // $dataProduct->brand_id  = $dataProduct->brand->name;
-        // $dataProduct->tag_id  = $dataProduct->tag->name;
-        // $dataProduct->category_id   = $dataProduct->category->name;
-
+        $dataProduct = $this->productService->findByIdJoin($id);
+       
         return response()->json($dataProduct['products'], $dataProduct['statusCode']);
     }
 
     public function store(ProductFormRequest $request)
     {
+        // return $request;
         // if ($request->hasFile('image'))
         // {
         //     $file = $request->file('image');
@@ -60,7 +52,7 @@ class ProductController extends Controller
         //     $image = Str::random(5) . "_" . $name_image;
         //     }
         //     $file->move("img/banner", $image);
-
+        
         $dataProduct = $this->productService->create($request->all());
 
         return response()->json($dataProduct['products'], $dataProduct['statusCode']);
@@ -85,20 +77,10 @@ class ProductController extends Controller
     // các hàm xóa mềm
     public function trash()
     {
-        $trashs = $this->productService->getAlltrash();
-        foreach ($trashs  as $trash) {
-            $trashs->branch_id   = $trash->branch->name;
-            $trashs->brand_id  = $trash->brand->name;
-            $trashs->tag_id  = $trash->tag->name;
-            $trashs->category_id   = $trash->category->name;
-        }
-
+        $trashs = $this->productService->getTrash();
+     
         return response()->json($trashs, 200);
     }
-
-    // public function history() {
-    //     return view('admin.product.history');
-    // }
 
     public function restore($id)
     {

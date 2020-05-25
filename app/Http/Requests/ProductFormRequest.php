@@ -24,10 +24,22 @@ class ProductFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required| min:1 | max:100 | unique:products,code,'.$this->id.'id',
-            'name' => 'required| min:2 | max:50 | unique:products,name,'.$this->id.'id',
-            'import_price'=>'required|integer|min:1',
-            'export_price'=>'required|integer|min:1'
+            'code' => 'required|max:20 | unique:products,code,' . $this->id . 'id',
+            // 'inputtitle' => 'required',
+            'name' => 'required| min:5 | max:255',
+            'model_year' => 'required',
+            'register_year' => 'required',
+            'miles' => 'required|integer|min:1|max:1000000',
+            'color' => 'required|string|min:2|max:20',
+            'origin' => 'required|string|min:3|max:50',
+            'import_price' => 'required|min:4|max:10',
+            'export_price' => 'required|min:4|max:10',
+            'branch_id' => 'required',
+            'brand_id' => 'required',
+            'tag_id' => 'required',
+            'category_id' => 'required',
+            'staff_id' => 'required'
+
         ];
     }
 
@@ -35,19 +47,51 @@ class ProductFormRequest extends FormRequest
     {
         return [
             'code.required' => 'Vui lòng điền thông tin !',
-            'code.min' => 'Vui lòng nhập ít nhất là 1 kí tự !',
-            'code.max' => 'Vui lòng nhập dưới 100 kí tự !',
+            'code.max' => 'Vui lòng nhập dưới 20 kí tự !',
             'code.unique' => 'Mã khách hàng đã tồn tại !',
+
+         
+            // 'inputtitle.required' => 'Vui lòng điền thông tin !',
+            // 'inputtitle.min' => 'Vui lòng nhập ít nhất là 5 kí tự !',
+            // 'inputtitle.max' => 'Vui lòng nhập dưới 255 kí tự !',
+
+
             'name.required' => 'Vui lòng điền thông tin !',
-            'name.min' => 'Vui lòng nhập ít nhất là 2 kí tự !',
-            'name.max' => 'Vui lòng nhập dưới 50 kí tự !',
-            'name.unique' => 'Tên khách hàng đã tồn tại !',
-            'import_price.required' => 'Vui lòng nhập số tiền !',
-            'import_price.integer' => 'Số tiền phải là dạng số !',
-            'import_price.min' => 'Số tiền phải lớn hơn 0 !',
-            'export_price.required' => 'Vui lòng nhập số tiền !',
-            'export_price.integer' => 'Số tiền phải là dạng số !',
-            'export_price.min' => 'Số tiền phải lớn hơn 0 !'
+            'name.min' => 'Vui lòng nhập ít nhất là 5 kí tự !',
+            'name.max' => 'Vui lòng nhập dưới 255 kí tự !',
+
+            'model_year.required' => 'Vui lòng chọn thông tin !',
+
+            'register_year.required' => 'Vui lòng chọn thông tin !',
+
+            'miles.required' => 'Vui lòng điền thông tin !',
+            'miles.integer' => 'Vui lòng điền dưới dạng số !',
+            'miles.min' => 'Vui lòng nhập ít nhất là 1 kí tự !',
+            'miles.max' => 'Vui lòng nhập dưới 10 kí tự !',
+
+            'color.required' => 'Vui lòng điền thông tin !',
+            'color.string' => 'Vui lòng điền dưới dạng chữ !',
+            'color.min' => 'Vui lòng nhập ít nhất là 2 kí tự !',
+            'color.max' => 'Vui lòng nhập dưới 20 kí tự !',
+
+            'origin.required' => 'Vui lòng điền thông tin !',
+            'origin.string' => 'Vui lòng điền dưới dạng chữ !',
+            'origin.min' => 'Vui lòng nhập ít nhất là 3 kí tự !',
+            'origin.max' => 'Vui lòng nhập dưới 50 kí tự !',
+
+            'import_price.required' => 'Vui lòng điền thông tin !',
+            'import_price.min' => 'Vui lòng nhập ít nhất là 4 kí tự !',
+            'import_price.max' => 'Vui lòng nhập dưới 10 kí tự !',
+
+            'export_price.required' => 'Vui lòng điền thông tin !',
+            'export_price.min' => 'Vui lòng nhập ít nhất là 4 kí tự !',
+            'export_price.max' => 'Vui lòng nhập dưới 10 kí tự !',
+
+            'branch_id.required' => 'Vui lòng chọn thông tin !',
+            'brand_id.required' => 'Vui lòng chọn thông tin !',
+            'tag_id.required' => 'Vui lòng chọn thông tin !',
+            'category_id.required' => 'Vui lòng chọn thông tin !',
+            'staff_id.required' => 'Vui lòng chọn thông tin !',
         ];
     }
 }
