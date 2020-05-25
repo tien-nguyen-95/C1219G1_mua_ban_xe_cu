@@ -1,5 +1,9 @@
 <?php
 
+use App\Branch;
+use App\Customer;
+use App\Product;
+use App\Staff;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,10 +17,10 @@ class BillTableSeeder extends Seeder
     public function run()
     {
         DB::table('bills')->insert([
-            'customer_id' => 13,
-            'product_id' => 2,
-            'staff_id' => 1,
-            'branch_id' => 1,
+            'customer_id' => rand(1,Customer::count()),
+            'product_id' => rand(1,Product::count()),
+            'staff_id' => rand(1,Staff::count()),
+            'branch_id' => rand(1,Branch::count()),
             'deposit' => 10000,
             'payment' => 100000,
             'status' => false,
@@ -26,10 +30,10 @@ class BillTableSeeder extends Seeder
         ]);
 
         DB::table('bills')->insert([
-            'customer_id' => 14,
-            'product_id' => 3,
-            'staff_id' => 1,
-            'branch_id' => 1,
+            'customer_id' => rand(1,Customer::count()),
+            'product_id' => rand(1,Product::count()),
+            'staff_id' => rand(1,Staff::count()),
+            'branch_id' => rand(1,Branch::count()),
             'deposit' => 10000,
             'payment' => 100000,
             'status' => false,
