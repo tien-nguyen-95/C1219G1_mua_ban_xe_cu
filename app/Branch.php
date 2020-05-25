@@ -9,7 +9,11 @@ class Branch extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'branches';
+    // protected $table = 'branches';
 
     protected $fillable = ['name','phone','address'];
+
+    public function bills(){
+
+    }
 }

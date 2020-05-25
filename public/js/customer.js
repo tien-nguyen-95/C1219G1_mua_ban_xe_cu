@@ -199,7 +199,13 @@ customer.resetForm = function () {
 
 customer.show = function(id) {
     // console.log("show");
-    $("#thongtin").modal('show');
+    // $('p#id').text();
+    // $('p#name').text();
+    // $('p#phone').text();
+    // $('p#email').text();
+    // $('p#address').text();
+    // $('p#created_at').text();
+    // $('p#updated_at').text();
     $.ajax({
         type: "GET",
         url: "/customer/" + id,
@@ -214,8 +220,11 @@ customer.show = function(id) {
             $('p#address').text(data.address);
             $('p#created_at').text(data.created_at);
             $('p#updated_at').text(data.updated_at);
+
+            $("#thongtin").modal('show');
         }
     });
+    
 }
 
 customer.getDataTrash = function(){
@@ -233,8 +242,8 @@ customer.getDataTrash = function(){
                         <td>${v.email}</td>  
                         <td>${v.deleted_at}</td>
                         <td>
-                            <a href="javascript:;" onclick="customer.restore(${v.id})"><i class="fa fa-retweet"></i></a>
-                            <a href="javascript:;" onclick="customer.delete(${v.id})"><i class="fa fa-times"></i></a>
+                            <a href="javascript:;" class="text-primary mx-auto btn" onclick="customer.restore(${v.id})" title="Khôi phục"><i class="fa fa-retweet"></i></a>
+                            <a href="javascript:;" class="text-danger mx-auto btn" onclick="customer.delete(${v.id})" title="Xóa vĩnh viễn"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                     `
@@ -305,7 +314,6 @@ customer.delete = function(id){
 customer.showModal = function(){
     customer.resetForm();
     $('#customerModal').modal('show');
-
 }
 
 

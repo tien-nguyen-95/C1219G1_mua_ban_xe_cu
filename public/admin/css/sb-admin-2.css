@@ -2207,8 +2207,15 @@ textarea.form-control {
   .form-inline .custom-control-label {
     margin-bottom: 0;
   }
+  #tbCustomerTrash1{
+    background-color: black !important;
+    display: none;
+  }
 }
-
+#tbCustomerTrash1{
+  background-color: black !important;
+  display: none;
+}
 .btn {
   display: inline-block;
   font-weight: 400;

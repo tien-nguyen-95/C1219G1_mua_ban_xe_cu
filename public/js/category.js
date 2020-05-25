@@ -24,7 +24,7 @@ category.showData = function () {
         url: "/category",
         method: "GET",
         dataType: "json",
-        success: function (data) {
+        success: function (data) {  
             $('#tbCategory tbody').empty();
             $.each(data, function (i, v) {
                 $('#tbCategory tbody').append(
@@ -34,8 +34,8 @@ category.showData = function () {
                         <td>${v.name}</td>  
                         <td>${v.created_at}</td>
                         <td>
-                            <a href="javascript:;" onclick="category.getDetail(${v.id})"><i class="fa fa-edit"></i></a>
-                            <a href="javascript:;" onclick="category.remove(${v.id})"><i class="fa fa-trash"></i></a>
+                            <a href="javascript:;" class="text-primary mx-auto btn" onclick="category.getDetail(${v.id})"><i class="fa fa-edit"></i></a>
+                            <a href="javascript:;" class="text-warning mx-auto btn" onclick="category.remove(${v.id})"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                     `
@@ -61,8 +61,8 @@ category.showTrash = function(){
                         <td>${v.name}</td>  
                         <td>${v.deleted_at}</td>
                         <td>
-                            <a href="javascript:;" onclick="category.restore(${v.id})"><i class="fa fa-retweet"></i></a>
-                            <a href="javascript:;" onclick="category.delete(${v.id})"><i class="fa fa-times"></i></a>
+                            <a href="javascript:;" class="text-dark mx-auto btn" onclick="category.restore(${v.id})"><i class="fa fa-retweet"></i></a>
+                            <a href="javascript:;" class="text-danger mx-auto btn" onclick="category.delete(${v.id})"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                     `

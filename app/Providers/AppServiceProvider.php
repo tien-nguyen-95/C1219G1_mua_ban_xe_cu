@@ -35,6 +35,12 @@ use App\Repositories\Impl\CustomerRepositoryImpl;
 use App\Services\CustomerService;
 use App\Services\Impl\CustomerServiceImpl;
 
+
+use App\Repositories\BillRepository;
+use App\Repositories\Impl\BillRepositoryImpl;
+use App\Services\BillService;
+use App\Services\Impl\BillServiceImpl;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -94,6 +100,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             CustomerService::class,
             CustomerServiceImpl::class
+        );
+
+        $this->app->singleton(
+            BillRepository::class,
+            BillRepositoryImpl::class
+        );
+
+        $this->app->singleton(
+            BillService::class,
+            BillServiceImpl::class
         );
 
         $this->app->singleton(
