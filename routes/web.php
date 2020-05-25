@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -51,6 +52,13 @@ Route::view('customer-list', 'admin.customer.index')->name('customer.list');
 Route::get('customer-trash', 'CustomerController@trash');
 Route::put('customer-restore/{id}', 'CustomerController@restore');
 Route::delete('customer-delete/{id}', 'CustomerController@delete');
+//bill
+Route::resource('bill', 'BillController');
+Route::view('bill-list', 'admin.bill.index')->name('bill.list');
+
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+});
 
 // branch
 Route::resource('branch', 'BranchController');
@@ -87,7 +95,11 @@ Route::prefix('brands')->group(function(){
     Route::delete('/{id}','BrandController@destroy');
 });
 
+
+Auth::routes();
+
 Route::prefix('products')->group(function(){
+
 
     Route::get('/trash','ProductController@trash');
 
