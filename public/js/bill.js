@@ -21,10 +21,12 @@ function printErrorMsg (msg) {
     });
 }
 
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+
 bill.showData = function(){
-    function formatNumber (num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-    }
+    
     bill.table = $('#tbBill').DataTable({
         ajax: {
             url : "/bill",
@@ -33,8 +35,16 @@ bill.showData = function(){
                     var billType = null;
                     var billComplete = null;
                     var payment = formatNumber(obj.payment) + ' VNĐ';
-                    (obj.status == 0 ) ? billType = 'Mua': billType = 'Bán';
-                    (obj.complete == 0) ? billComplete = 'Đã hoàn thành': billComplete = 'Chưa hoàn thành';
+                    if(obj.status == 0 ){
+                        billType = '<h5><span class="badge badge-primary">Mua</span></h5>';
+                    }else{
+                         billType = '<h5><span class="badge badge-warning">Bán</span></h5>';
+                    }
+                    if(obj.complete == 0){
+                        billComplete = '<h5><span class="badge badge-pill badge-light">Đã hoàn thành</span></h5>';
+                    }else{
+                        billComplete = '<h5><span class="badge badge-pill badge-dark">Chưa hoàn thành</span></h5>';
+                    } 
                     return {
                         customer_name: obj.customer.name,
                         branch_name: obj.branch.name,
@@ -75,10 +85,100 @@ bill.getCustomer = function ()
                     <option value="${v.id}">${v.name}</option>
                     `
                 );
+            });      
+        }
+    });
+    
+}
+
+bill.getProduct = function ()
+{ 
+    $.ajax({
+        type: "GET",
+        url: "/products/json",
+        dataType: "JSON",
+        success: function (data) {
+            // $("#branch_id").empty();
+            $.each(data, function(i,v){
+                // console.log('prduct: ' + v.name);
+                $("#product_id").append(
+                    `
+                    <option value="${v.id}">${v.title}</option>
+                    `
+                );
+            });       
+        }
+    });
+}
+
+bill.getPayment = function()
+{
+    $("#status").change(function () { 
+        var status1 = $(this).val();
+        if (status1  == '') {
+            console.log('sản phẩm chưa có');
+            $("#payment").text('0');
+        }else{
+            // $("#product_id").change(function(){
+                var productId1 = $("#product_id").find(":selected").val()
+                if(productId1 == ''){
+                    $("#payment").text('0');
+                }else{
+                    $.ajax({
+                        type: "GET",
+                        url: "/products/" + productId1,
+                        data: status1,
+                        dataType: "JSON",
+                        success: function (data) {
+                            if (status1 === '0') {
+                                $("span#payment").text(formatNumber(data.import_price) + " VNĐ");
+                                $('input:hidden[name=payment]').val(data.import_price);
+                                console.log('giá mua1');
+                            } else {
+                                $("span#payment").text(formatNumber(data.export_price) + " VNĐ");
+                                $('input:hidden[name=payment]').val(data.export_price);
+                                console.log('giá bán1');
+                            } 
+                        } 
+                    });
+                }
+               
+            // });
+        }  
+    });
+  
+    $("#product_id").change(function(){
+        var productId = $("#product_id").val();
+        console.log(productId);
+        if(productId == ''){
+            $("#payment").text('0');
+        }else{
+            $.ajax({
+                type: "GET",
+                url: "/products/" + productId,
+                dataType: "JSON",
+                success: function (data) {
+                    console.log(data);
+                    var statusBill = $("#status").find(":selected").val()
+                    if(statusBill == ''){
+                        $("#payment").text('0');
+                    }else{
+                        if(statusBill === '0'){
+                            $("span#payment").text(formatNumber(data.import_price) + " VNĐ");
+                            $('input:hidden[name=payment]').val(data.import_price);
+                            console.log('giá mua2');
+                        }else{
+                            $("span#payment").text(formatNumber(data.export_price) + " VNĐ");
+                            $('input:hidden[name=payment]').val(data.export_price);
+                            console.log('giá bán 2');
+                        }   
+                    }                                 
+                } 
             });
         }
     });
 }
+
 
 bill.getBranch = function ()
 {
@@ -141,14 +241,23 @@ bill.showDetail = function ()
         dataType: "JSON",
         success: function (data) {
             // console.log(data.name);
-            $('p#id').text(data.id);
-            $('p#name').text(data.name);
-            $('p#phone').text(data.phone);
-            $('p#email').text(data.email);
-            $('p#address').text(data.address);
-            $('p#created_at').text(data.created_at);
-            $('p#updated_at').text(data.updated_at);
+            
+            $("#billId").val(data.bills.id);
+            $("#customer_id").val(data.bills.customer_id);
+            
+            $("#staff_id").val(data.bills.staff_id);
+            $("#product_id").val(data.bills.product_id);
+            $("#branch_id").val(data.bills.branch_id);
+        
+            $('#status').val(data.bills.status);
+            $('#complete').val(data.bills.complete);
 
+            $('input[name="payment_at"]').val(data.bills.payment_at);
+            $('input[name="delivered_at"]').val(data.bills.delivered_at);
+
+            $('#deposit').val(data.bills.deposit);
+            $('#payment').val(data.bills.payment);
+        
             $("#thongtin").modal('show');
         }
     });
@@ -162,7 +271,7 @@ bill.save = function () {
             objAdd.customer_id  = $('#customer_id').val();
             objAdd.product_id   = $('#product_id').val();
             objAdd.branch_id    = $('#branch_id').val();
-            objAdd.staff_id     = $('#staff_id').val();
+            objAdd.staff_id     = ($('input#staff_id').val())
 
             objAdd.complete     = $("#complete").val();
             objAdd.status       = $("#status").val();
@@ -171,8 +280,8 @@ bill.save = function () {
             objAdd.payment_at   = $('input[name="payment_at"]').val();
             objAdd.deposit      = $('input[name="deposit"]').val();
             objAdd.payment      = $('input[name="payment"]').val();
-
-            console.log(objAdd);
+            $(".sml-er").empty();
+            console.log(objAdd.staff_id);
 
             $.ajax({
                 url: "/bill",
@@ -249,9 +358,9 @@ bill.save = function () {
 
 
 bill.resetForm = function () {
+    $(".sml-er").empty();
     $('#billId').val("0");
     $('#customer_id').val("");
-    $('#staff_id').val("");
     $('#product_id').val("");
     $('#branch_id').val("");
     $('#status').val("");
@@ -259,7 +368,7 @@ bill.resetForm = function () {
     $('input[name="payment_at"]').val("");
     $('input[name="delivered_at"]').val("");
     $('#deposit').val("");
-    $('#payment').val("");
+    $('#payment').text("");
     $('#formBill').find('.modal-title').text("Thêm hóa đơn mới");
     $('#formBill').find('a').text('Thêm');
     var form = $('#formBill').validate();
@@ -269,9 +378,9 @@ bill.resetForm = function () {
 
 bill.showModal= function()
 {
+    
     $('#payment_at').datetimepicker({
         format:'YYYY-MM-DD',
-        // locale: 'ru'
     });
 
     $('#delivered_at').datetimepicker({
@@ -282,16 +391,18 @@ bill.showModal= function()
         this.value = this.value.replace(/[^0-9]/g, '');
         console.log(this.value);
     });
-    // bill.resetForm();
+
+    bill.resetForm();
     $('#billModal').modal('show');
 }
 
 bill.init = function()
 {
     bill.showData();
+    bill.getProduct();
     bill.getCustomer();
     bill.getBranch();
-    // $(".select2").select2();
+    bill.getPayment();  
 }
 
 

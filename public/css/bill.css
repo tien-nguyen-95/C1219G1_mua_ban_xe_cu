@@ -1,6 +1,4 @@
-.errors-customerName, .errors-staffName, .errors-productName,.errors-statusBill, 
-.errors-branchName, .errors-completeBill, .errors-payment_at,.errors-delivered_at,
-.errors-deposit,.errors-payment {
+.sml-er{
     color: red;
 }
 .error {
