@@ -168,15 +168,15 @@
                 <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                 Activity Log
             </a>
-            {{-- <a class="dropdown-item" href="{{ route('logout') }}"
+            <a class="dropdown-item" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i>
                 {{ __('Logout') }}
-            </a> --}}
+            </a>
 
-            {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
-            </form> --}}
+            </form>
         </div>
       </li>
 

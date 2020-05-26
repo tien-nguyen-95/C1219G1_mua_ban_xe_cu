@@ -4,7 +4,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Auth::routes();
+Auth::routes();
 
 
 //tag
@@ -147,9 +147,6 @@ Route::prefix('brands')->group(function(){
 
     Route::delete('/{id}','BrandController@destroy');
 });
-
-
-// Auth::routes();
 
 Route::prefix('products')->group(function(){
 
