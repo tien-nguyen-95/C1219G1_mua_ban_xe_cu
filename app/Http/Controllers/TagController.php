@@ -37,7 +37,7 @@ class TagController extends Controller
         return response()->json($dataTag['tags'], $dataTag['statusCode']);
     }
 
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
         $dataTag = $this->tagService->create($request->all());
 

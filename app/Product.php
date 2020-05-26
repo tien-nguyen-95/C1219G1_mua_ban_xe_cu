@@ -27,7 +27,7 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function tag() 
+    public function tag()
     {
         return $this->belongsTo(Tag::class);
     }
@@ -36,9 +36,15 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+
+    public function guarantees()
+    {
+        return $this->hasMany(Guarantee::class,'product_id','id');
+
     public function staff()
     {
         return $this->belongsTo(Staff::class);
+
     }
 
 }

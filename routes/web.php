@@ -172,4 +172,8 @@ Route::prefix('products')->group(function(){
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
 Route::view('/welcome', 'welcome');
+
