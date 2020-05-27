@@ -17,7 +17,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Guarantee::class);
     }
-    public function bills(){
+
+    public function bills()
+    {
         return $this->hasMany(Bill::class, 'customer_id', 'id');
     }
 

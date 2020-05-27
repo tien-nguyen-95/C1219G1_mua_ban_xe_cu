@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -149,9 +150,7 @@ Route::group(['middleware' => 'auth', 'prefix'=>'/brands'], function (){
     Route::delete('/{id}','BrandController@destroy');
 });
 
-
 Route::prefix('products')->group(function(){
-
 
     Route::get('/trash','ProductController@trash');
 
@@ -162,6 +161,8 @@ Route::prefix('products')->group(function(){
     Route::get('/{id}/restore','ProductController@restore');
 
     Route::post('/create','ProductController@store');
+
+    Route::post('/upload','FileController@storeFile')->name('upload.file');
 
     Route::get('/{id}','ProductController@show');
 
@@ -174,7 +175,9 @@ Route::prefix('products')->group(function(){
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-
+//shop
 Route::view('/welcome', 'welcome')->name('welcome');
 
-Route::view('/product-detail','product')->name('see-more');
+Route::get('/product-detail/{id}','ShopController@detail')->name('see-more');
+
+Route::get('/filter-product/filter','ShopController@filter');

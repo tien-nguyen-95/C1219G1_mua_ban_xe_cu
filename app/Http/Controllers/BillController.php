@@ -25,7 +25,7 @@ class BillController extends Controller
     public function show($id)
     {
         $dataBill = $this->billService->findById($id);
-
+        dd($dataBill->customer->name);
         return response()->json($dataBill['bills'], $dataBill['statusCode']);
     }
 

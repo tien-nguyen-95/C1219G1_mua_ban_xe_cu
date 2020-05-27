@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mua bán xe cũ</title>
+    <base href="{{ asset('') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('shop/css/slide.css') }}">
     <style>
         .nav-link{
             color: black;
+        }
+        .nav-link :hover{
+            color: red important!!!;
         }
     </style>
 </head>
@@ -34,36 +38,31 @@
     <nav class="navbar navbar-expand-sm border justify-content-center">
         <ul class="navbar-nav">
             <li class="nav-item"><a href="{{ route('welcome') }}" class="nav-link"><i class="fa fa-home"></i></a></li>
-            <li class="nav-item"><a href="" class="nav-link">Xe phân khối lớn</a></li>
-            <li class="nav-item"><a href="" class="nav-link">Xe độ</a></li>
+            <li class="nav-item"><a href="{{ route('welcome') }}" class="nav-link">Tất cả</a></li>
             <!-- Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                     Loại xe
                 </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Link 1</a>
-                    <a class="dropdown-item" href="#">Link 2</a>
-                    <a class="dropdown-item" href="#">Link 3</a>
+                <div class="dropdown-menu" id="category-menu">
+
                 </div>
             </li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    Phân khối
+                    Thương hiệu
                 </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Link 1</a>
-                    <a class="dropdown-item" href="#">Link 2</a>
-                    <a class="dropdown-item" href="#">Link 3</a>
+                <div class="dropdown-menu" id="brand-menu">
+
                 </div>
             </li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    Xuất sứ
+                    Chi nhánh
                 </a>
-                <div class="dropdown-menu" id="origin">
+                <div class="dropdown-menu" id="branch-menu">
 
                 </div>
             </li>
@@ -74,6 +73,13 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
+            @if(count($product->files)>0)
+                @foreach ( $product->files as $img )
+                    <div class="mySlides">
+                        <img src="{{ asset('/img/banner/'.$img->name) }}" style="width:100%;height:445px">
+                    </div>
+                @endforeach
+            @else
                 <div class="mySlides">
                   <div class="numbertext">1 / 6</div>
                   <img src="{{ asset('shop/img/darkrai1.jpg') }}" style="width:100%;height:445px">
@@ -103,6 +109,7 @@
                   <div class="numbertext">6 / 6</div>
                   <img src="{{ asset('shop/img/darkrai6.jpg') }}" style="width:100%;height:445px">
                 </div>
+            @endif
 
                 <a class="prev" onclick="plusSlides(-1)">❮</a>
                 <a class="next" onclick="plusSlides(1)">❯</a>
@@ -110,7 +117,13 @@
                 <div class="caption-container">
                   <p id="caption"></p>
                 </div>
-
+                @if(count($product->files)>0)
+                @foreach ( $product->files as $key=>$img )
+                    <div class="column">
+                        <img class="demo cursor" src="{{ asset('/img/banner/'.$img->name) }}" style="width:90px;height:86px" onclick="currentSlide({{ $key+1 }})" alt="Ảnh {{ $key+1 }}">
+                      </div>
+                @endforeach
+                @else
                 <div class="row">
                   <div class="column">
                     <img class="demo cursor" src="{{ asset('shop/img/darkrai1.jpg') }}" style="width:100%" onclick="currentSlide(1)" alt="Ảnh 1">
@@ -131,11 +144,12 @@
                     <img class="demo cursor" src="{{ asset('shop/img/darkrai6.jpg') }}" style="width:100%" onclick="currentSlide(6)" alt="Ảnh 6">
                   </div>
                 </div>
+                @endif
 
         </div>
         <div class="col-6">
-            <h3 class="text-center my-1 py-1">Thông tin xe</h3>
-            <h4 class="text-danger">100.000.000 đ</h4>
+            <h3 class="text-center my-5 py-3">Thông tin xe</h3>
+            <h4 class="text-danger">Giá: {{ number_format($product->export_price)." đ" }}</h4>
             <div class="form-group">
                 <div class="form-control">
                     <div class="row">
@@ -143,7 +157,17 @@
                             Dòng xe:
                         </div>
                         <div class="col-7">
-                            Đang cập nhật
+                            {{ $product->name?? 'Đang cập nhật' }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-control">
+                    <div class="row">
+                        <div class="col-5">
+                            Màu:
+                        </div>
+                        <div class="col-7">
+                            {{ $product->color?? 'Đang cập nhật' }}
                         </div>
                     </div>
                 </div>
@@ -153,7 +177,7 @@
                             Đã đi:
                         </div>
                         <div class="col-7">
-                            Đang cập nhật
+                            {{ $product->miles? $product->miles.' km':'Đang cập nhật' }}
                         </div>
                     </div>
                 </div>
@@ -163,7 +187,7 @@
                             Đời xe:
                         </div>
                         <div class="col-7">
-                            Đang cập nhật
+                            {{ $product->model_year?? 'Đang cập nhật' }}
                         </div>
                     </div>
                 </div>
@@ -173,7 +197,7 @@
                             Loại xe:
                         </div>
                         <div class="col-7">
-                            Đang cập nhật
+                            {{ $product->category->name?? 'Đang cập nhật' }}
                         </div>
                     </div>
                 </div>
@@ -183,17 +207,17 @@
                             Xuất sứ:
                         </div>
                         <div class="col-7">
-                            Đang cập nhật
+                            {{ $product->origin?? 'Đang cập nhật' }}
                         </div>
                     </div>
                 </div>
                 <div class="form-control">
                     <div class="row">
                         <div class="col-5">
-                            Phân phối:
+                            Phân khối:
                         </div>
                         <div class="col-7">
-                            Đang cập nhật
+                            {{ $product->cc?? 'Đang cập nhật' }}
                         </div>
                     </div>
                 </div>
@@ -203,7 +227,7 @@
                             Chi nhánh bán:
                         </div>
                         <div class="col-7">
-                            Đang cập nhật
+                            {{ $product->branch->name?? 'Đang cập nhật' }}
                         </div>
                     </div>
                 </div>
@@ -233,4 +257,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <script src="{{ asset('/shop/js/showSlide.js') }}"></script>
+<script src="{{ asset('/shop/js/shop.js') }}"></script>
+</html>
 </html>
