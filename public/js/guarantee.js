@@ -34,15 +34,13 @@
             error : function(e){
                 console.log(e);
             }
-
         });
     }
     guarantee.showModal = function (){
         guarantee.resetForm();
-        // guarantee.getAllForeign();
-
         $('#addEditGuarantee').modal('show');
     }
+
     guarantee.remove = function (id) {
         bootbox.confirm({
             title: "Tạm xóa dịch vụ?",
@@ -72,6 +70,7 @@
             }
         });
     }
+
     guarantee.getModalDetail = function (id){
         $.ajax({
             url: "http://127.0.0.1:8000/guarantee/" + id,
@@ -86,13 +85,12 @@
                 $('#nameBranch').text(data.branch.name);
                 $('#dateIn').text(data.date_in);
                 $('#dateOut').text(data.date_out);
-
-
-
             }
         });
         $('#showModalDetail').modal('show');
     }
+
+
     guarantee.resetForm = function (){
 
         $('#Product').val("");
@@ -109,6 +107,8 @@
         var form = $('#formAddEditGuarantee').validate();
         form.resetForm();
     }
+
+
     guarantee.getEdit = function (id){
         guarantee.resetForm();
         $.ajax({
@@ -127,87 +127,87 @@
                 $('#Date-out').val(data.date_out);
                 $('#addEditGuarantee').find('.modal-title').text("Sửa dịch vụ");
                 $('.modal-footer').find('a').text('Sửa');
-
-
-
             }
         });
         guarantee.showModal();
     }
+
+
     guarantee.save = function () {
-        if ($('#formAddEditGuarantee').valid()) {
-            // create
-            if ($('#GuaranteeId').val() == 0) {
-                var objAdd = {};
-                objAdd.product_id = $('#Product').val();
-                objAdd.customer_id = $('#Customer').val();
-                objAdd.issue = $('#Issue').val();
-                objAdd.branch_id = $('#Branch').val();
-                objAdd.staff_id = $('#Staff').val();
-                objAdd.date_in = $('#Date-in').val();
-                objAdd.date_out = $('#Date-out').val();
+        if(guarantee.compareDate()){
+            if ($('#formAddEditGuarantee').valid()) {
+                // create
+                if ($('#GuaranteeId').val() == 0) {
+                    var objAdd = {};
+                    objAdd.product_id = $('#Product').val();
+                    objAdd.customer_id = $('#Customer').val();
+                    objAdd.issue = $('#Issue').val();
+                    objAdd.branch_id = $('#Branch').val();
+                    objAdd.staff_id = $('#Staff').val();
+                    objAdd.date_in = $('#Date-in').val();
+                    objAdd.date_out = $('#Date-out').val();
 
+                    $.ajax({
 
-                $.ajax({
+                        url: "http://127.0.0.1:8000/guarantee",
+                        method: "POST",
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify(objAdd),
+                        success: function (data) {
 
-                    url: "http://127.0.0.1:8000/guarantee",
-                    method: "POST",
-                    dataType: "json",
-                    contentType: 'application/json',
-                    data: JSON.stringify(objAdd),
-                    success: function (data) {
+                            bootbox.alert("Thêm dịch vụ thành công");
+                            $('#addEditGuarantee').modal('hide');
+                            guarantee.showData();
+                        },
+                        error: function(data){
 
-                        bootbox.alert("Thêm dịch vụ thành công");
-                        $('#addEditGuarantee').modal('hide');
-                        guarantee.showData();
+                            $.each(data.responseJSON.errors, function (i, v) {
+                                $(`.error-${i}`).text(v);
+                            });
+                        }
+                    });
+                }
+                //update
+                else {
 
-                    },
-                    error: function(data){
+                    var objEdit = {};
+                    objEdit.product_id = $('#Product').val();
+                    objEdit.customer_id = $('#Customer').val();
+                    objEdit.issue = $('#Issue').val();
+                    objEdit.branch_id = $('#Branch').val();
+                    objEdit.staff_id = $('#Staff').val();
+                    objEdit.date_in = $('#Date-in').val();
+                    objEdit.date_out = $('#Date-out').val();
+                    objEdit.id =  $('input[name="GuaranteeId"]').val();
 
-                        $.each(data.responseJSON.errors, function (i, v) {
-                            $(`.error-${i}`).text(v);
-                        });
-                    }
+                    $.ajax({
+                        url: "http://127.0.0.1:8000/guarantee/" + objEdit.id,
+                        method: "PUT",
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify(objEdit),
+                        success: function (data) {
+                            bootbox.alert("Sửa dịch vụ thành công");
+                            $('#addEditGuarantee').modal('hide');
+                            guarantee.showData();
 
-                });
+                        },
+                        error: function(data){
+
+                            $.each(data.responseJSON.errors, function (i, v) {
+                                $(`.error-${i}`).text(v);
+                            });
+                        }
+                    });
+                }
             }
-            //update
-            else {
-
-                var objEdit = {};
-                objEdit.product_id = $('#Product').val();
-                objEdit.customer_id = $('#Customer').val();
-                objEdit.issue = $('#Issue').val();
-                objEdit.branch_id = $('#Branch').val();
-                objEdit.staff_id = $('#Staff').val();
-                objEdit.date_in = $('#Date-in').val();
-                objEdit.date_out = $('#Date-out').val();
-                objEdit.id =  $('input[name="GuaranteeId"]').val();
-
-                $.ajax({
-                    url: "http://127.0.0.1:8000/guarantee/" + objEdit.id,
-                    method: "PUT",
-                    dataType: "json",
-                    contentType: 'application/json',
-                    data: JSON.stringify(objEdit),
-                    success: function (data) {
-                        bootbox.alert("Sửa dịch vụ thành công");
-                        $('#addEditGuarantee').modal('hide');
-                        guarantee.showData();
-
-                    },
-                    error: function(data){
-
-                        $.each(data.responseJSON.errors, function (i, v) {
-                            $(`.error-${i}`).text(v);
-                        });
-                    }
-
-                });
-            }
-
-        }
+        }else{
+            $('#checkDate').html('Ngày trả bảo hành phải sau ngày nhận bảo hành');
+        };
     }
+
+
     guarantee.getProduct = function() {
         $.ajax({
             url: "http://127.0.0.1:8000/products/json",
@@ -223,6 +223,8 @@
             }
         });
     }
+
+
     guarantee.getCustomer = function() {
         $.ajax({
             url: "http://127.0.0.1:8000/customer",
@@ -238,9 +240,11 @@
             }
         });
     }
+
+
     guarantee.getBranch = function() {
         $.ajax({
-            url: "http://127.0.0.1:8000/branch",
+            url: "http://127.0.0.1:8000/branch/index",
             method: "GET",
             dataType: "json",
             success: function (data) {
@@ -253,9 +257,11 @@
             }
         });
     }
+
+
     guarantee.getStaff = function() {
         $.ajax({
-            url: "http://127.0.0.1:8000/staff",
+            url: "http://127.0.0.1:8000/staff/index",
             method: "GET",
             dataType: "json",
             success: function (data) {
@@ -268,6 +274,8 @@
             }
         });
     }
+
+
     guarantee.getAllForeign = function(){
         guarantee.resetForm();
         guarantee.getProduct();
@@ -308,6 +316,8 @@
             },
         });
     };
+
+
     guarantee.restore = function (id){
         bootbox.confirm({
             title: "Trở lại danh sách ?",
@@ -341,6 +351,8 @@
             }
         });
     };
+
+
     guarantee.delete = function(id){
         bootbox.confirm({
             title: "Xóa thẻ này?",
@@ -362,7 +374,7 @@
                         success: function (data) {
                             console.log(data);
                             bootbox.alert("Xóa hoàn toàn thành công");
-                            tag.showTrash();
+                            guarantee.showTrash();
 
                         },
                         error: function (errors){
@@ -373,27 +385,30 @@
             }
         });
     };
+
+
     guarantee.compareDate = function () {
         var dateIn = $('#Date-in').val();
         var dateOut = $('#Date-out').val();
-        return(dateOut > dateIn);
+        return(dateOut >= dateIn);
     };
-    guarantee.checkDate = function () {
-        $('#checkDate').empty();
-        if(! guarantee.compareDate()){
-            $('#checkDate').html('Ngày trả bảo hành phải sau ngày nhận bảo hành');
-            $('#Date-out').val() == $('#Date-in').val();
+
+    guarantee.invalidDate = function () {
+        if(guarantee.compareDate()){
+            $('#checkDate').empty();
         };
-    };
+    }
+
     guarantee.init = function () {
         guarantee.showData();
         guarantee.getAllForeign();
         guarantee.showTrash();
+        guarantee.dateTimePicker();
     }
+
+
     $(document).ready(function () {
         guarantee.init();
-        // tag.showTrash();
-        // // tag.showTrash();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
