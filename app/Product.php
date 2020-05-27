@@ -45,7 +45,6 @@ class Product extends Model
     public function staff()
     {
         return $this->belongsTo(Staff::class);
-
     }
 
     public function files()
