@@ -148,9 +148,6 @@ Route::prefix('brands')->group(function(){
     Route::delete('/{id}','BrandController@destroy');
 });
 
-
-Auth::routes();
-
 Route::prefix('products')->group(function(){
 
 
