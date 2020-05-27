@@ -373,6 +373,18 @@
             }
         });
     };
+    guarantee.compareDate = function () {
+        var dateIn = $('#Date-in').val();
+        var dateOut = $('#Date-out').val();
+        return(dateOut > dateIn);
+    };
+    guarantee.checkDate = function () {
+        $('#checkDate').empty();
+        if(! guarantee.compareDate()){
+            $('#checkDate').html('Ngày trả bảo hành phải sau ngày nhận bảo hành');
+            $('#Date-out').val() == $('#Date-in').val();
+        };
+    };
     guarantee.init = function () {
         guarantee.showData();
         guarantee.getAllForeign();

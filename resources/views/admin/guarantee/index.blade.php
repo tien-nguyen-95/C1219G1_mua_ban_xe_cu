@@ -115,8 +115,8 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="#"><b><i>Ngày trả bảo hành </i></b></label>
-                                    <input name="Date-out" type="date" id="Date-out" class="form-control">
-                                    <small class="error-date_out text-danger"></small>
+                                    <input name="Date-out" type="date" id="Date-out" class="form-control" onchange="guarantee.checkDate()">
+                                    <small id="checkDate" class="error-date_out text-danger"></small>
                                 </div>
                             </div>
                         </form>
