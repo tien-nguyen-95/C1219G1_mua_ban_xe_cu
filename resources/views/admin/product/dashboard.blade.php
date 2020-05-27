@@ -40,6 +40,7 @@
     </div>
 </div>
 @include('admin.product.modal')
+@include('admin.product.modalfile')
 @endsection
 @push('crud-ajax-js')
     <script src="{{asset('/js/product.js')}}"></script>
