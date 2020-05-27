@@ -40,11 +40,17 @@ class Product extends Model
     public function guarantees()
     {
         return $this->hasMany(Guarantee::class,'product_id','id');
+    }
 
     public function staff()
     {
         return $this->belongsTo(Staff::class);
 
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class,'product_id','id');
     }
 
 }
