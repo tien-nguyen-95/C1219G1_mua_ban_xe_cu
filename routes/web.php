@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -62,9 +63,10 @@ Route::get('/dashboard', function () {
 });
 
 // branch
+Route::get('branch/index','BranchController@index');
 Route::group(['middleware' => 'auth', 'prefix'=>'/branch'], function () {
     Route::get('/','BranchController@list')->name('branch.list');
-    Route::get('/index','BranchController@index');
+
 
     Route::group(['middleware' => 'can:boss'], function () {
         Route::post('/','BranchController@store');
@@ -128,10 +130,10 @@ Route::group(['middleware' => 'auth', 'prefix'=>'/position'], function () {
 });
 
 
-Route::prefix('brands')->group(function(){
-    Route::get('/trash','BrandController@trash');
+Route::get('/brands/json','BrandController@json');
 
-    Route::get('/json','BrandController@json');
+Route::group(['middleware' => 'auth', 'prefix'=>'/brands'], function (){
+    Route::get('/trash','BrandController@trash');
 
     Route::get('/','BrandController@index')->name('brands.index');
 
@@ -149,7 +151,6 @@ Route::prefix('brands')->group(function(){
 });
 
 Route::prefix('products')->group(function(){
-
 
     Route::get('/trash','ProductController@trash');
 
@@ -174,8 +175,9 @@ Route::prefix('products')->group(function(){
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Auth::routes();
+//shop
+Route::view('/welcome', 'welcome')->name('welcome');
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::view('/welcome', 'welcome');
+Route::get('/product-detail/{id}','ShopController@detail')->name('see-more');
 
+Route::get('/filter-product/filter','ShopController@filter');
