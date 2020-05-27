@@ -23,7 +23,7 @@ class GuaranteesTableSeeder extends Seeder
         DB::table('guarantees')->insert([
             'customer_id' => '2',
             'staff_id' => '2',
-            'product_id' => '2',
+            'product_id' => '1',
             'issue' => 'Thay bánh xe',
             'branch_id' => '1',
             'date_in' => '2020-05-11',

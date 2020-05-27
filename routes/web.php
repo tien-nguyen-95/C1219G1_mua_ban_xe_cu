@@ -164,6 +164,8 @@ Route::prefix('products')->group(function(){
 
     Route::post('/create','ProductController@store');
 
+    Route::post('/upload','FileController@storeFile')->name('upload.file');
+
     Route::get('/{id}','ProductController@show');
 
     Route::put('/{id}','ProductController@update');
