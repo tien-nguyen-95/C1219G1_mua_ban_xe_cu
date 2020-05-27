@@ -135,7 +135,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="payment"><b>Giá sản phẩm (vnđ)</b></label><br>
-                            <input type="hidden" name="payment" value="">
+                            <input type="hidden" name="payment">
                             <span id="payment"></span>
                         </div>
                         <div class="form-group col-md-4">
