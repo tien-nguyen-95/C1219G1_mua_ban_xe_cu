@@ -29,12 +29,14 @@ class BillRepositoryImpl extends EloquentRepository  implements BillRepository
         return $bills;
     }
 
-    public function findById($id)
-    {
-        $bill = $this->model->find($id);
+    // public function findById($id)
+    // {
+    //     $bill = $this->model->find($id);
 
-        $bill['customers'] = $bill->customer->name;
+    //     $bill['customers'] = $bill->customer;
+    //     $bill['branch'] = $bill->branch;
+    //     // $bill['product'] = $bill->product;
 
-        return $bill;
-    }
+    //     return $bill;
+    // }
 }

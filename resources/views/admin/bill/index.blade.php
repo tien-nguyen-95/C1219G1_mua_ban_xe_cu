@@ -13,8 +13,17 @@
 
 <div class="row">
     <div class="col-12 mb-3">
-        <a href="javascript:;" class="btn btn-primary" onclick="bill.showModal()"><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm mới</a>
-        <a href="javascript:;" class="btn btn-secondary" onclick="customer.showTrash()"><i class="fa fa-trash" aria-hidden="true"></i> Thùng rác</a>
+        <div class="d-flex flex-row">
+            <div class="p-2">
+                <a href="javascript:;" class="btn btn-primary" onclick="bill.showModal()"> <i class="fa fa-plus-square" aria-hidden="true"></i>Thêm hóa đơn</a>
+            </div>
+            <div class="p-2">
+                <a href="javascript:;" class="btn btn-secondary" onclick="customer.showTrash()"><i class="fa fa-trash" aria-hidden="true"></i> Thùng rác</a>
+            </div>
+        </div>
+        
+        
+        
     </div>
 </div>
 <div class="row">
@@ -39,7 +48,7 @@
 
 {{-- Modal customer--}}
 <div id="billModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <form id="formBill">
             <div class="modal-content">
                 <div class="modal-header">
@@ -49,36 +58,27 @@
                 <div class="modal-body">
                     <input type="hidden" id="billId" name="billId" value="0">
                     <div class="row">
-                        <div class="form-group col-md-6">
-                            <label><b>Khách hàng</b></label>
+                        <div class="col-md-12">
+                            <label><b>Khách hàng </b></label>
                             <select name="customer_id" id="customer_id" class="form-control">
-                                <option value="" selected>Chọn ...</option>
+                                <option value="" selected>---chọn---</option>
                             </select>
                             <small class="errors-customer_id sml-er"></small>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label><b> Nhân viên</b></label>
-                            <select name="staff_id" id="staff_id" class="form-control"> 
-                                <option value="" selected>Chọn...</option>
-                                <option value="1">Hải Khang</option>
-                            </select>
-                            <small class="errors-staff_id sml-er"></small>
-                        </div>
+                        <input type="hidden" value="{{ Auth::user()->id }}" id="staff_id" name="staff_id">
                     </div>
-
                     <div class="form-row">
                         <div class="form-group col-md-8">
                             <label><b>Sản phẩm</b></label>
                             <select name="product_id" id="product_id" class="form-control">
-                                <option value="" hidden>chon...</option>
-                                <option value="3">Xe Honda TTTBBB</option>
+                                <option value="" selected>---chọn---</option>
                             </select>
                             <small class="errors-product_id sml-er"></small>
                         </div>
                         <div class="form-group col-md-4">
                             <label><b>Loại đơn hàng</b></label>
                             <select name="status" id="status" class="form-control">
-                                <option value="" selected hidden>Chọn....</option>
+                                <option value="" selected>---chọn---</option>
                                 <option value="0">Đơn mua hàng</option>
                                 <option value="1">Đơn bán hàng</option>
                             </select>
@@ -89,15 +89,15 @@
                     <div class="form-row">
                         <div class="form-group col-md-8">
                             <label><b>Chi nhánh</b></label>
-                            <select name="branch_id" id="branch_id" class="form-control obj-othor">
-                                <option value="" hidden selected>Chọn...</option>
+                            <select name="branch_id" id="branch_id" class="form-control">
+                                <option value="" selected>---chọn---</option>
                             </select>
                             <small class="errors-branch_id sml-er"></small>
                         </div>
                         <div class="form-group col-md-4">
                             <label><b>Tình trạng</b></label>
                             <select name="complete" id="complete" class="form-control">
-                                <option value="" selected hidden>Chọn....</option>
+                                <option value="" selected>---chọn---</option>
                                 <option value="0">Đã hoàn thành</option>
                                 <option value="1">Chưa hoàn thành</option>
                             </select>
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="form-row">    
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
                             <label><b>Ngày thanh toán</b></label>
                             <div class="input-group date" id="payment_at" data-target-input="nearest">
                                 <input type="text" name="payment_at" class="form-control datetimepicker-input" data-target="#payment_at"/>
@@ -116,7 +116,7 @@
                             <small class="errors-payment_at sml-er"></small>
                         </div>
 
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
                             <label><b>Ngày giao hàng</b></label>
                             <div class="input-group date" id="delivered_at" data-target-input="nearest">
                                 <input type="text" name="delivered_at" class="form-control datetimepicker-input" data-target="#delivered_at"/>
@@ -126,18 +126,21 @@
                             </div>
                             <small class="errors-delivered_at sml-er"></small>
                         </div>
-   
-                        <div class="form-group col-md-3">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
                             <label for="deposit"><b>Tiền đặt cọc (vnđ)</b></label>  
-                            {{-- <input name="deposit" type="text" maxlength="15" class="form-control"> --}}
                             <input name="deposit" id="deposit" type="number" min="0" class="form-control money">
                             <small class="errors-deposit sml-er"></small>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="payment"><b>Tổng thanh toán (vnđ)</b></label>  
-                            {{-- <input name="payment" type="text" maxlength="15" class="form-control"> --}}
-                            <input name="payment" id="payment" type="number" min="1000" class="form-control money">
-                            <small class="errors-payment sml-er"></small>
+                        <div class="form-group col-md-4">
+                            <label for="payment"><b>Giá sản phẩm (vnđ)</b></label><br>
+                            <input type="hidden" name="payment" value="">
+                            <span id="payment"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="remain"><b>Còn lại phải trả (vnđ)</b></label><br>
+                            <span id="remain"></span>
                         </div>
                     </div>
                 </div> 
@@ -273,5 +276,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
     {{-- <script src="{{ asset('js/pcsFormatNumber.jquery.js') }}"></script> --}}
+    
     <script src="{{ asset('js/bill.js') }}"></script>
 @endpush
