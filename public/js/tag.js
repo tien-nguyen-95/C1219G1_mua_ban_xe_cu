@@ -31,9 +31,10 @@ tag.showData = function () {
         error : function(e){
             console.log(e);
         }
-
     });
 }
+
+
 tag.showModal = function () {
     tag.resetForm();
     $.ajax({
@@ -47,11 +48,12 @@ tag.showModal = function () {
                     `<option value="${v.id}">${v.name}</option>`
                 );
             });
-
         }
     });
     $('#addEditTag').modal('show');
 };
+
+
 tag.remove = function (id) {
     bootbox.confirm({
         title: "Tạm xóa thẻ?",
@@ -81,6 +83,8 @@ tag.remove = function (id) {
         }
     });
 }
+
+
 tag.getDetail = function (id) {
 
     $.ajax({
@@ -101,6 +105,8 @@ tag.getDetail = function (id) {
     });
     tag.showModal();
 }
+
+
 tag.save = function () {
     if ($('#formAddEditTag').valid()) {
         // create
@@ -175,6 +181,8 @@ tag.resetForm = function () {
     var form = $('#formAddEditTag').validate();
     form.resetForm();
 }
+
+
 tag.showTrash = function (){
     $.ajax({
         url: "/tag-trash",

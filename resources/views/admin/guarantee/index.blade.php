@@ -101,22 +101,22 @@
                                     </select>
                                     <small class="error-branch_id text-danger"></small>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label for="#"><b><i>Nhân viên hỗ trợ </i></b></label>
                                     <select name="Staff" id="Staff" class="form-control">
                                         <option value="">--Chọn nhân viên--</option>
                                     </select>
                                     <small class="error-staff_id text-danger"></small>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3" id="datetime-in">
                                     <label for="#"><b><i>Ngày nhận bảo hành </i></b></label>
-                                    <input name="Date-in" type="date" id="Date-in" class="form-control">
+                                    <input name="Date-in" type="date" id="Date-in" class="form-control" onchange="guarantee.invalidDate()">
                                     <small class="error-date_in text-danger"></small>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3" id="datetime-out">
                                     <label for="#"><b><i>Ngày trả bảo hành </i></b></label>
-                                    <input name="Date-out" type="date" id="Date-out" class="form-control">
-                                    <small class="error-date_out text-danger"></small>
+                                    <input name="Date-out" type="date" id="Date-out" class="form-control" onchange="guarantee.invalidDate()">
+                                    <small id="checkDate" class="error-date_out text-danger"></small>
                                 </div>
                             </div>
                         </form>
