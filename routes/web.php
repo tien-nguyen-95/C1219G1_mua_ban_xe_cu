@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -62,9 +63,10 @@ Route::get('/dashboard', function () {
 });
 
 // branch
+Route::get('branch/index','BranchController@index');
 Route::group(['middleware' => 'auth', 'prefix'=>'/branch'], function () {
     Route::get('/','BranchController@list')->name('branch.list');
-    Route::get('/index','BranchController@index');
+
 
     Route::group(['middleware' => 'can:boss'], function () {
         Route::post('/','BranchController@store');
@@ -128,10 +130,10 @@ Route::group(['middleware' => 'auth', 'prefix'=>'/position'], function () {
 });
 
 
-Route::prefix('brands')->group(function(){
-    Route::get('/trash','BrandController@trash');
+Route::get('/brands/json','BrandController@json');
 
-    Route::get('/json','BrandController@json');
+Route::group(['middleware' => 'auth', 'prefix'=>'/brands'], function (){
+    Route::get('/trash','BrandController@trash');
 
     Route::get('/','BrandController@index')->name('brands.index');
 
@@ -150,7 +152,6 @@ Route::prefix('brands')->group(function(){
 
 Route::prefix('products')->group(function(){
 
-
     Route::get('/trash','ProductController@trash');
 
     Route::get('/json','ProductController@json');
@@ -160,6 +161,8 @@ Route::prefix('products')->group(function(){
     Route::get('/{id}/restore','ProductController@restore');
 
     Route::post('/create','ProductController@store');
+
+    Route::post('/upload','FileController@storeFile')->name('upload.file');
 
     Route::get('/{id}','ProductController@show');
 
@@ -172,4 +175,9 @@ Route::prefix('products')->group(function(){
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Route::view('/welcome', 'welcome');
+//shop
+Route::view('/welcome', 'welcome')->name('welcome');
+
+Route::get('/product-detail/{id}','ShopController@detail')->name('see-more');
+
+Route::get('/filter-product/filter','ShopController@filter');

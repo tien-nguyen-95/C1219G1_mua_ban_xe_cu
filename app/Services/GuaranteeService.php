@@ -11,5 +11,6 @@ interface GuaranteeService
     public function getTrash();
     public function restore($id);
     public function delete($id);
-
+    public function getAllForeign();
+    public function getByIdForeign($id);
 }

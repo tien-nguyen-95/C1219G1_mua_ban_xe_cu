@@ -91,7 +91,10 @@ class ProductServiceImpl implements ProductService
 
         return $data;
     }
+
+
     public function getTrash() 
+
     {
         $products = $this->productRepository->getTrash();
 
@@ -107,6 +110,7 @@ class ProductServiceImpl implements ProductService
     {
         return $this->productRepository->delete($id);
     }
+
 
 };
 ?>

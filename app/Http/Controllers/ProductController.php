@@ -40,24 +40,10 @@ class ProductController extends Controller
 
     public function store(ProductFormRequest $request)
     {
-        // return $request;
-        // if ($request->hasFile('image'))
-        // {
-        //     $file = $request->file('image');
-        //     $name_image = $file->getClientOriginalName();
-        //     $image = Str::random(5) . "_" . $name_image;
-        //     while (file_exists("img/banner/" . $image))
-        //     {
-        //     $image = Str::random(5) . "_" . $name_image;
-        //     }
-        //     $file->move("img/banner", $image);
-
+        
         $dataProduct = $this->productService->create($request->all());
 
         return response()->json($dataProduct['products'], $dataProduct['statusCode']);
-        // }else {
-        //     return Response()->json(array('success'=>0,'message'=>'Upload error!'));
-        // }
     }
 
     public function update(ProductFormRequest $request, $id)

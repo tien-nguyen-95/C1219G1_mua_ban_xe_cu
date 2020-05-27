@@ -7,6 +7,7 @@ product.showData = function () {
         dataType: "json",
         success: function (data) {
             $("#table tbody").empty();
+            var index = 0;
             $.each(data, function (i, product) {
                 $("#table tbody").append(
                     `<tr>
@@ -14,7 +15,7 @@ product.showData = function () {
                         <td>${product.code}</td>
                         <td>${product.title}</td>
                         <td>${product.name}</td>
-                        <td><${product.image}</td>
+                        <td><a href="javascript:;" onclick="product.showImage()">Xem ảnh</a></td>
                         <td>${product.model_year}</td>
                         <td>${product.register_year}</td>
                         <td>${product.miles}km</td>
@@ -34,8 +35,8 @@ product.showData = function () {
                         </td>
                     <tr>
                         `
-                );
-            });
+                    );
+                });
             $("#tbale").DataTable();
         },
     });
@@ -49,7 +50,7 @@ product.getAllcategory = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#category_id").append(`
-                <option  value="${v.id}">${v.name}</option>
+                <option  value="${v.id}">${v.name}</option>               
                 `);
             });
         },
@@ -64,7 +65,7 @@ product.getAllbrand = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#brand_id").append(`
-                <option value="${v.id}">${v.name}</option>
+                <option value="${v.id}">${v.name}</option>               
                 `);
             });
         },
@@ -79,7 +80,7 @@ product.getAlltag = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#tag_id").append(`
-                <option value="${v.id}">${v.title}</option>
+                <option value="${v.id}">${v.title}</option>               
                 `);
             });
         },
@@ -94,7 +95,7 @@ product.getAllbranch = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#branch_id").append(`
-                <option value="${v.id}">${v.name}</option>
+                <option value="${v.id}">${v.name}</option>               
                 `);
             });
         },
@@ -109,7 +110,7 @@ product.getAllStaff = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#staff_id").append(`
-                <option value="${v.id}">${v.name}</option>
+                <option value="${v.id}">${v.name}</option>               
                 `);
             });
         },
@@ -127,8 +128,8 @@ product.getDetail = function (id) {
             $("#code").val(data.code);
             $("#inputtitle").val(data.title);
             $("#name").val(data.name);
-            $("#model_year").val(data.model_year);
-            $("#register_year").val(data.register_year);
+            $("#model_year").val(data.model_year).trigger('change');
+            $("#register_year").val(data.register_year).trigger('change');
             $("#miles").val(data.miles);
             $("#color").val(data.color);
             $("#origin").val(data.origin);
@@ -170,60 +171,18 @@ product.resetForm = function () {
     $("#images").val("");
     $("#modal").modal("show");
     $("#modal").find(".modal-title").text("Create New Product");
-    $(".modal-footer").find("a").text("Create");
+    $("#add").text("Create");
 
     var form = $("#Form").validate();
     form.resetForm();
 };
 
-// product.image = function () {
-//     var i = 0;
-//     var dataImage = new Array();
-//     var dataPosition = new Array();
-
-//     $("#images").change(function () {
-//         var checkImage = this.value;
-//         var ext = checkImage
-//             .substring(checkImage.lastIndexOf(".") + 1)
-//             .toLowerCase();
-//         if (ext == "gif" || ext == "png" || ext == "jpg" || ext == "jpeg") {
-//             change(this);
-//             var file = document.getElementById("images").files[0];
-//             dataImage[i] = file; //add push to array dataImage
-//             dataPosition[i] = i; //add push position to dataPosition
-//             //created html progress
-//             var html_progress =
-//                 '<div class="progress" style="margin-bottom:5px;"><div class="progress-bar" id="progress-' +
-//                 i +
-//                 '" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div>';
-//             $(".show-progress").append(html_progress);
-//             i++;
-//         } else $("#error").text("Vui lòng chọn tệp hình ảnh (jpg, jpeg, png).");
-//     });
-//     var change = function (input) {
-//         if (input.files && input.files[0]) {
-//             var reader = new FileReader();
-//             reader.onload = function (e) {
-//                 var addImage =
-//                     '<div class="col-md-3"><img  height="70" width="60" src=' +
-//                     e.target.result +
-//                     "></div>";
-
-//                 //add image to div="showImage"
-//                 $("#showImage").append(addImage);
-//             };
-//             reader.readAsDataURL(input.files[0]);
-//         }
-//     };
-// };
-
 product.save = function () {
     if ($("#Form").valid()) {
         //create
-        if ($("#productId").val() == 0) {
-            console.log($("#inputtitle").val());
+        if ($("#productId").val() == 0){
             var productOjb = {};
-            productOjb.code = $("#code").val();
+            productOjb.code =   $("#code").val();
             productOjb.title = $("#inputtitle").val();
             productOjb.name = $("#name").val();
             productOjb.model_year = $("#model_year").val();
@@ -252,7 +211,6 @@ product.save = function () {
                 contentType: "application/json",
                 data: JSON.stringify(productOjb),
                 success: function (data) {
-                    console.log(data);
                     $.toast({
                         heading: "Cảnh báo",
                         text: "Thêm thành công",
@@ -271,26 +229,28 @@ product.save = function () {
                     });
                 },
             });
-        } else {
+
+        }
+        else {
             var OjbEdit = {};
-            OjbEdit.id = $("#productId").val();
-            OjbEdit.code = $("#code").val();
-            OjbEdit.title = $("#inputtitle").val();
-            OjbEdit.name = $("#name").val();
-            OjbEdit.model_year = $("#model_year").val();
-            OjbEdit.register_year = $("#register_year").val();
-            OjbEdit.miles = $("#miles").val();
-            OjbEdit.color = $("#color").val();
-            OjbEdit.origin = $("#origin").val();
-            OjbEdit.import_price = $("#import_price").val().replace(/,/g, "");
-            OjbEdit.export_price = $("#export_price").val().replace(/,/g, "");
-            OjbEdit.status = $("#status").val();
-            OjbEdit.branch_id = $("#branch_id").val();
-            OjbEdit.brand_id = $("#brand_id").val();
-            OjbEdit.tag_id = $("#tag_id").val();
-            OjbEdit.category_id = $("#category_id").val();
-            OjbEdit.staff_id = $("#staff_id").val();
-            OjbEdit.image = $("#images").val();
+                OjbEdit.id = $("#productId").val();
+                OjbEdit.code = $("#code").val();
+                OjbEdit.title = $("#inputtitle").val();
+                OjbEdit.name = $("#name").val();
+                OjbEdit.model_year = $("#model_year").val();
+                OjbEdit.register_year = $("#register_year").val();
+                OjbEdit.miles = $("#miles").val();
+                OjbEdit.color = $("#color").val();
+                OjbEdit.origin = $("#origin").val();
+                OjbEdit.import_price = $("#import_price").val().replace(/,/g, "");
+                OjbEdit.export_price = $("#export_price").val().replace(/,/g, "");
+                OjbEdit.status = $("#status").val();
+                OjbEdit.branch_id = $("#branch_id").val();
+                OjbEdit.brand_id = $("#brand_id").val();
+                OjbEdit.tag_id = $("#tag_id").val();
+                OjbEdit.category_id = $("#category_id").val();
+                OjbEdit.staff_id = $("#staff_id").val();
+                OjbEdit.image = $("#images").val();
             $.ajax({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -315,7 +275,6 @@ product.save = function () {
                     product.showData();
                 },
                 error: function (data) {
-                    console.log(data);
                     $.each(data.responseJSON.errors, function (key, value) {
                         console.log(key);
                         $(`.errors-${key}`).text(value);
@@ -324,8 +283,7 @@ product.save = function () {
             });
         }
     }
-};
-
+}
 product.remove = function (id) {
     bootbox.confirm({
         title: "Thông báo",
@@ -410,7 +368,7 @@ product.getAlltrash = function () {
 };
 
 product.next = function () {
-    $("#table tbody").empty();
+    $("#table tbody ").empty();
     $("#title").text("Danh sách xóa mềm");
     $("#trash").remove();
     $("#comeback").remove();
@@ -533,6 +491,7 @@ product.init = function () {
     product.getAlltag();
     product.getAllbranch();
     product.getAllStaff();
+    product.uploadFile();
 };
 
 // Jquery Dependency
@@ -616,4 +575,107 @@ function formatCurrency(input, blur) {
     caret_pos = updated_len - original_len + caret_pos;
     input[0].setSelectionRange(caret_pos, caret_pos);
 }
+product.showModalFile  = function()
+{
+    $("#modalFile").modal('show');
+} 
 
+
+product.uploadFile = function()
+{ 
+    
+            var i=0;
+            var dataImage = new Array();
+            var dataPosition = new Array();
+   
+            $("#images").change(function(){
+                var checkImage = this.value;
+                var ext = checkImage.substring(checkImage.lastIndexOf('.') + 1).toLowerCase();
+                if (ext == "gif" || ext == "png" || ext == "jpg" || ext == "jpeg")
+                {
+                    change(this);
+                    var file = document.getElementById('images').files[0];
+                    dataImage[i]=file; //add push to array dataImage
+                    dataPosition[i]=i;  //add push position to dataPosition
+                   //created html progress
+                    var html_progress = '<div class="progress" style="margin-bottom:5px;"><div class="progress-bar" id="progress-'+i+'" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div>';
+                    $(".show-progress").append(html_progress);
+                    i++;
+                }
+                else
+                    alert("Please select image file (jpg, jpeg, png).") 
+            });
+            var change = function(input){
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var addImage = '<div class="col-md-3"><img src='+e.target.result+' style="width:40px;height:60px;"></div>';
+                        
+                        //add image to div="showImage"
+                        $("#showImage").append(addImage);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            var upload = function(data,position){
+                var formData = new FormData(); 
+                   //append data to formdata
+                    formData.append('image',data);
+                    var id = position;
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type:'POST',
+                        url:'/products/upload',
+                        data:formData,
+                        contentType: false,
+                        dataType:'json',
+                        processData: false,
+                        cache:false,
+                        xhr: function () {
+                            console.log(id);
+                            var xhr = new window.XMLHttpRequest();
+                            xhr.upload.addEventListener("progress", function (evt) {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = evt.loaded / evt.total;
+                                    percentComplete = parseInt(percentComplete * 100);
+                                    if(percentComplete==100){
+                                        dataImage.splice(id, 1);
+                                        dataPosition.splice(id, 1);
+                                    }
+                                    $("#progress-"+id).text(percentComplete + '%');
+                                    $("#progress-"+id).css('width', percentComplete + '%');
+                                }
+                            }, false);
+                            return xhr;
+                        },
+                        success:function(data){
+                            console.log(data);
+                        }
+                        
+                    });
+            }
+ 
+            $("form#upload").submit(function( event ) {
+                    event.preventDefault();
+                    var k=0;
+                    for(k=0; k<dataImage.length;k++){
+                         
+                        /**
+                         * Function Upload
+                         * params 1: data image
+                         * params 2: position[ progressbar-1 or progressbar-2,...]
+                         */
+                        upload(dataImage[k],dataPosition[k]);
+                    }   
+            });
+
+}
+
+// product.showImage = function ()
+// {
+
+// }
