@@ -62,9 +62,10 @@ Route::get('/dashboard', function () {
 });
 
 // branch
+Route::get('branch/index','BranchController@index');
 Route::group(['middleware' => 'auth', 'prefix'=>'/branch'], function () {
     Route::get('/','BranchController@list')->name('branch.list');
-    Route::get('/index','BranchController@index');
+
 
     Route::group(['middleware' => 'can:boss'], function () {
         Route::post('/','BranchController@store');
@@ -128,10 +129,10 @@ Route::group(['middleware' => 'auth', 'prefix'=>'/position'], function () {
 });
 
 
-Route::prefix('brands')->group(function(){
-    Route::get('/trash','BrandController@trash');
+Route::get('/brands/json','BrandController@json');
 
-    Route::get('/json','BrandController@json');
+Route::group(['middleware' => 'auth', 'prefix'=>'/brands'], function (){
+    Route::get('/trash','BrandController@trash');
 
     Route::get('/','BrandController@index')->name('brands.index');
 
@@ -148,8 +149,6 @@ Route::prefix('brands')->group(function(){
     Route::delete('/{id}','BrandController@destroy');
 });
 
-
-Auth::routes();
 
 Route::prefix('products')->group(function(){
 
@@ -175,8 +174,7 @@ Route::prefix('products')->group(function(){
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::view('/welcome', 'welcome');
+Route::view('/welcome', 'welcome')->name('welcome');
 
+Route::view('/product-detail','product')->name('see-more');

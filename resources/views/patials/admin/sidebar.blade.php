@@ -64,7 +64,14 @@
                 </a>
             </li>
             @endcan
-
+            @can('culi')
+            <li class="nav-item">
+                <a href="{{ route('guarantee.list') }}" class="nav-link collapsed" id="managar_cate">
+                    <i class="fas fa-list"></i>
+                    <span>Bảo hành</span>
+                </a>
+            </li>
+            @endcan
             @can('confirm')
             <li class="nav-item">
                 <a href="/products" class="nav-link collapsed">
@@ -79,6 +86,7 @@
                     <span>Quản lí hóa đơn</span>
                 </a>
             </li>
+
             @endcan
 
             @can('admin')
