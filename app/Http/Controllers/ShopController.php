@@ -33,6 +33,7 @@ class ShopController extends Controller
                 $file->name = "/img/banner/".$file->name;
             }
         }
+        $products['count'] = count($products);
         return response()->json($products);
     }
 

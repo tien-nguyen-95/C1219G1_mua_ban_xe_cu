@@ -92,7 +92,7 @@ shop.filter = function(cate = '', br = '', bc = ''){
         success: function(data){
             console.log(data);
             $('#product-data').empty();
-            $('#span-right').text(`Tìm thấy: ${data.length} sản phẩm`);
+            $('#span-right').text(`Tìm thấy: ${data.count} sản phẩm`);
             $.each(data, function(i,v){
                 $('#product-data').append(
                 `
@@ -143,7 +143,6 @@ shop.filterBranch = function(id){
 }
 
 $(document).ready(function(){
-
     shop.dataCategory();
     shop.dataBrand();
     shop.dataBranch();
