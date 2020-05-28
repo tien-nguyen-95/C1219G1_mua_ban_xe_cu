@@ -115,40 +115,44 @@ bill.getPayment = function()
 {
     $("#status").change(function () { 
         var status1 = $(this).val();
+        let deposit = $("#deposit").val();
         if (status1  == '') {
             console.log('sản phẩm chưa có');
             $("#payment").text('0');
         }else{
-            // $("#product_id").change(function(){
-                var productId1 = $("#product_id").find(":selected").val()
+            
+                var productId1 = $("#product_id").find(":selected").val();
                 if(productId1 == ''){
                     $("#payment").text('0');
                 }else{
                     $.ajax({
                         type: "GET",
                         url: "/products/" + productId1,
-                        data: status1,
+                        data: status1,deposit,
                         dataType: "JSON",
                         success: function (data) {
                             if (status1 === '0') {
                                 $("span#payment").text(formatNumber(data.import_price) + " VNĐ");
                                 $('input:hidden[name=payment]').val(data.import_price);
+                                $("span#remain").text(formatNumber(data.import_price-deposit) + " VNĐ");
                                 console.log('giá mua1');
                             } else {
                                 $("span#payment").text(formatNumber(data.export_price) + " VNĐ");
                                 $('input:hidden[name=payment]').val(data.export_price);
+                                $("span#remain").text(formatNumber(data.export_price-deposit) + " VNĐ");
                                 console.log('giá bán1');
                             } 
                         } 
                     });
                 }
                
-            // });
+            
         }  
     });
   
     $("#product_id").change(function(){
         var productId = $("#product_id").val();
+        let deposit = $("#deposit").val();
         console.log(productId);
         if(productId == ''){
             $("#payment").text('0');
@@ -156,6 +160,7 @@ bill.getPayment = function()
             $.ajax({
                 type: "GET",
                 url: "/products/" + productId,
+                data: deposit,
                 dataType: "JSON",
                 success: function (data) {
                     console.log(data);
@@ -166,15 +171,32 @@ bill.getPayment = function()
                         if(statusBill === '0'){
                             $("span#payment").text(formatNumber(data.import_price) + " VNĐ");
                             $('input:hidden[name=payment]').val(data.import_price);
+                            $("span#remain").text(formatNumber(data.import_price-deposit) + " VNĐ");
                             console.log('giá mua2');
                         }else{
                             $("span#payment").text(formatNumber(data.export_price) + " VNĐ");
                             $('input:hidden[name=payment]').val(data.export_price);
+                            $("span#remain").text(formatNumber(data.export_price-deposit) + " VNĐ");
                             console.log('giá bán 2');
                         }   
                     }                                 
                 } 
             });
+        }
+    });
+}
+
+
+bill.getRemain = function()
+{
+    $("#deposit").on('change', function(){
+        var deposit = $(this).val();
+        var payment = $("input[name=payment]").val();
+        console.log('dat coc: ' +' '+ deposit + 'giá: ' + payment);
+        if(deposit - payment < 0){
+            $("span#remain").text(formatNumber(payment-deposit) + " VNĐ");
+        }else{
+            $("#deposit").val(payment);
         }
     });
 }
@@ -367,8 +389,10 @@ bill.resetForm = function () {
     $('#complete').val("");
     $('input[name="payment_at"]').val("");
     $('input[name="delivered_at"]').val("");
-    $('#deposit').val("");
-    $('#payment').text("");
+    $('#deposit').val('');
+    $("input[name=payment]").val('');
+    $('span#payment').text("0 VNĐ")
+    $('span#remain').text("0 VNĐ")
     $('#formBill').find('.modal-title').text("Thêm hóa đơn mới");
     $('#formBill').find('a').text('Thêm');
     var form = $('#formBill').validate();
@@ -387,10 +411,10 @@ bill.showModal= function()
         format:'YYYY-MM-DD',
     });
 
-    $('.money').bind('blur paste', function(){
-        this.value = this.value.replace(/[^0-9]/g, '');
-        console.log(this.value);
-    });
+    // $('.money').bind('blur paste', function(){
+    //     this.value = this.value.replace(/[^0-9]/g, '');
+    //     console.log(this.value);
+    // });
 
     bill.resetForm();
     $('#billModal').modal('show');
@@ -403,6 +427,7 @@ bill.init = function()
     bill.getCustomer();
     bill.getBranch();
     bill.getPayment();  
+    bill.getRemain();
 }
 
 
