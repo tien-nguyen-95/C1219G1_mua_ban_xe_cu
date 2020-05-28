@@ -50,7 +50,7 @@ product.getAllcategory = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#category_id").append(`
-                <option  value="${v.id}">${v.name}</option>               
+                <option  value="${v.id}">${v.name}</option>
                 `);
             });
         },
@@ -65,7 +65,7 @@ product.getAllbrand = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#brand_id").append(`
-                <option value="${v.id}">${v.name}</option>               
+                <option value="${v.id}">${v.name}</option>
                 `);
             });
         },
@@ -80,7 +80,7 @@ product.getAlltag = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#tag_id").append(`
-                <option value="${v.id}">${v.title}</option>               
+                <option value="${v.id}">${v.title}</option>
                 `);
             });
         },
@@ -95,7 +95,7 @@ product.getAllbranch = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#branch_id").append(`
-                <option value="${v.id}">${v.name}</option>               
+                <option value="${v.id}">${v.name}</option>
                 `);
             });
         },
@@ -110,7 +110,7 @@ product.getAllStaff = function () {
         success: function (data) {
             $.each(data, function (i, v) {
                 $("#staff_id").append(`
-                <option value="${v.id}">${v.name}</option>               
+                <option value="${v.id}">${v.name}</option>
                 `);
             });
         },
@@ -578,16 +578,16 @@ function formatCurrency(input, blur) {
 product.showModalFile  = function()
 {
     $("#modalFile").modal('show');
-} 
+}
 
 
 product.uploadFile = function()
-{ 
-    
+{
+
             var i=0;
             var dataImage = new Array();
             var dataPosition = new Array();
-   
+
             $("#images").change(function(){
                 var checkImage = this.value;
                 var ext = checkImage.substring(checkImage.lastIndexOf('.') + 1).toLowerCase();
@@ -603,14 +603,14 @@ product.uploadFile = function()
                     i++;
                 }
                 else
-                    alert("Please select image file (jpg, jpeg, png).") 
+                    alert("Please select image file (jpg, jpeg, png).")
             });
             var change = function(input){
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
                         var addImage = '<div class="col-md-3"><img src='+e.target.result+' style="width:40px;height:60px;"></div>';
-                        
+
                         //add image to div="showImage"
                         $("#showImage").append(addImage);
                     }
@@ -618,7 +618,7 @@ product.uploadFile = function()
                 }
             }
             var upload = function(data,position){
-                var formData = new FormData(); 
+                var formData = new FormData();
                    //append data to formdata
                     formData.append('image',data);
                     var id = position;
@@ -655,22 +655,22 @@ product.uploadFile = function()
                         success:function(data){
                             console.log(data);
                         }
-                        
+
                     });
             }
- 
+
             $("form#upload").submit(function( event ) {
                     event.preventDefault();
                     var k=0;
                     for(k=0; k<dataImage.length;k++){
-                         
+
                         /**
                          * Function Upload
                          * params 1: data image
                          * params 2: position[ progressbar-1 or progressbar-2,...]
                          */
                         upload(dataImage[k],dataPosition[k]);
-                    }   
+                    }
             });
 
 }

@@ -19,12 +19,12 @@ class ProductRepositoryImpl extends EloquentRepository implements ProductReposit
     }
 
     public function getAllJoin()
-    { 
+    {
         $result = $this->model->all();
         foreach ($result  as $val) {
-            $val->branch->name;
             $val->brand->name;
-            $val->tag->name;
+            $val->branch->name;
+            $val->tag->title;
             $val->category->name;
             $val->staff->name;
             foreach($val->files as $image)
@@ -40,7 +40,7 @@ class ProductRepositoryImpl extends EloquentRepository implements ProductReposit
     public function findByIdJoin($id)
     {
         $result = $this->model->find($id);
-            
+
             $result->branch->name;
             $result->brand->name;
             $result->tag->name;
@@ -64,5 +64,5 @@ class ProductRepositoryImpl extends EloquentRepository implements ProductReposit
 
         return $result;
     }
-  
+
 };
