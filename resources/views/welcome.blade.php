@@ -23,11 +23,20 @@
         <div class="col-4">
             <h3 class="text-center"><i class="fa fa-car m-sm-1"></i>Chợ Xe Cũ</h3>
         </div>
-        <div class="col-6">
-            <input type="text" placeholder="Nhập từ khóa tìm kiếm" class="form-control btn-block">
-        </div>
-        <div class="col-1">
-            <button class="btn btn-primary"><i class='fa fa-search m-sm-1'></i> Tìm kiếm</button>
+        <div class="col-7">
+            <form action="{{ route('search') }}" method="post">
+            @csrf
+
+                <div class="row">
+                    <div class="col-10">
+                        <input type="text" name="keyword" placeholder="Nhập từ khóa tìm kiếm" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary"><i class='fa fa-search m-sm-1'></i> Tìm kiếm</button>
+                    </div>
+                </div>
+            </form>
+
         </div>
         <div class="col-1">
             <a href="{{ route('login') }}" class="btn btn-primary"><i class="fa fa-user m-sm-1"></i>Đăng nhập</a>
@@ -71,45 +80,80 @@
     <div class="container border">
         <div class="row">
             <div class="col-3 pt-3">
+
                 <h3>Loại xe</h3>
                 <nav class="navbar">
                     <div id="category-list">
-
+                        <label><input type="radio" name="opt-category" onclick="shop.filterFull()" value="" checked> Tất cả</label>
                     </div>
                 </nav>
-
                 <hr>
+
+                <h3>Sắp xếp theo giá</h3>
+                <nav class="navbar">
+                    <select class="navbar-nav" id="price-list" onchange="shop.filterFull()">
+                        <option value="">Chọn</option>
+                        <option value="1">Tăng dần</option>
+                        <option value="2">Giảm dần</option>
+                    </select>
+                </nav>
+                <hr>
+
+                <h3>Đã đi</h3>
+                <nav class="navbar">
+                    <select class="navbar-nav" id="miles-list" onchange="shop.filterFull()">
+                        <option value="">Chọn</option>
+                        <option value="1">0 - 4999 (km)</option>
+                        <option value="2">5000 - 9999 (km)</option>
+                        <option value="3">10000 - 20000 (km)</option>
+                        <option value="4">Trên 20000 (km)</option>
+                    </select>
+                </nav>
+                <hr>
+
                 <h3>Thương hiệu</h3>
                 <nav class="navbar">
-                    <ul class="navbar-nav" id="brand-list">
-
-                    </ul>
+                    <div class="navbar-nav" id="brand-list">
+                        <label><input type="radio" name="opt-brand" onclick="shop.filterFull()" value="" checked> Tất cả</label>
+                    </div>
                 </nav>
-
                 <hr>
+
                 <h3>Chi nhánh</h3>
                 <nav class="navbar">
-                    <ul class="navbar-nav" id="branch-list">
-
-                    </ul>
+                    <div class="navbar-nav" id="branch-list">
+                        <label><input type="radio" name="opt-branch" onclick="shop.filterFull()" value="" checked> Tất cả</label>
+                    </div>
                 </nav>
                 <hr>
             </div>
-            <div class="col-9 pt-3" >
+            <div class="col-9 pt-3" id="data-index">
                 <h3>Sản phẩm</h3>
                 <div class="clearfix">
-                    <span class="float-left" id="span-left"></span>
-                    <span class="float-right" id="span-right"></span>
+                    <span class="float-right" id="span-right">Tìm thấy: {{ $count ?? '0' }} sản phẩm</span>
                 </div>
                 <div class="row row-cols-3" id="product-data">
+                    @foreach ($products as $i=>$v )
+                    <div class="col p-1">
+                        <div id ="showimage.'i'" class="card ">
+                            <img class="card-img-top" src="shop/img/darkrai1.jpg">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ $v->title }} </h4>
+                                <h4 class="card-title text-danger">{{ $v->export_price? number_format($v->export_price)." đ": "Đang cập nhật" }} </h4>
+                                <p class="card-text">Số km đã đi: {{ $v->miles? $v->miles." km": "Đang cập nhật" }} </p>
+                                <a href="{{ route('see-more',$v->id) }}}" class="btn btn-primary">Chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
 
                 </div>
                 <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    {{-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                     <li class="page-item"><a class="page-link" href="#">1</a></li>
                     <li class="page-item"><a class="page-link" href="#">2</a></li>
                     <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li> --}}
                 </ul>
             </div>
         </div>

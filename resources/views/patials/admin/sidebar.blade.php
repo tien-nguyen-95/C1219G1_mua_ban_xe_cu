@@ -67,8 +67,8 @@
             @can('culi')
             <li class="nav-item">
                 <a href="{{ route('guarantee.list') }}" class="nav-link collapsed" id="managar_cate">
-                    <i class="fas fa-list"></i>
-                    <span>Bảo hành</span>
+                    <i class="fas fa-tools"></i>
+                    <span>Quản lý bảo hành</span>
                 </a>
             </li>
             @endcan
@@ -114,12 +114,7 @@
                 </a>
             </li>
             @endcan
-            <li class="nav-item">
-                <a href="{{ route('guarantee.list') }}" class="nav-link collapsed" id="managar_cate">
-                    <i class="fas fa-tools"></i>
-                    <span>Quản lý bảo hành</span>
-                </a>
-            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

@@ -1,5 +1,20 @@
 var shop = {} || shop;
 
+// shop.index = function(page){
+//     console.log(page);
+//     $("#span-right").text("");
+//     $.ajax({
+//         url: `/ajax/getAll/?page=${page}`,
+//         method: "get",
+//         success: function(data){
+//             console.log(data);
+//             $('#data-index').empty();
+//             $('#span-right').text(`Tìm thấy: ${data.count} sản phẩm`);
+//             $('#data-index').html(data);
+//         }
+//     })
+// }
+
 shop.dataCategory = function(){
     $.ajax({
         url : "/category",
@@ -10,17 +25,16 @@ shop.dataCategory = function(){
             $.each(data , function (i,v) {
                 $('#category-menu').append(
                     `
-                    <a class="dropdown-item" href="javascript:;" onclick="shop.filterCategory(${v.id})">${v.name}</a>
+                    <a class="dropdown-item" href="/filer-category/${v.id}" >${v.name}</a>
                     `
                 );
             });
-            $('#category-list').empty();
             $.each(data , function (i,v) {
                 $('#category-list').append(
                     `
 
                     <div class="radio">
-                        <label><input type="radio" name="opt-category" > ${v.name}</label>
+                        <label><input type="radio" name="opt-category" onclick="shop.filterFull()" value="${v.id}"> ${v.name}</label>
                     </div>
                     `
                 );
@@ -39,16 +53,16 @@ shop.dataBrand = function(){
             $.each(data , function (i,v) {
                 $('#brand-menu').append(
                     `
-                    <a class="dropdown-item" href="javascript:;" onclick="shop.filterBrand(${v.id})">${v.name}</a>
+                    <a class="dropdown-item" href="/filer-brand/${v.id}">${v.name}</a>
                     `
                 );
             });
-            $('#brand-list').empty();
+
             $.each(data , function (i,v) {
                 $('#brand-list').append(
                     `
                     <div class="radio">
-                        <label><input type="radio" name="opt-brand"> ${v.name}</label>
+                        <label><input type="radio" name="opt-brand" onclick="shop.filterFull()" value="${v.id}"> ${v.name}</label>
                     </div>
                     `
                 );
@@ -67,16 +81,15 @@ shop.dataBranch = function(){
             $.each(data , function (i,v) {
                 $('#branch-menu').append(
                     `
-                    <a class="dropdown-item" href="javascript:;" onclick="shop.filterBranch(${v.id})"> ${v.name}</a>
+                    <a class="dropdown-item" href="/filer-branch/${v.id}"> ${v.name}</a>
                     `
                 );
             });
-            $('#branch-list').empty();
             $.each(data , function (i,v) {
                 $('#branch-list').append(
                     `
                     <div class="radio">
-                        <label><input type="radio" name="opt-branch"> ${v.name}</label>
+                        <label><input type="radio" name="opt-branch" onclick="shop.filterFull()" value="${v.id}"> ${v.name}</label>
                     </div>
                     `
                 );
@@ -85,30 +98,32 @@ shop.dataBranch = function(){
     });
 }
 
-shop.filter = function(cate = '', br = '', bc = ''){
+shop.filter = function(cate = '', br = '', bc = '', price='', miles=''){
+    console.log(price);
     $.ajax({
-        url: `/filter-product/filter?category=${cate}&brand=${br}&branch=${bc}`,
+        url: `/filter-product?category=${cate}&brand=${br}&branch=${bc}&price=${price}&miles=${miles}`,
         method: "get",
         success: function(data){
-            console.log(data);
             $('#product-data').empty();
             $('#span-right').text(`Tìm thấy: ${data.count} sản phẩm`);
-            $.each(data, function(i,v){
-                $('#product-data').append(
-                `
-                <div class="col p-1">
-                    <div id ="showimage.'i'" class="card ">
-                        <img class="card-img-top" src="${v.files.length>0? v.files[0].name : 'shop/img/darkrai1.jpg'}">
-                        <div class="card-body">
-                            <h4 class="card-title">${v.title} </h4>
-                            <h4 class="card-title text-danger">${v.export_price? formatMoney(v.export_price)+" đ": "Đang cập nhật"} </h4>
-                            <p class="card-text">Số km đã đi: ${v.miles? v.miles+" km": "Đang cập nhật"} </p>
-                            <a href="/product-detail/${v.id}" class="btn btn-primary">Chi tiết</a>
+            if(data.count > 0){
+                $.each(data.data, function(i,v){
+                    $('#product-data').append(
+                    `
+                    <div class="col p-1">
+                        <div id ="showimage.'i'" class="card ">
+                            <img class="card-img-top" src="shop/img/darkrai1.jpg">
+                            <div class="card-body">
+                                <h4 class="card-title">${v.title} </h4>
+                                <h4 class="card-title text-danger">${v.export_price? formatMoney(v.export_price)+" đ": "Đang cập nhật"} </h4>
+                                <p class="card-text">Số km đã đi: ${v.miles? v.miles+" km": "Đang cập nhật"} </p>
+                                <a href="/product-detail/${v.id}" class="btn btn-primary">Chi tiết</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                `);
-            });
+                    `);
+                });
+            }
         }
     })
 }
@@ -142,9 +157,20 @@ shop.filterBranch = function(id){
     shop.filter('','',id);
 }
 
+shop.filterFull = function(){
+    let opt_category, opt_brand , opt_branch , opt_price , opt_miles;
+    opt_category= $('input[name="opt-category"]:checked').val();
+    opt_brand = $('input[name="opt-brand"]:checked').val();
+    opt_branch = $('input[name="opt-branch"]:checked').val();
+    opt_price = $('#price-list').val();
+    opt_miles = $('#miles-list').val();
+    // console.log(opt_price);
+    console.log(opt_miles);
+    shop.filter(opt_category, opt_brand, opt_branch ,opt_price, opt_miles);
+}
+
 $(document).ready(function(){
     shop.dataCategory();
     shop.dataBrand();
     shop.dataBranch();
-    shop.filter();
 });

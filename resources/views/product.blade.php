@@ -24,11 +24,20 @@
         <div class="col-4">
             <h3 class="text-center"><i class="fa fa-car m-sm-1"></i>Chợ Xe Cũ</h3>
         </div>
-        <div class="col-6">
-            <input type="text" placeholder="Nhập từ khóa tìm kiếm" class="form-control btn-block">
-        </div>
-        <div class="col-1">
-            <button class="btn btn-primary"><i class='fa fa-search m-sm-1'></i> Tìm kiếm</button>
+        <div class="col-7">
+            <form action="{{ route('search') }}" method="post">
+            @csrf
+
+                <div class="row">
+                    <div class="col-10">
+                        <input type="text" name="keyword" placeholder="Nhập từ khóa tìm kiếm" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary"><i class='fa fa-search m-sm-1'></i> Tìm kiếm</button>
+                    </div>
+                </div>
+            </form>
+
         </div>
         <div class="col-1">
             <a href="{{ route('login') }}" class="btn btn-primary"><i class="fa fa-user m-sm-1"></i>Đăng nhập</a>
@@ -148,8 +157,24 @@
 
         </div>
         <div class="col-6">
-            <h3 class="text-center my-5 py-3">Thông tin xe</h3>
-            <h4 class="text-danger">Giá: {{ number_format($product->export_price)." đ" }}</h4>
+            <h3 class="text-center my-3 py-3">Thông tin xe</h3>
+            <div class="row text-danger">
+                <div class="col-5">
+                    <h4>Mã Sản Phẩm:</h4>
+                </div>
+                <div class="col-7">
+                    <h4>{{ strtoupper ($product->code) }}</h4>
+                </div>
+            </div>
+            <div class="row text-danger">
+                <div class="col-5">
+                    <h4>Giá:</h4>
+                </div>
+                <div class="col-7">
+                    <h4>{{ number_format($product->export_price)." đ" }}</h4>
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="form-control">
                     <div class="row">
