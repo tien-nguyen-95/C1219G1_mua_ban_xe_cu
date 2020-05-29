@@ -70,9 +70,9 @@ class ProductRepositoryImpl extends EloquentRepository implements ProductReposit
 
     public function findByIdTrash($id)
     {
-            $result =$this->model::onlyTrashed()->where('id', $id)->get();
-                $result->branch->name;
-                $result->brand->name;
+                $result = $this->model::onlyTrashed()->where('id', $id)->first();
+                $result->branch;
+                $result->brand;
                 $result->tag->name;
                 $result->category->name;
                 $result->staff->name;
@@ -80,9 +80,6 @@ class ProductRepositoryImpl extends EloquentRepository implements ProductReposit
                 {
                     $image->name ="/img/banner/$image->name";
                 }
-    
             return $result;
     }
-
-
 };

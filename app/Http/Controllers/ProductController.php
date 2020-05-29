@@ -84,8 +84,9 @@ class ProductController extends Controller
 
     public function findByIdTrash($id)
     {
-        $trashProduct = $this->productService->findByIdJoin($id);
+        $trashProduct = $this->productService->findByIdTrash($id);
 
         return response()->json($trashProduct,200);
     }
+
 }

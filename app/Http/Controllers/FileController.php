@@ -43,5 +43,21 @@ class FileController extends Controller
 
     }
 
+    public function drop($id)
+    {
+        $files = File::where('product_id',$id)->get();
+        foreach($files as $file)
+        {
+            if (!empty($file->name))
+            {
+                unlink("img/banner/" . $file->name);
+            }
+            $file->delete();
+        }
+        return response()->json($file->product,200);
+
+    }
+
+
   
 }

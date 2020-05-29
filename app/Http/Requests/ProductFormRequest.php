@@ -25,7 +25,7 @@ class ProductFormRequest extends FormRequest
     {
         return [
             'code' => 'required|max:20 | unique:products,code,' . $this->id . 'id',
-            // 'ok' => 'required',
+            // 'inputtitle' => 'required',
             'name' => 'required| min:5 | max:255',
             // 'cc' => 'required|integer|min:1|max:1000',
             'model_year' => 'required',

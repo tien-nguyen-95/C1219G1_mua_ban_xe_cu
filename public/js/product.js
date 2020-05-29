@@ -350,7 +350,6 @@ product.getAlltrash = function () {
         success: function (data) {
             $("#table tbody").empty();
             $.each(data, function (i, product) {
-                console.log(product);
                 $("#table tbody").append(
                     `<tr>
                     <td>${++i}</td>
@@ -358,7 +357,9 @@ product.getAlltrash = function () {
                     <td>${product.title}</td>
                     <td>${product.name}</td>
                     <td>${product.cc_number}</td>
-                    <td><a href="javascript:;" onclick="product.showImageTrash(${product.id})">Xem ảnh</a></td>
+                    <td><a href="javascript:;" onclick="product.showImageTrash(${
+                        product.id
+                    })">Xem ảnh</a></td>
                     <td>${product.model_year}</td>
                     <td>${product.register_year}</td>
                     <td>${product.miles}km</td>
@@ -473,6 +474,7 @@ product.detele = function (id) {
         },
         callback: function (result) {
             if (result) {
+                product.dropFile(id);
                 $.ajax({
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -641,15 +643,21 @@ product.uploadFile = function () {
             reader.onload = function (e) {
                 var file = e.target;
 
-                $("<span class=\"pip\">" +
-                "<img  class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
-                "<br/><span class=\"remove\">Xóa ảnh</span>" +
-                "</span>").insertAfter("#ShowImages");
-              $(".remove").click(function(){
-                $(this).parent(".pip").remove();
-                console.log(dataImage);
-                $('#images').removeFile();
-              });
+                $(
+                    '<span class="pip">' +
+                        '<img  class="imageThumb" src="' +
+                        e.target.result +
+                        '" title="' +
+                        file.name +
+                        '"/>' +
+                        '<br/><span class="remove">Xóa ảnh</span>' +
+                        "</span>"
+                ).insertAfter("#ShowImages");
+                $(".remove").click(function () {
+                    $(this).parent(".pip").remove();
+                    console.log(dataImage);
+                    $("#images").removeFile();
+                });
             };
             reader.readAsDataURL(input.files[0]);
         }
@@ -768,27 +776,36 @@ product.showImage = function (id) {
     });
 };
 
+product.dropFile = function (id) {
+    $.ajax({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        url: "/products/drop/" + id,
+        method: "DELETE",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            console.log(data);
+        },
+    });
+};
 
 product.showImageTrash = function (id) {
     $("#btnProduct").replaceWith(
         `
         <div class="col-12 mb-3" id="btnProduct">
-            <a id="trash" href="javascript:;" class="btn btn-primary" onclick="product.comeback2()"><i class="fas fa-arrow-circle-left"></i>Quay lại</a>
-            <a href="javascript:;" class="btn btn-success" onclick="product.showModalFile()" ><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm ảnh</a>
+            <a id="trash" href="javascript:;" class="btn btn-primary" onclick="product.comeback3()"><i class="fas fa-arrow-circle-left"></i>Quay lại</a>
         </div>
         `
     );
     $("#hideTable").hide();
     $.ajax({
-        url: "/products/trash" + id,
+        url: "/products/trash/" + id,
         method: "GET",
         dataType: "json",
         success: function (data) {
-            console.log(data);
             $("#showImage").empty();
-            $("#IdProduct").append(
-                `<input hidden id="product_id" name="product_id" value="${data.id}">`
-            );
             if (data.files.length == 0) {
                 $("#checkImage").append(
                     `<strong style="color:red">Không có hình ảnh nào</strong>`
@@ -800,14 +817,12 @@ product.showImageTrash = function (id) {
                             <a target="" href="${value.name}">
                                 <div><img class='grid-container-img' src="${value.name}" alt="Cinque Terre" width="600" height="400"></div>
                             </a>
-                            <a style = "text-align:center;"href="javascript:;" onclick="product.removeFile(${value.id})"><i style="color:red" class="fa fa-trash"></i></a>
                         </div>
                         `);
             });
         },
     });
 };
-
 
 product.comeback2 = function () {
     $("#btnProduct").replaceWith(
@@ -822,6 +837,14 @@ product.comeback2 = function () {
     $("#showImage").empty();
     $("#hideTable").show();
     product.showData();
+};
+
+product.comeback3 = function () {
+    product.next();
+    $("#checkImage").empty();
+    $("#hideTable").show();
+    $("#showImage").empty();
+    product.getAlltrash();
 };
 
 product.resetModalImage = function () {
@@ -870,4 +893,3 @@ product.removeFile = function (id) {
         },
     });
 };
-
