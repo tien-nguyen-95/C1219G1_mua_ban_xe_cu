@@ -108,11 +108,12 @@ shop.filter = function(cate = '', br = '', bc = '', price='', miles=''){
             $('#span-right').text(`Tìm thấy: ${data.count} sản phẩm`);
             if(data.count > 0){
                 $.each(data.data, function(i,v){
+                    console.log(v.files[0].name);
                     $('#product-data').append(
                     `
                     <div class="col p-1">
-                        <div id ="showimage.'i'" class="card ">
-                            <img class="card-img-top" style="width:275px;height:275px ;" src="shop/img/darkrai1.jpg">
+                        <div class="card ">
+                            <img class="card-img-top" style="width:275px;height:275px ;" src="${v.files[0].name}">
                             <div class="card-body">
                                 <h4 class="card-title" style="height:112px ;">${v.title} </h4>
                                 <h4 class="card-title text-danger">${v.export_price? formatMoney(v.export_price)+" đ": "Đang cập nhật"} </h4>
