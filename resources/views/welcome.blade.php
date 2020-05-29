@@ -136,9 +136,9 @@
                     @foreach ($products as $i=>$v )
                     <div class="col p-1">
                         <div id ="showimage.'i'" class="card ">
-                            <img class="card-img-top" src="shop/img/darkrai1.jpg">
+                            <img class="card-img-top" style="width:275px;height:275px ;" src="shop/img/darkrai1.jpg">
                             <div class="card-body">
-                                <h4 class="card-title">{{ $v->title }} </h4>
+                                <h4 class="card-title" style="height:112px ;">{{ $v->title }} </h4>
                                 <h4 class="card-title text-danger">{{ $v->export_price? number_format($v->export_price)." đ": "Đang cập nhật" }} </h4>
                                 <p class="card-text">Số km đã đi: {{ $v->miles? $v->miles." km": "Đang cập nhật" }} </p>
                                 <a href="{{ route('see-more',$v->id) }}}" class="btn btn-primary">Chi tiết</a>

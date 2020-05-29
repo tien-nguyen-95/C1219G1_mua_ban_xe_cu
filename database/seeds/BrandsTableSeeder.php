@@ -1,5 +1,6 @@
 <?php
 
+use App\Brand;
 use Illuminate\Database\Seeder;
 
 class BrandsTableSeeder extends Seeder
@@ -11,6 +12,20 @@ class BrandsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Brand::class, 10)->create();
+        $brand = new Brand();
+        $brand->name = 'Honda';
+        $brand->save();
+
+        $brand = new Brand();
+        $brand->name = 'Yamaha';
+        $brand->save();
+
+        $brand = new Brand();
+        $brand->name = 'Suzuki';
+        $brand->save();
+
+        $brand = new Brand();
+        $brand->name = 'Kawasaki';
+        $brand->save();
     }
 }
