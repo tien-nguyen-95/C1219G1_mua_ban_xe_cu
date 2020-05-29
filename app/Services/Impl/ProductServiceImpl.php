@@ -116,6 +116,5 @@ class ProductServiceImpl implements ProductService
        return  $this->productRepository->findByIdTrash($id);
     }
 
-
 };
 ?>

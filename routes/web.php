@@ -158,6 +158,7 @@ Route::prefix('products')->group(function(){
 
     Route::get('/','ProductController@index');
 
+
     Route::get('/{id}/restore','ProductController@restore');
 
     Route::post('/create','ProductController@store');
@@ -168,7 +169,9 @@ Route::prefix('products')->group(function(){
 
     Route::get('/{id}','ProductController@show');
 
-    Route::put('/{id}','ProductController@update');  
+    Route::put('/{id}','ProductController@update'); 
+    
+    Route::delete('/drop/{id}','FileController@drop');
 
     Route::delete('/remove/{id}','FileController@destroy');
 

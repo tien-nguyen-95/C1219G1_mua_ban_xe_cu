@@ -23,6 +23,7 @@ interface ProductService
     public function delete($id);
 
     public function findByIdTrash($id);
+
     //
 }
 ?>

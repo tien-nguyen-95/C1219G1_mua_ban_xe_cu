@@ -12,5 +12,7 @@ interface ProductRepository extends Repository
      public function findByIdTrash($id);
 
      public function getTrash();
+
+
 };
 ?>
