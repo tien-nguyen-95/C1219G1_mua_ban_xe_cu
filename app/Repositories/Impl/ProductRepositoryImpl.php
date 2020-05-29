@@ -46,6 +46,10 @@ class ProductRepositoryImpl extends EloquentRepository implements ProductReposit
             $result->tag->name;
             $result->category->name;
             $result->staff->name;
+            foreach($result->files as $image)
+            {
+                $image->name ="/img/banner/$image->name";
+            }
 
         return $result;
     }

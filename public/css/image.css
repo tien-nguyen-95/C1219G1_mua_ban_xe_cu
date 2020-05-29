@@ -1,0 +1,16 @@
+
+  .grid-container {
+    display: grid;
+    grid-gap: 10px;
+    padding: 10px;
+    float: left;
+    border: 1px solid #ccc;
+
+  }
+  
+
+  .grid-container-img{
+    margin: 5px;
+    width: 180px;
+    height:260px;
+  }

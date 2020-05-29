@@ -159,6 +159,8 @@ Route::prefix('products')->group(function(){
 
     Route::post('/upload','FileController@storeFile')->name('upload.file');
 
+    Route::post('/remove/{id}','FileController@destroy');
+
     Route::get('/{id}','ProductController@show');
 
     Route::put('/{id}','ProductController@update');
