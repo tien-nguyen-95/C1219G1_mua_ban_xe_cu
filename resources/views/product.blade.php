@@ -242,7 +242,7 @@
                             Phân khối:
                         </div>
                         <div class="col-7">
-                            {{ $product->cc?? 'Đang cập nhật' }}
+                            {{ $product->cc_number? $product->cc_number.' cc':'Đang cập nhật' }}
                         </div>
                     </div>
                 </div>
