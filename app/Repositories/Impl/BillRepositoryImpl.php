@@ -21,22 +21,23 @@ class BillRepositoryImpl extends EloquentRepository  implements BillRepository
     public function getAll()
     {
         $bills = $this->model->all();
+        
         foreach($bills as $bill){
-            $bill['branch'] = $bill->branch;
             $bill['customer'] =  $bill->customer;
-            
+            $bill['product'] =  $bill->product->branch;
         }
+        // foreach($bills as $bill){
+        //     $bill->customer_id =  $bill->customer;
+        //     $bill->product_id =  $bill->product;
+        // }
         return $bills;
     }
 
-    // public function findById($id)
-    // {
-    //     $bill = $this->model->find($id);
+    public function findById($id)
+    {
+        $bill = $this->model->find($id);
+        
+        return $bill;
+    }
 
-    //     $bill['customers'] = $bill->customer;
-    //     $bill['branch'] = $bill->branch;
-    //     // $bill['product'] = $bill->product;
-
-    //     return $bill;
-    // }
 }

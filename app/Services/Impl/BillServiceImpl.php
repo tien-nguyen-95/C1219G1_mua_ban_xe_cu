@@ -55,7 +55,7 @@ class BillServiceImpl implements BillService
     public function update($request, $id)
     {
         $oldBill = $this->billRepository->findById($id);
-
+        // dd($oldBill);
         if (!$oldBill) {
             $newBill = null;
             $statusCode = 404;
@@ -64,6 +64,7 @@ class BillServiceImpl implements BillService
             $statusCode = 200;
         }
 
+        // dd($newBill);
         $data = [
             'statusCode' => $statusCode,
             'bills' => $newBill

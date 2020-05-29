@@ -53,9 +53,9 @@ class BillRequest extends FormRequest
             'deposit.required' => 'Tiền đặt cọc không được để trống',
             'deposit.integer' => 'Tiền đặt cọc phải là số và lớn hơn 0',
             'deposit.gt' => 'Tiền đặt cọc phải là số và lớn hơn 0',
-            'payment.required' => 'Tổng thanh toán không được để trống',
-            'payment.integer' => 'Tổng thanh toán phải là số và lớn hơn 0',
-            'payment.gt' => 'Tổng thanh toán phải là số và lớn hơn 0',
+            'payment.required' => 'Giá sản phẩm không được để trống',
+            'payment.integer' => 'Giá sản phẩm phải là số và lớn hơn 0',
+            'payment.gt' => 'Giá sản phẩm phải là số và lớn hơn 0',
         ];
     }
 }

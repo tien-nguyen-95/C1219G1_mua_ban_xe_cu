@@ -34,20 +34,29 @@ bill.showData = function(){
                 return jsons.map(obj=>{
                     var billType = null;
                     var billComplete = null;
-                    var payment = formatNumber(obj.payment) + ' VNĐ';
+                    var payment = null;
+
                     if(obj.status == 0 ){
                         billType = '<h5><span class="badge badge-primary">Mua</span></h5>';
                     }else{
                          billType = '<h5><span class="badge badge-warning">Bán</span></h5>';
                     }
+
                     if(obj.complete == 0){
                         billComplete = '<h5><span class="badge badge-pill badge-light">Đã hoàn thành</span></h5>';
                     }else{
                         billComplete = '<h5><span class="badge badge-pill badge-dark">Chưa hoàn thành</span></h5>';
                     } 
+
+                    if(obj.status == 0){
+                        payment = formatNumber(obj.product.import_price) + ' VNĐ';
+                    }else{
+                        payment = formatNumber(obj.product.export_price) + ' VNĐ';
+                    }
                     return {
                         customer_name: obj.customer.name,
-                        branch_name: obj.branch.name,
+                        product_name: obj.product.name,
+                        branch_name: obj.product.branch.name,
                         payment: payment,
                         billType: billType,
                         status: billComplete,
@@ -62,6 +71,7 @@ bill.showData = function(){
         },
         columns: [
             {data: 'customer_name'},
+            {data: 'product_name'},
             {data: 'branch_name'},
             {data: 'payment'},
             {data: 'billType'},
@@ -111,6 +121,7 @@ bill.getProduct = function ()
     });
 }
 
+
 bill.getPayment = function()
 {
     $("#status").change(function () { 
@@ -118,35 +129,30 @@ bill.getPayment = function()
         let deposit = $("#deposit").val();
         if (status1  == '') {
             console.log('sản phẩm chưa có');
-            $("#payment").text('0');
-        }else{
-            
-                var productId1 = $("#product_id").find(":selected").val();
-                if(productId1 == ''){
-                    $("#payment").text('0');
-                }else{
-                    $.ajax({
-                        type: "GET",
-                        url: "/products/" + productId1,
-                        data: status1,deposit,
-                        dataType: "JSON",
-                        success: function (data) {
-                            if (status1 === '0') {
-                                $("span#payment").text(formatNumber(data.import_price) + " VNĐ");
-                                $('input:hidden[name=payment]').val(data.import_price);
-                                $("span#remain").text(formatNumber(data.import_price-deposit) + " VNĐ");
-                                console.log('giá mua1');
-                            } else {
-                                $("span#payment").text(formatNumber(data.export_price) + " VNĐ");
-                                $('input:hidden[name=payment]').val(data.export_price);
-                                $("span#remain").text(formatNumber(data.export_price-deposit) + " VNĐ");
-                                console.log('giá bán1');
-                            } 
+            $(".payment").text('Nhập loại đơn hàng');
+        }else{ 
+            var productId1 = $("#product_id").find(":selected").val();
+            if(productId1 == ''){
+                $(".payment").text('Nhập sản phẩm');
+            }else{
+                $.ajax({
+                    type: "GET",
+                    url: "/products/" + productId1,
+                    data: status1,deposit,
+                    dataType: "JSON",
+                    success: function (data) {
+                        if (status1 === '0') {
+                            $(".payment").text(formatNumber(data.import_price) + " VNĐ");
+                            $('#payment').val(data.import_price);
+                            console.log('giá mua1');
+                        } else {
+                            $(".payment").text(formatNumber(data.export_price) + " VNĐ");
+                            $('#payment').val(data.export_price);
+                            console.log('giá bán1');
                         } 
-                    });
-                }
-               
-            
+                    } 
+                });
+            }
         }  
     });
   
@@ -155,7 +161,7 @@ bill.getPayment = function()
         let deposit = $("#deposit").val();
         console.log(productId);
         if(productId == ''){
-            $("#payment").text('0');
+            $(".payment").text('Nhập đơn hàng');
         }else{
             $.ajax({
                 type: "GET",
@@ -164,19 +170,20 @@ bill.getPayment = function()
                 dataType: "JSON",
                 success: function (data) {
                     console.log(data);
-                    var statusBill = $("#status").find(":selected").val()
+                    // $("#branch1").val(data.branch_id);
+                    $('#branch').val(data.branch.id);
+                    console.log(data.branch_id);
+                    var statusBill = $("#status").find(":selected").val();
                     if(statusBill == ''){
-                        $("#payment").text('0');
+                        $(".payment").text('Nhập loại đơn hàng');
                     }else{
                         if(statusBill === '0'){
-                            $("span#payment").text(formatNumber(data.import_price) + " VNĐ");
-                            $('input:hidden[name=payment]').val(data.import_price);
-                            $("span#remain").text(formatNumber(data.import_price-deposit) + " VNĐ");
+                            $(".payment").text(formatNumber(data.import_price) + " VNĐ");
+                            $('#payment').val(data.import_price);
                             console.log('giá mua2');
                         }else{
-                            $("span#payment").text(formatNumber(data.export_price) + " VNĐ");
-                            $('input:hidden[name=payment]').val(data.export_price);
-                            $("span#remain").text(formatNumber(data.export_price-deposit) + " VNĐ");
+                            $(".payment").text(formatNumber(data.export_price) + " VNĐ");
+                            $('#payment').val(data.export_price);
                             console.log('giá bán 2');
                         }   
                     }                                 
@@ -186,38 +193,41 @@ bill.getPayment = function()
     });
 }
 
+// bill.getBranch = function ()
+// {
+//     $("#product_id").change(function () { 
+//         var product_id = $("#product_id").find(":selected").val();
+//         $.ajax({
+//             type: "GET",
+//             url: "/product-detail/" + product_id,
+//             dataType: "JSON",
+//             success: function (data) {
+//                 // $("#branch_id").empty();
+//                 $("#branch_id").val(data.branch_id);
+//                 console.log(data.branch_id);
+//             }
+//         });
+//     });
+// }
 
-bill.getRemain = function()
+bill.getDeposit = function ()
 {
-    $("#deposit").on('change', function(){
-        var deposit = $(this).val();
+    
+    $("#deposit").on('input ', function(){
+        // var deposit2 = deposit.replace(new RegExp(',', 'g'),"");
         var payment = $("input[name=payment]").val();
-        console.log('dat coc: ' +' '+ deposit + 'giá: ' + payment);
-        if(deposit - payment < 0){
-            $("span#remain").text(formatNumber(payment-deposit) + " VNĐ");
+        if(payment == ''){
+           $(".errors-deposit").text('Vui lòng chọn sản phẩm và loại đơn hàng');
+           $("#deposit").val(0);
         }else{
-            $("#deposit").val(payment);
+            var deposit = $(this).val();
+            console.log('đặt cọc: ' + (deposit - payment));
+            $(".errors-deposit").empty();
+            if(deposit - payment > 0){
+                $("#deposit").val(payment);
+            }
         }
-    });
-}
-
-
-bill.getBranch = function ()
-{
-    $.ajax({
-        type: "GET",
-        url: "/branch/index",
-        dataType: "JSON",
-        success: function (data) {
-            // $("#branch_id").empty();
-            $.each(data, function(i,v){
-                $("#branch_id").append(
-                    `
-                    <option value="${v.id}">${v.name}</option>
-                    `
-                );
-            });
-        }
+        
     });
 }
 
@@ -230,14 +240,31 @@ bill.getDetail = function (id)
         dataType: "json",
         success: function (data) {
 
-            console.log(data);
+            console.log(data.bills.customer_id);
 
             $("#billId").val(data.bills.id);
+
             $("#customer_id").val(data.bills.customer_id);
+            $("#customer_hide").val(data.name_customer);
+            
+            $("#product_id").val(data.bills.product_id);
+            $("#product_hide").val(data.name_product);
+           
+            if(data.bills.status == 0){
+                $("#status_hide").val('Đơn mua hàng');
+                $('#payment').val(data.import_product);
+                $(".payment").text(formatNumber(data.import_product) + " VNĐ");
+            }else{
+                $("#status_hide").val('Đơn bán hàng');
+                $('#payment').val(data.export_product);
+                $(".payment").text(formatNumber(data.export_product) + " VNĐ")
+            } 
+
+            $(".edit-hide").removeAttr("hidden");
+            $(".edit-show").hide();
 
             $("#staff_id").val(data.bills.staff_id);
-            $("#product_id").val(data.bills.product_id);
-            $("#branch_id").val(data.bills.branch_id);
+            $("#branch").val(data.branch_product);
 
             $('#status').val(data.bills.status);
             $('#complete').val(data.bills.complete);
@@ -246,8 +273,8 @@ bill.getDetail = function (id)
             $('input[name="delivered_at"]').val(data.bills.delivered_at);
 
             $('#deposit').val(data.bills.deposit);
-            $('#payment').val(data.bills.payment);
 
+        
             $('#billModal').find('.modal-title').text("Cập nhật hóa đơn");
             $('#billModal').find('a').text("Cập nhật");
             $("#billModal").modal('show');
@@ -263,9 +290,8 @@ bill.showDetail = function ()
         dataType: "JSON",
         success: function (data) {
             // console.log(data.name);
-            
             $("#billId").val(data.bills.id);
-            $("#customer_id").val(data.bills.customer_id);
+            $("#customer_id").val(data.bills.customer.customer_id);
             
             $("#staff_id").val(data.bills.staff_id);
             $("#product_id").val(data.bills.product_id);
@@ -278,7 +304,7 @@ bill.showDetail = function ()
             $('input[name="delivered_at"]').val(data.bills.delivered_at);
 
             $('#deposit').val(data.bills.deposit);
-            $('#payment').val(data.bills.payment);
+            $('input[name=payment]').val(data.bills.payment);
         
             $("#thongtin").modal('show');
         }
@@ -290,18 +316,19 @@ bill.save = function () {
     if($('#formBill').valid()){
         if ($('#billId').val() == 0) {
             var objAdd = {};
+            
             objAdd.customer_id  = $('#customer_id').val();
             objAdd.product_id   = $('#product_id').val();
-            objAdd.branch_id    = $('#branch_id').val();
-            objAdd.staff_id     = ($('input#staff_id').val())
+            objAdd.branch_id    = $('#branch').val();
+            objAdd.staff_id     = $('#staff_id').val();
 
             objAdd.complete     = $("#complete").val();
             objAdd.status       = $("#status").val();
 
             objAdd.delivered_at = $('input[name="delivered_at"]').val();
             objAdd.payment_at   = $('input[name="payment_at"]').val();
-            objAdd.deposit      = $('input[name="deposit"]').val();
-            objAdd.payment      = $('input[name="payment"]').val();
+            objAdd.deposit      = $('#deposit').val();
+            objAdd.payment      = $('#payment').val();
             $(".sml-er").empty();
             console.log(objAdd.staff_id);
 
@@ -343,28 +370,25 @@ bill.save = function () {
                         objEdit.customer_id = $('#customer_id').val();
                         objEdit.staff_id = $('#staff_id').val();
                         objEdit.product_id = $('#product_id').val();
-                        objEdit.branch_id = $('#branch_id').val();
+                        objEdit.branch_id = $('#branch').val();
                         objEdit.status = $('#status').val();
                         objEdit.complete = $('#complete').val();
                         objEdit.payment_at = $('input[name="payment_at"]').val();
                         objEdit.delivered_at = $('input[name="delivered_at"]').val();
                         objEdit.deposit = $('#deposit').val();
                         objEdit.payment = $('#payment').val();
-                        console.log(objEdit);
                         $.ajax({
                             url: "/bill/" + objEdit.id,
                             method: "PUT",
-                            dataType: "json",
+                            dataType: "JSON",
                             contentType: 'application/json',
                             data: JSON.stringify(objEdit),
                             success: function (data) {
-                                console.log(data);
                                 $('#billModal').modal('hide');
                                 bill.table.ajax.reload(null,false);
                                 messenger("Cập nhật thành công");
                             },
                             error: function(data){
-                                console.log(data);
                                 $.each(data.responseJSON.errors, function(key, val) {
                                     $(`.errors-${key}`).text(val);
                                 });
@@ -380,20 +404,22 @@ bill.save = function () {
 
 
 bill.resetForm = function () {
+    $(".edit-hide").attr('hidden', true);
+    $(".edit-show").show();
+
     $(".sml-er").empty();
     $('#billId').val("0");
     $('#customer_id').val("");
     $('#product_id').val("");
-    $('#branch_id').val("");
+    $('#branch').val("");
     $('#status').val("");
     $('#complete').val("");
     $('input[name="payment_at"]').val("");
     $('input[name="delivered_at"]').val("");
     $('#deposit').val('');
-    $("input[name=payment]").val('');
-    $('span#payment').text("0 VNĐ")
-    $('span#remain').text("0 VNĐ")
-    $('#formBill').find('.modal-title').text("Thêm hóa đơn mới");
+    $("#payment").val('');
+    $('.payment').text("Trống");
+    $('#billModal').find('.modal-title').text("Thêm hóa đơn");
     $('#formBill').find('a').text('Thêm');
     var form = $('#formBill').validate();
     form.resetForm();
@@ -425,9 +451,9 @@ bill.init = function()
     bill.showData();
     bill.getProduct();
     bill.getCustomer();
-    bill.getBranch();
+    // bill.getBranch();
     bill.getPayment();  
-    bill.getRemain();
+    bill.getDeposit();
 }
 
 

@@ -51,6 +51,7 @@ abstract class EloquentRepository implements Repository
         return $object;
     }
 
+    
     public function update($data, $object)
     {
         $object->update($data);
