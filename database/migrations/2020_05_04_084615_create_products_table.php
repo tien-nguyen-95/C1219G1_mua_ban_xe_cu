@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('code',20);
             $table->string('title');
             $table->string('name');
-            $table->longText('image')->nullable();
+            $table->integer('cc_number');
             $table->integer('model_year');
             $table->integer('register_year');
             $table->integer('miles');

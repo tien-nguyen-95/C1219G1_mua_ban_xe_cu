@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    //
     public function storeFile(Request $request)
     {   
         $files = new File();
@@ -25,7 +24,22 @@ class FileController extends Controller
         $file->move("img/banner", $image);
         $files->name = $image;
         }
-        $files->product_id  = 1;
+        $files->product_id  = $request->product_id;
         $files->save();
+
+        return response()->json($files,200);
+    }
+
+    public function destroy($id)
+    {
+        $file = File::findOrFail($id);
+        if (!empty($file->name))
+        {
+            unlink("img/banner/" . $file->name);
+        }
+        $file->delete();
+
+        return response()->json($file,200);
+
     }
 }

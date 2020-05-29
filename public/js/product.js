@@ -7,7 +7,6 @@ product.showData = function () {
         dataType: "json",
         success: function (data) {
             $("#table tbody").empty();
-            var index = 0;
             $.each(data, function (i, product) {
                 $("#table tbody").append(
                     `<tr>
@@ -15,14 +14,23 @@ product.showData = function () {
                         <td>${product.code}</td>
                         <td>${product.title}</td>
                         <td>${product.name}</td>
-                        <td><a href="javascript:;" onclick="product.showImage()">Xem ảnh</a></td>
+                        <td>${product.cc_number}CC</td>
+                        <td><a href="javascript:;" onclick="product.showImage(${
+                            product.id
+                        })">Xem ảnh</a></td>
                         <td>${product.model_year}</td>
                         <td>${product.register_year}</td>
                         <td>${product.miles}km</td>
                         <td>${product.color}</td>
                         <td>${product.origin}</td>
-                        <td>${product.import_price.toLocaleString("vi", {style: "currency",currency: "VND",})}</td>
-                        <td>${product.export_price.toLocaleString("vi", {style: "currency",currency: "VND",})}</td>
+                        <td>${product.import_price.toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                        })}</td>
+                        <td>${product.export_price.toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                        })}</td>
                         <td>${product.status}</td>
                         <td>${product.branch.name}</td>
                         <td>${product.brand.name}</td>
@@ -30,13 +38,17 @@ product.showData = function () {
                         <td>${product.category.name}</td>
                         <td>${product.staff.name}</td>
                         <td>
-                            <a  href="javascript:;" onclick="product.getDetail(${product.id})"><i style="color:blue" class="fa fa-edit"></i></a>
-                            <a href="javascript:;" onclick="product.remove(${product.id})"><i style="color:red" class="fa fa-trash"></i></a>
+                            <a  href="javascript:;" onclick="product.getDetail(${
+                                product.id
+                            })"><i style="color:blue" class="fa fa-edit"></i></a>
+                            <a href="javascript:;" onclick="product.remove(${
+                                product.id
+                            })"><i style="color:red" class="fa fa-trash"></i></a>
                         </td>
                     <tr>
                         `
-                    );
-                });
+                );
+            });
             $("#tbale").DataTable();
         },
     });
@@ -128,19 +140,19 @@ product.getDetail = function (id) {
             $("#code").val(data.code);
             $("#inputtitle").val(data.title);
             $("#name").val(data.name);
-            $("#model_year").val(data.model_year).trigger('change');
-            $("#register_year").val(data.register_year).trigger('change');
+            $("#model_year").val(data.model_year).trigger("change");
+            $("#register_year").val(data.register_year).trigger("change");
             $("#miles").val(data.miles);
             $("#color").val(data.color);
             $("#origin").val(data.origin);
             $("#import_price").val(data.import_price);
             $("#export_price").val(data.export_price);
             $("#status").val(data.status);
-            $('#branch_id').val(data.branch_id).trigger('change');
-            $("#brand_id").val(data.brand_id).trigger('change');
-            $("#tag_id").val(data.tag_id).trigger('change');
-            $("#category_id").val(data.category_id).trigger('change');
-            $("#staff_id").val(data.staff_id).trigger('change');
+            $("#branch_id").val(data.branch_id).trigger("change");
+            $("#brand_id").val(data.brand_id).trigger("change");
+            $("#tag_id").val(data.tag_id).trigger("change");
+            $("#category_id").val(data.category_id).trigger("change");
+            $("#staff_id").val(data.staff_id).trigger("change");
             $("#images").val(data.image);
             $("#modal").find(".modal-title").text("Update Product");
             $(".modal-footer").find("a").text("Update");
@@ -163,11 +175,11 @@ product.resetForm = function () {
     $("#import_price").val("");
     $("#export_price").val("");
     $("#status").val("show");
-    $("#branch_id ").val(null).trigger('change');
-    $("#brand_id").val(null).trigger('change');
-    $("#tag_id").val(null).trigger('change');
-    $("#category_id").val(null).trigger('change');
-    $("#staff_id").val(null).trigger('change');
+    $("#branch_id ").val(null).trigger("change");
+    $("#brand_id").val(null).trigger("change");
+    $("#tag_id").val(null).trigger("change");
+    $("#category_id").val(null).trigger("change");
+    $("#staff_id").val(null).trigger("change");
     $("#images").val("");
     $("#modal").modal("show");
     $("#modal").find(".modal-title").text("Create New Product");
@@ -180,9 +192,9 @@ product.resetForm = function () {
 product.save = function () {
     if ($("#Form").valid()) {
         //create
-        if ($("#productId").val() == 0){
+        if ($("#productId").val() == 0) {
             var productOjb = {};
-            productOjb.code =   $("#code").val();
+            productOjb.code = $("#code").val();
             productOjb.title = $("#inputtitle").val();
             productOjb.name = $("#name").val();
             productOjb.model_year = $("#model_year").val();
@@ -190,8 +202,12 @@ product.save = function () {
             productOjb.miles = $("#miles").val();
             productOjb.color = $("#color").val();
             productOjb.origin = $("#origin").val();
-            productOjb.import_price = $("#import_price").val().replace(/,/g, "");
-            productOjb.export_price = $("#export_price").val().replace(/,/g, "");
+            productOjb.import_price = $("#import_price")
+                .val()
+                .replace(/,/g, "");
+            productOjb.export_price = $("#export_price")
+                .val()
+                .replace(/,/g, "");
             productOjb.status = $("#status").val();
             productOjb.branch_id = $("#branch_id").val();
             productOjb.brand_id = $("#brand_id").val();
@@ -224,33 +240,31 @@ product.save = function () {
                 },
                 error: function (data) {
                     $.each(data.responseJSON.errors, function (key, value) {
-                        console.log(key,value);
+                        console.log(key, value);
                         $(`.errors-${key}`).text(value);
                     });
                 },
             });
-
-        }
-        else {
+        } else {
             var OjbEdit = {};
-                OjbEdit.id = $("#productId").val();
-                OjbEdit.code = $("#code").val();
-                OjbEdit.title = $("#inputtitle").val();
-                OjbEdit.name = $("#name").val();
-                OjbEdit.model_year = $("#model_year").val();
-                OjbEdit.register_year = $("#register_year").val();
-                OjbEdit.miles = $("#miles").val();
-                OjbEdit.color = $("#color").val();
-                OjbEdit.origin = $("#origin").val();
-                OjbEdit.import_price = $("#import_price").val().replace(/,/g, "");
-                OjbEdit.export_price = $("#export_price").val().replace(/,/g, "");
-                OjbEdit.status = $("#status").val();
-                OjbEdit.branch_id = $("#branch_id").val();
-                OjbEdit.brand_id = $("#brand_id").val();
-                OjbEdit.tag_id = $("#tag_id").val();
-                OjbEdit.category_id = $("#category_id").val();
-                OjbEdit.staff_id = $("#staff_id").val();
-                OjbEdit.image = $("#images").val();
+            OjbEdit.id = $("#productId").val();
+            OjbEdit.code = $("#code").val();
+            OjbEdit.title = $("#inputtitle").val();
+            OjbEdit.name = $("#name").val();
+            OjbEdit.model_year = $("#model_year").val();
+            OjbEdit.register_year = $("#register_year").val();
+            OjbEdit.miles = $("#miles").val();
+            OjbEdit.color = $("#color").val();
+            OjbEdit.origin = $("#origin").val();
+            OjbEdit.import_price = $("#import_price").val().replace(/,/g, "");
+            OjbEdit.export_price = $("#export_price").val().replace(/,/g, "");
+            OjbEdit.status = $("#status").val();
+            OjbEdit.branch_id = $("#branch_id").val();
+            OjbEdit.brand_id = $("#brand_id").val();
+            OjbEdit.tag_id = $("#tag_id").val();
+            OjbEdit.category_id = $("#category_id").val();
+            OjbEdit.staff_id = $("#staff_id").val();
+            OjbEdit.image = $("#images").val();
             $.ajax({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -283,7 +297,7 @@ product.save = function () {
             });
         }
     }
-}
+};
 product.remove = function (id) {
     bootbox.confirm({
         title: "Thông báo",
@@ -346,8 +360,14 @@ product.getAlltrash = function () {
                     <td>${product.miles}km</td>
                     <td>${product.color}</td>
                     <td>${product.origin}</td>
-                    <td>${product.import_price.toLocaleString("vi", {style: "currency",currency: "VND",})}</td>
-                    <td>${product.export_price.toLocaleString("vi", {style: "currency",currency: "VND",})}</td>
+                    <td>${product.import_price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                    })}</td>
+                    <td>${product.export_price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                    })}</td>
                     <td>${product.status}</td>
                     <td>${product.branch.name}</td>
                     <td>${product.brand.name}</td>
@@ -355,8 +375,12 @@ product.getAlltrash = function () {
                     <td>${product.category.name}</td>
                     <td>${product.staff.name}</td>
                         <td>
-                            <a  href="javascript:;" onclick="product.restore(${product.id})"><i style="color:blue" class="fas fa-trash-restore"></i></a>
-                            <a href="javascript:;" onclick="product.detele(${product.id})"><i  style="color:red" class="fas fa-trash-alt"></i></a>
+                            <a  href="javascript:;" onclick="product.restore(${
+                                product.id
+                            })"><i style="color:blue" class="fas fa-trash-restore"></i></a>
+                            <a href="javascript:;" onclick="product.detele(${
+                                product.id
+                            })"><i  style="color:red" class="fas fa-trash-alt"></i></a>
                         </td>
                     <tr>
                         `
@@ -575,107 +599,226 @@ function formatCurrency(input, blur) {
     caret_pos = updated_len - original_len + caret_pos;
     input[0].setSelectionRange(caret_pos, caret_pos);
 }
-product.showModalFile  = function()
-{
-    $("#modalFile").modal('show');
-}
+product.showModalFile = function () {
+    product.resetModalImage();
+    $("#modalFile").modal("show");
+};
 
+product.uploadFile = function () {
+    var i = 0;
+    var dataImage = new Array();
+    var dataPosition = new Array();
 
-product.uploadFile = function()
-{
+    $("#images").change(function () {
+        $(".show-progress").empty();
+        var checkImage = this.value;
+        var ext = checkImage
+            .substring(checkImage.lastIndexOf(".") + 1)
+            .toLowerCase();
+        if (ext == "gif" || ext == "png" || ext == "jpg" || ext == "jpeg") {
+            change(this);
+            var file = document.getElementById("images").files[0];
+            dataImage[i] = file; //add push to array dataImage
+            dataPosition[i] = i; //add push position to dataPosition
+            //created html progress
+            var html_progress =
+                '<div class="progress" style="margin-bottom:5px;"><div class="progress-bar" id="progress-' +
+                i +
+                '" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div>';
+            $(".show-progress").append(html_progress);
+            i++;
+        } else alert("Chọn image (jpg, jpeg, png).");
+    });
 
-            var i=0;
-            var dataImage = new Array();
-            var dataPosition = new Array();
+    var change = function (input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var addImage =
+                    '<div class="col-md-3"><img src=' +
+                    e.target.result +
+                    ' style="width:150px;height:160px;"><a href="javascript:;" ><i style="transform:translateY(-50px);color:red;" class="fas fa-times-circle"></i></a></div>';
 
-            $("#images").change(function(){
-                var checkImage = this.value;
-                var ext = checkImage.substring(checkImage.lastIndexOf('.') + 1).toLowerCase();
-                if (ext == "gif" || ext == "png" || ext == "jpg" || ext == "jpeg")
-                {
-                    change(this);
-                    var file = document.getElementById('images').files[0];
-                    dataImage[i]=file; //add push to array dataImage
-                    dataPosition[i]=i;  //add push position to dataPosition
-                   //created html progress
-                    var html_progress = '<div class="progress" style="margin-bottom:5px;"><div class="progress-bar" id="progress-'+i+'" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div>';
-                    $(".show-progress").append(html_progress);
-                    i++;
-                }
-                else
-                    alert("Please select image file (jpg, jpeg, png).")
-            });
-            var change = function(input){
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        var addImage = '<div class="col-md-3"><img src='+e.target.result+' style="width:40px;height:60px;"></div>';
-
-                        //add image to div="showImage"
-                        $("#showImage").append(addImage);
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-            var upload = function(data,position){
-                var formData = new FormData();
-                   //append data to formdata
-                    formData.append('image',data);
-                    var id = position;
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //add image to div="showImage"
+                $("#ShowImages").append(addImage);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+    var upload = function (data, position) {
+        var Idpd = $("#product_id").val();
+        var formData = new FormData();
+        //append data to formdata
+        formData.append("image", data);
+        formData.append("product_id", Idpd);
+        var id = position;
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+        $.ajax({
+            type: "POST",
+            url: "/products/upload",
+            data: formData,
+            contentType: false,
+            dataType: "json",
+            processData: false,
+            cache: false,
+            xhr: function () {
+                // console.log(id);
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener(
+                    "progress",
+                    function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            percentComplete = parseInt(percentComplete * 100);
+                            if (percentComplete == 100) {
+                                dataImage.splice(id, 1);
+                                dataPosition.splice(id, 1);
+                            }
+                            $("#progress-" + id).text(percentComplete + "%");
+                            $("#progress-" + id).css(
+                                "width",
+                                percentComplete + "%"
+                            );
                         }
-                    });
-                    $.ajax({
-                        type:'POST',
-                        url:'/products/upload',
-                        data:formData,
-                        contentType: false,
-                        dataType:'json',
-                        processData: false,
-                        cache:false,
-                        xhr: function () {
-                            console.log(id);
-                            var xhr = new window.XMLHttpRequest();
-                            xhr.upload.addEventListener("progress", function (evt) {
-                                if (evt.lengthComputable) {
-                                    var percentComplete = evt.loaded / evt.total;
-                                    percentComplete = parseInt(percentComplete * 100);
-                                    if(percentComplete==100){
-                                        dataImage.splice(id, 1);
-                                        dataPosition.splice(id, 1);
-                                    }
-                                    $("#progress-"+id).text(percentComplete + '%');
-                                    $("#progress-"+id).css('width', percentComplete + '%');
-                                }
-                            }, false);
-                            return xhr;
-                        },
-                        success:function(data){
-                            console.log(data);
-                        }
+                    },
+                    false
+                );
+                return xhr;
+            },
+            success: function (data) {
+                console.log(data);
+                $.toast({
+                    heading: "Thông báo",
+                    text: "Thêm ảnh thành công",
+                    hideAfter: 2000,
+                    position: "top-center",
+                    showHideTransition: "slide",
+                    icon: "success",
+                });
+                $("#modalFile").modal("hide");
+                $(".gallery").remove();
+                product.showImage(Idpd);
+            },
+        });
+    };
 
-                    });
+    $("form#upload").submit(function (event) {
+        $(".gallery").remove();
+        event.preventDefault();
+        var k = 0;
+        for (k = 0; k < dataImage.length; k++) {
+            /**
+             * Function Upload
+             * params 1: data image
+             * params 2: position[ progressbar-1 or progressbar-2,...]
+             */
+            upload(dataImage[k], dataPosition[k]);
+        }
+    });
+};
+
+product.showImage = function (id) {
+    $("#btnProduct").replaceWith(
+        `
+        <div class="col-12 mb-3" id="btnProduct">
+            <a id="trash" href="javascript:;" class="btn btn-primary" onclick="product.comeback2()"><i class="fas fa-arrow-circle-left"></i>Quay lại</a>
+            <a href="javascript:;" class="btn btn-success" onclick="product.showModalFile()" ><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm ảnh</a>
+        </div>
+        `
+    );
+    $("#hideTable").hide();
+    $.ajax({
+        url: "/products/" + id,
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            // console.log(data);
+            $("#showImage").empty();
+            $("#IdProduct").append(
+                `<input hidden id="product_id" name="product_id" value="${id}">`
+            );
+            if (data.files.length == 0) {
+                $("#checkImage").append(
+                    `<strong style="color:red">Không có hình ảnh nào</strong>`
+                );
             }
-
-            $("form#upload").submit(function( event ) {
-                    event.preventDefault();
-                    var k=0;
-                    for(k=0; k<dataImage.length;k++){
-
-                        /**
-                         * Function Upload
-                         * params 1: data image
-                         * params 2: position[ progressbar-1 or progressbar-2,...]
-                         */
-                        upload(dataImage[k],dataPosition[k]);
-                    }
+            $.each(data.files, function (index, value) {
+                $("#showImage").append(`
+                        <div class="grid-container">
+                            <a target="" href="${value.name}">
+                                <div><img class='grid-container-img' src="${value.name}" alt="Cinque Terre" width="600" height="400"></div>
+                            </a>
+                            <a style = "text-align:center;"href="javascript:;" onclick="product.removeFile(${value.id})"><i style="color:red" class="fa fa-trash"></i></a>
+                        </div>
+                        `);
             });
+        },
+    });
+};
 
-}
+product.comeback2 = function () {
+    $("#btnProduct").replaceWith(
+        `
+        <div class="col-12 mb-3" id="btnProduct">
+            <a href="javascript:;" class="btn btn-success" onclick="product.showModal()" id="comeback"><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm mới</a>
+            <a id="trash" href="javascript:;" class="btn btn-warning" onclick="product.next()"><i class="fas fa-trash"></i>Thùng rác</a>
+        </div>
+        `
+    );
+    $("#checkImage").empty();
+    $("#showImage").empty();
+    $("#hideTable").show();
+    product.showData();
+};
 
-// product.showImage = function ()
-// {
+product.resetModalImage = function () {
+    $("#images").val(null);
+    $(".show-progress").empty();
+    $("#ShowImages").empty();
+};
 
-// }
+product.removeFile = function (id) {
+    bootbox.confirm({
+        title: "Thông báo",
+        message: "Bạn chắc chắn muốn xóa không",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> No',
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Yes',
+            },
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                    url: "/remove/" + id,
+                    method: "DELETE",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data) {
+                        // console.log(data);
+                        $.toast({
+                            heading: "Thông báo",
+                            text: "Xóa thành công",
+                            hideAfter: 2000,
+                            position: "top-center",
+                            showHideTransition: "slide",
+                            icon: "success",
+                        });
+                        product.showImage();
+                    },
+                });
+            }
+        },
+    });
+};
