@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Bill;
+use App\Branch;
+use App\Customer;
 use Illuminate\Http\Request;
 use App\Services\BillService;
 use App\Http\Requests\BillRequest;
+use App\Product;
+use App\Staff;
 
 class BillController extends Controller
 {
@@ -25,14 +30,22 @@ class BillController extends Controller
     public function show($id)
     {
         $dataBill = $this->billService->findById($id);
-        dd($dataBill->customer->name);
+    
         return response()->json($dataBill['bills'], $dataBill['statusCode']);
     }
 
     public function edit($id)
     {
         $dataBill = $this->billService->findById($id);
+        $dataBill['name_customer'] = (Customer::where("id", $dataBill['bills']['customer_id'])->first())->name;
+        $dataBill['name_product'] = (Product::where("id", $dataBill['bills']['product_id'])->first())->name;
+        $dataBill['import_product'] = (Product::where("id", $dataBill['bills']['product_id'])->first())->import_price;
+        $dataBill['export_product'] = (Product::where("id", $dataBill['bills']['product_id'])->first())->export_price;
+        $dataBill['branch_product'] = (Product::where("id", $dataBill['bills']['product_id'])->first())->branch_id;
+        $dataBill['name_staff'] = (Staff::where("id", $dataBill['bills']['staff_id'])->first())->name;
+        $dataBill['name_branch'] = (Branch::where("id", $dataBill['bills']['branch_id'])->first())->name;
         // dd($dataBill);
+        
         return response()->json($dataBill, 200);
     }
 
@@ -46,6 +59,7 @@ class BillController extends Controller
 
     public function update(BillRequest $request, $id)
     {
+        
         $dataBill = $this->billService->update($request->all(), $id);
 
         return response()->json($dataBill['bills'], $dataBill['statusCode']);
