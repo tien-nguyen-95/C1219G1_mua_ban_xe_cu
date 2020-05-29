@@ -1,5 +1,6 @@
 <?php
 
+use App\Tag;
 use Illuminate\Database\Seeder;
 
 class TagsTableSeeder extends Seeder
@@ -11,6 +12,28 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Tag::class, 10)->create();
+        $tag = new Tag();
+        $tag->name = 'tag';
+        $tag->save();
+
+        $tag = new Tag();
+        $tag->name = 'tag1';
+        $tag->save();
+
+        $tag = new Tag();
+        $tag->name = 'tag2';
+        $tag->save();
+
+        $tag = new Tag();
+        $tag->name = 'tag3';
+        $tag->save();
+
+        $tag = new Tag();
+        $tag->name = 'tag4';
+        $tag->save();
+
+        $tag = new Tag();
+        $tag->name = 'tag5';
+        $tag->save();
     }
 }
