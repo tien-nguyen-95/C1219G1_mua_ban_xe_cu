@@ -1,5 +1,6 @@
 <?php
 
+use App\Category;
 use Illuminate\Database\Seeder;
 
 class CategoriesTableSeeder extends Seeder
@@ -11,6 +12,24 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Category::class, 10)->create();
+        $category = new Category();
+        $category->name = 'Xe số';
+        $category->save();
+
+        $category = new Category();
+        $category->name = 'Xe ga';
+        $category->save();
+
+        $category = new Category();
+        $category->name = 'Xe côn';
+        $category->save();
+
+        $category = new Category();
+        $category->name = 'Xe phân khối lớn';
+        $category->save();
+
+        $category = new Category();
+        $category->name = 'Xe độ';
+        $category->save();
     }
 }

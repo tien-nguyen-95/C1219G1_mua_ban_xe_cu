@@ -9,6 +9,6 @@ use App\Category;
 $factory->define(Tag::class, function ($faker) use ($factory) {
     return [
         'title' => $faker->title,
-        'category_id' =>$factory->create(App\Category::class)->id
+        'category_id' =>random_int(1,Category::count()),
     ];
 });
