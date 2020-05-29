@@ -19,11 +19,6 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 
@@ -178,8 +173,14 @@ Route::prefix('products')->group(function(){
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 //shop
-Route::view('/welcome', 'welcome')->name('welcome');
+Route::get('/', 'ShopController@getAll')->name('welcome');
+Route::get('/ajax/getAll', 'ShopController@ajaxGetAll')->name('welcome.ajaxGetAll');
 
 Route::get('/product-detail/{id}','ShopController@detail')->name('see-more');
 
-Route::get('/filter-product/filter','ShopController@filter');
+Route::get('/filter-product','ShopController@filter');
+Route::post('/search','ShopController@search')->name('search');
+
+Route::get('/filer-category/{id}','ShopController@filterCategory');
+Route::get('/filer-brand/{id}','ShopController@filterBrand');
+Route::get('/filer-branch/{id}','ShopController@filterBranch');
