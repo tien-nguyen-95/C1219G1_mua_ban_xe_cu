@@ -21,8 +21,10 @@
 
             <div id="show-progress" class="show-progress">
         </div>
-         <div class="row justify-content-center" id="ShowImages">
-        
+         <div id="EmptyImage" class="row justify-content-center">
+          <div hidden  id="ShowImages" class="col-md-3">
+
+          </div>
         </div>
         <!-- Modal footer -->
         <div id='file-list-display'></div>

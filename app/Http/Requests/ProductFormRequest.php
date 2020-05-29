@@ -25,8 +25,9 @@ class ProductFormRequest extends FormRequest
     {
         return [
             'code' => 'required|max:20 | unique:products,code,' . $this->id . 'id',
-            // 'inputtitle' => 'required',
+            // 'ok' => 'required',
             'name' => 'required| min:5 | max:255',
+            // 'cc' => 'required|integer|min:1|max:1000',
             'model_year' => 'required',
             'register_year' => 'required',
             'miles' => 'required|integer|min:1|max:1000000',
@@ -59,6 +60,11 @@ class ProductFormRequest extends FormRequest
             'name.required' => 'Vui lòng điền thông tin !',
             'name.min' => 'Vui lòng nhập ít nhất là 5 kí tự !',
             'name.max' => 'Vui lòng nhập dưới 255 kí tự !',
+
+            // 'cc.required' => 'Vui lòng điền thông tin !',
+            // 'cc.integer' => 'Vui lòng điền dưới dạng số !',
+            // 'cc.min' => 'Vui lòng nhập ít nhất là 1 kí tự !',
+            // 'cc.max' => 'Vui lòng nhập dưới 4 kí tự !',
 
             'model_year.required' => 'Vui lòng chọn thông tin !',
 

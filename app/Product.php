@@ -15,7 +15,7 @@ class Product extends Model
 
     protected $casts = ['image'=>'array', ];
 
-    protected  $fillable = ['code','title','name','image','model_year','register_year','miles','color','origin','import_price','export_price','status','branch_id','brand_id','tag_id','category_id','staff_id'];
+    protected  $fillable = ['code','title','name','cc_number','image','model_year','register_year','miles','color','origin','import_price','export_price','status','branch_id','brand_id','tag_id','category_id','staff_id'];
 
     public function branch()
     {

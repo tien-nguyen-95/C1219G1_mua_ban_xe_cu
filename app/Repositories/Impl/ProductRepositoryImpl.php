@@ -40,7 +40,6 @@ class ProductRepositoryImpl extends EloquentRepository implements ProductReposit
     public function findByIdJoin($id)
     {
         $result = $this->model->find($id);
-
             $result->branch->name;
             $result->brand->name;
             $result->tag->name;
@@ -68,5 +67,22 @@ class ProductRepositoryImpl extends EloquentRepository implements ProductReposit
 
         return $result;
     }
+
+    public function findByIdTrash($id)
+    {
+            $result =$this->model::onlyTrashed()->where('id', $id)->get();
+                $result->branch->name;
+                $result->brand->name;
+                $result->tag->name;
+                $result->category->name;
+                $result->staff->name;
+                foreach($result->files as $image)
+                {
+                    $image->name ="/img/banner/$image->name";
+                }
+    
+            return $result;
+    }
+
 
 };

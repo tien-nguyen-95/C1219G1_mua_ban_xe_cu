@@ -159,11 +159,13 @@ Route::prefix('products')->group(function(){
 
     Route::post('/upload','FileController@storeFile')->name('upload.file');
 
-    Route::post('/remove/{id}','FileController@destroy');
+    Route::get('/trash/{id}','ProductController@findByIdTrash');
 
     Route::get('/{id}','ProductController@show');
 
-    Route::put('/{id}','ProductController@update');
+    Route::put('/{id}','ProductController@update');  
+
+    Route::delete('/remove/{id}','FileController@destroy');
 
     Route::delete('/{id}/delete','ProductController@delete');
 
