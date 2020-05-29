@@ -27,7 +27,7 @@ class FileController extends Controller
         $files->product_id  = $request->product_id;
         $files->save();
 
-        return response()->json($files,200);
+        return response()->json($files->product,200);
     }
 
     public function destroy($id)
@@ -39,7 +39,9 @@ class FileController extends Controller
         }
         $file->delete();
 
-        return response()->json($file,200);
+        return response()->json($file->product,200);
 
     }
+
+  
 }

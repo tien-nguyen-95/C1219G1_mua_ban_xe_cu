@@ -9,6 +9,8 @@ interface ProductRepository extends Repository
 
      public function findByIdJoin($id);
 
+     public function findByIdTrash($id);
+
      public function getTrash();
 };
 ?>

@@ -81,4 +81,11 @@ class ProductController extends Controller
         $product =  $this->productService->delete($id);
         return response()->json($product, 200);
     }
+
+    public function findByIdTrash($id)
+    {
+        $trashProduct = $this->productService->findByIdJoin($id);
+
+        return response()->json($trashProduct,200);
+    }
 }

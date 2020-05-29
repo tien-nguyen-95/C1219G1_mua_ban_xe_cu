@@ -21,6 +21,8 @@ interface ProductService
     public function restore($id);
 
     public function delete($id);
+
+    public function findByIdTrash($id);
     //
 }
 ?>

@@ -43,6 +43,16 @@
 
                         <div class="row form-group">
                             <div class="col-4">
+                                <label>Phân khối (CC)</label>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" id="cc" name="cc" class="form-control" placeholder="---Điền thông tin---">
+                                <p style="color:red"  class="errors-cc"></p >
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-4">
                                 <label>Đời xe</label>
                             </div>
                             <div class="col-8">
@@ -192,15 +202,6 @@
                                     <option hidden id="IdStaff"></option>
                                 </select>
                                 <p style="color:red"  class="errors-staff_id"></p >
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <div class="col-4">
-                                <label>Ảnh</label>
-                            </div>
-                            <div class="col-8">
-                                <a href="javascript:;" class="btn btn-success" id="" onclick="product.showModalFile()">Thêm Ảnh</a>            
                             </div>
                         </div>
 

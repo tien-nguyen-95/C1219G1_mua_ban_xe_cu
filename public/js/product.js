@@ -140,6 +140,7 @@ product.getDetail = function (id) {
             $("#code").val(data.code);
             $("#inputtitle").val(data.title);
             $("#name").val(data.name);
+            $("#cc").val(data.cc_number);
             $("#model_year").val(data.model_year).trigger("change");
             $("#register_year").val(data.register_year).trigger("change");
             $("#miles").val(data.miles);
@@ -167,8 +168,9 @@ product.resetForm = function () {
     $("#code").val("");
     $("#inputtitle").val("");
     $("#name").val("");
-    $("#model_year").val("1");
-    $("#register_year").val("1");
+    $("#cc").val("");
+    $("#model_year").val(null).trigger("change");
+    $("#register_year").val(null).trigger("change");
     $("#miles").val("");
     $("#color").val("");
     $("#origin").val("");
@@ -197,6 +199,7 @@ product.save = function () {
             productOjb.code = $("#code").val();
             productOjb.title = $("#inputtitle").val();
             productOjb.name = $("#name").val();
+            productOjb.cc_number = $("#cc").val();
             productOjb.model_year = $("#model_year").val();
             productOjb.register_year = $("#register_year").val();
             productOjb.miles = $("#miles").val();
@@ -214,7 +217,6 @@ product.save = function () {
             productOjb.tag_id = $("#tag_id").val();
             productOjb.category_id = $("#category_id").val();
             productOjb.staff_id = $("#staff_id").val();
-            productOjb.image = $("#images").val();
             $.ajax({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -251,6 +253,7 @@ product.save = function () {
             OjbEdit.code = $("#code").val();
             OjbEdit.title = $("#inputtitle").val();
             OjbEdit.name = $("#name").val();
+            OjbEdit.cc_number = $("#cc").val();
             OjbEdit.model_year = $("#model_year").val();
             OjbEdit.register_year = $("#register_year").val();
             OjbEdit.miles = $("#miles").val();
@@ -264,7 +267,6 @@ product.save = function () {
             OjbEdit.tag_id = $("#tag_id").val();
             OjbEdit.category_id = $("#category_id").val();
             OjbEdit.staff_id = $("#staff_id").val();
-            OjbEdit.image = $("#images").val();
             $.ajax({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -348,13 +350,15 @@ product.getAlltrash = function () {
         success: function (data) {
             $("#table tbody").empty();
             $.each(data, function (i, product) {
+                console.log(product);
                 $("#table tbody").append(
                     `<tr>
                     <td>${++i}</td>
                     <td>${product.code}</td>
                     <td>${product.title}</td>
                     <td>${product.name}</td>
-                    <td><${product.image}</td>
+                    <td>${product.cc_number}</td>
+                    <td><a href="javascript:;" onclick="product.showImageTrash(${product.id})">Xem ảnh</a></td>
                     <td>${product.model_year}</td>
                     <td>${product.register_year}</td>
                     <td>${product.miles}km</td>
@@ -632,15 +636,20 @@ product.uploadFile = function () {
 
     var change = function (input) {
         if (input.files && input.files[0]) {
+            // console.log(input.files);
             var reader = new FileReader();
             reader.onload = function (e) {
-                var addImage =
-                    '<div class="col-md-3"><img src=' +
-                    e.target.result +
-                    ' style="width:150px;height:160px;"><a href="javascript:;" ><i style="transform:translateY(-50px);color:red;" class="fas fa-times-circle"></i></a></div>';
+                var file = e.target;
 
-                //add image to div="showImage"
-                $("#ShowImages").append(addImage);
+                $("<span class=\"pip\">" +
+                "<img  class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                "<br/><span class=\"remove\">Xóa ảnh</span>" +
+                "</span>").insertAfter("#ShowImages");
+              $(".remove").click(function(){
+                $(this).parent(".pip").remove();
+                console.log(dataImage);
+                $('#images').removeFile();
+              });
             };
             reader.readAsDataURL(input.files[0]);
         }
@@ -690,7 +699,6 @@ product.uploadFile = function () {
                 return xhr;
             },
             success: function (data) {
-                console.log(data);
                 $.toast({
                     heading: "Thông báo",
                     text: "Thêm ảnh thành công",
@@ -699,9 +707,9 @@ product.uploadFile = function () {
                     showHideTransition: "slide",
                     icon: "success",
                 });
+                $("#checkImage").empty();
                 $("#modalFile").modal("hide");
-                $(".gallery").remove();
-                product.showImage(Idpd);
+                product.showImage(data.id);
             },
         });
     };
@@ -736,10 +744,10 @@ product.showImage = function (id) {
         method: "GET",
         dataType: "json",
         success: function (data) {
-            // console.log(data);
+            console.log(data);
             $("#showImage").empty();
             $("#IdProduct").append(
-                `<input hidden id="product_id" name="product_id" value="${id}">`
+                `<input hidden id="product_id" name="product_id" value="${data.id}">`
             );
             if (data.files.length == 0) {
                 $("#checkImage").append(
@@ -760,6 +768,47 @@ product.showImage = function (id) {
     });
 };
 
+
+product.showImageTrash = function (id) {
+    $("#btnProduct").replaceWith(
+        `
+        <div class="col-12 mb-3" id="btnProduct">
+            <a id="trash" href="javascript:;" class="btn btn-primary" onclick="product.comeback2()"><i class="fas fa-arrow-circle-left"></i>Quay lại</a>
+            <a href="javascript:;" class="btn btn-success" onclick="product.showModalFile()" ><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm ảnh</a>
+        </div>
+        `
+    );
+    $("#hideTable").hide();
+    $.ajax({
+        url: "/products/trash" + id,
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            $("#showImage").empty();
+            $("#IdProduct").append(
+                `<input hidden id="product_id" name="product_id" value="${data.id}">`
+            );
+            if (data.files.length == 0) {
+                $("#checkImage").append(
+                    `<strong style="color:red">Không có hình ảnh nào</strong>`
+                );
+            }
+            $.each(data.files, function (index, value) {
+                $("#showImage").append(`
+                        <div class="grid-container">
+                            <a target="" href="${value.name}">
+                                <div><img class='grid-container-img' src="${value.name}" alt="Cinque Terre" width="600" height="400"></div>
+                            </a>
+                            <a style = "text-align:center;"href="javascript:;" onclick="product.removeFile(${value.id})"><i style="color:red" class="fa fa-trash"></i></a>
+                        </div>
+                        `);
+            });
+        },
+    });
+};
+
+
 product.comeback2 = function () {
     $("#btnProduct").replaceWith(
         `
@@ -778,7 +827,7 @@ product.comeback2 = function () {
 product.resetModalImage = function () {
     $("#images").val(null);
     $(".show-progress").empty();
-    $("#ShowImages").empty();
+    $(".pip").empty();
 };
 
 product.removeFile = function (id) {
@@ -801,12 +850,11 @@ product.removeFile = function (id) {
                             "content"
                         ),
                     },
-                    url: "/remove/" + id,
+                    url: "/products/remove/" + id,
                     method: "DELETE",
                     dataType: "json",
                     contentType: "application/json",
                     success: function (data) {
-                        // console.log(data);
                         $.toast({
                             heading: "Thông báo",
                             text: "Xóa thành công",
@@ -815,10 +863,11 @@ product.removeFile = function (id) {
                             showHideTransition: "slide",
                             icon: "success",
                         });
-                        product.showImage();
+                        product.showImage(data.id);
                     },
                 });
             }
         },
     });
 };
+
