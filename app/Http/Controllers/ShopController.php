@@ -75,7 +75,6 @@ class ShopController extends Controller
                 case 3:   $products = $products->whereBetween('miles', array(10000, 20000));break;
                 case 4:   $products = $products->where('miles', '>', 20000);break;
             }
-
         }
 
         foreach($products as $product)

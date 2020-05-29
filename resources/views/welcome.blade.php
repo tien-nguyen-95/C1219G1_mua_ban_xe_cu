@@ -136,7 +136,13 @@
                     @foreach ($products as $i=>$v )
                     <div class="col p-1">
                         <div id ="showimage.'i'" class="card ">
-                            <img class="card-img-top" style="width:275px;height:275px ;" src="shop/img/darkrai1.jpg">
+                            @if(count($v->files) > 0)
+                                <img class="card-img-top" style="width:275px;height:275px ;" src="{{ asset('/img/banner/'.$v->files[0]->name) }}">
+                            @else
+                                <img class="card-img-top" style="width:275px;height:275px ;" src="shop/img/darkrai1.jpg">
+                            @endif
+
+
                             <div class="card-body">
                                 <h4 class="card-title" style="height:112px ;">{{ $v->title }} </h4>
                                 <h4 class="card-title text-danger">{{ $v->export_price? number_format($v->export_price)." đ": "Đang cập nhật" }} </h4>
@@ -161,7 +167,7 @@
 <footer class="bg-dark p-5 text-light">
     <div class="row">
         <div class="col-6 p-5">
-            <h4>Chợ Xe Cũ chỉ là tên, ở đây không bán xe cũ</h4>
+            <h4>Chợ Xe Cũ cam kết uy tín, chất lượng </h4>
         </div>
         <div class="col-3 p-5">
             <h4> <strong>Địa chỉ:</strong>

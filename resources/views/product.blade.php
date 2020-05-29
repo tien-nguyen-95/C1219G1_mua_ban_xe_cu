@@ -264,7 +264,7 @@
 <footer class="bg-dark p-5 text-light">
     <div class="row">
         <div class="col-6 p-5">
-            <h4>Chợ Xe Cũ chỉ là tên, ở đây không bán xe cũ</h4>
+            <h4>Chợ Xe Cũ cam kết uy tín, chất lượng </h4>
         </div>
         <div class="col-3 p-5">
             <h4> <strong>Địa chỉ:</strong>

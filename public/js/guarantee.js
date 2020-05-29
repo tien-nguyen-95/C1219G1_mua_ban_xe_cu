@@ -403,7 +403,6 @@
         guarantee.showData();
         guarantee.getAllForeign();
         guarantee.showTrash();
-        guarantee.dateTimePicker();
     }
 
 
