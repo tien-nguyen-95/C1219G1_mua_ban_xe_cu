@@ -13,7 +13,6 @@
             <table id="tbCategory" class="table table-hover table-striped">
                 <thead >
                     <tr>
-                        <th>STT</th>
                         <th>Tên danh mục</th>
                         <th>Ngày tạo</th>
                         <th>Thao tác</th>
@@ -31,7 +30,6 @@
             <table id="tbCateTrash" class="table table-hover table-striped">
                 <thead >
                     <tr>
-                        <th>STT</th>
                         <th>Tên danh mục</th>
                         <th>Ngày xóa</th>
                         <th>Thao tác</th>

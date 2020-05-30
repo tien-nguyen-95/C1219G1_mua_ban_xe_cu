@@ -28,7 +28,7 @@ class AddForeignKeyGuaranteesTable extends Migration
      */
     public function down()
     {
-        Schema::table('staffs', function (Blueprint $table) {
+        Schema::table('guarantees', function (Blueprint $table) {
             $table->dropForeign('guarantee_fk_customer');
             $table->dropForeign('guarantee_fk_staff');
             $table->dropForeign('guarantee_fk_product');
