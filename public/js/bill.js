@@ -1,6 +1,7 @@
 var bill = {} || bill;
 
 bill.table;
+bill.trashTable;
 
 function messenger(_text){
     $.toast({
@@ -61,9 +62,9 @@ bill.showData = function(){
                         billType: billType,
                         status: billComplete,
                         action: `
-                                <a href="javascript:;" class="text-info mx-auto btn" onclick="bill.show(${obj.id})" title="thông tin"><i class="fa fa-info-circle"></i></a>
+                                <a href="javascript:;" class="text-info mx-auto btn" onclick="bill.showDetail(${obj.id})" title="thông tin"><i class="fa fa-info-circle"></i></a>
                                 <a href="javascript:;" class="text-warning mx-auto btn" onclick="bill.getDetail(${obj.id})" title="sửa"><i class="fa fa-edit"></i></a>
-                                <a href="javascript:;" class="text-danger mx-auto btn" onclick="bill.remove(${obj.id})" title="xóa"><i class="fa fa-trash"></i></a>
+                                <a href="javascript:;" class="text-danger mx-auto btn" onclick="bill.destroy(${obj.id})" title="xóa"><i class="fa fa-trash"></i></a>
                                 `
                     }
                 })
@@ -79,6 +80,80 @@ bill.showData = function(){
             {data: 'action'}
         ]
     });
+}
+
+
+bill.showDataTrash = function(){
+    
+    bill.trashTable = $('#tbTrashBill').DataTable({
+        ajax: {
+            url : "/bill-trash",
+            dataSrc: function(jsons){
+                return jsons.map(obj=>{
+                    var billType = null;
+                    var billComplete = null;
+                    var payment = null;
+
+                    if(obj.status == 0 ){
+                        billType = '<h5><span class="badge badge-primary">Mua</span></h5>';
+                    }else{
+                         billType = '<h5><span class="badge badge-warning">Bán</span></h5>';
+                    }
+
+                    if(obj.complete == 0){
+                        billComplete = '<h5><span class="badge badge-pill badge-light">Đã hoàn thành</span></h5>';
+                    }else{
+                        billComplete = '<h5><span class="badge badge-pill badge-dark">Chưa hoàn thành</span></h5>';
+                    } 
+
+                    if(obj.status == 0){
+                        payment = formatNumber(obj.product.import_price) + ' VNĐ';
+                    }else{
+                        payment = formatNumber(obj.product.export_price) + ' VNĐ';
+                    }
+                    return {
+                        customer_name: obj.customer.name,
+                        product_name: obj.product.name,
+                        branch_name: obj.product.branch.name,
+                        payment: payment,
+                        billType: billType,
+                        status: billComplete,
+                        action: `
+                                <a href="javascript:;" class="text-success mx-auto btn" onclick="bill.restore(${obj.id})" title="Khôi phục"><i class="fa fa-refresh"></i></a>
+                                <a href="javascript:;" class="text-danger mx-auto btn" onclick="bill.delete(${obj.id})" title="Xóa vĩnh viễn"><i class="fa fa-times"></i></a>
+                                `
+                    }
+                })
+            }
+        },
+        columns: [
+            {data: 'customer_name'},
+            {data: 'product_name'},
+            {data: 'branch_name'},
+            {data: 'payment'},
+            {data: 'billType'},
+            {data: 'status'},
+            {data: 'action'}
+        ]
+    });
+}
+
+bill.showTrash = function()
+{
+    $("#billData").hide();
+    $("#showModal").hide();
+    $("#showTrash").hide();
+    $("#billTrashData").attr('hidden', false);
+    $("#back").attr('hidden', false);
+}
+
+bill.back = function () 
+{
+    $("#billData").show();
+    $("#showModal").show();
+    $("#showTrash").show();
+    $("#billTrashData").attr('hidden', true);
+    $("#back").attr('hidden', true);
 }
 
 bill.getCustomer = function ()
@@ -193,32 +268,16 @@ bill.getPayment = function()
     });
 }
 
-// bill.getBranch = function ()
-// {
-//     $("#product_id").change(function () { 
-//         var product_id = $("#product_id").find(":selected").val();
-//         $.ajax({
-//             type: "GET",
-//             url: "/product-detail/" + product_id,
-//             dataType: "JSON",
-//             success: function (data) {
-//                 // $("#branch_id").empty();
-//                 $("#branch_id").val(data.branch_id);
-//                 console.log(data.branch_id);
-//             }
-//         });
-//     });
-// }
 
 bill.getDeposit = function ()
 {
     
     $("#deposit").on('input ', function(){
         // var deposit2 = deposit.replace(new RegExp(',', 'g'),"");
-        var payment = $("input[name=payment]").val();
+        var payment = $("#payment").val();
         if(payment == ''){
            $(".errors-deposit").text('Vui lòng chọn sản phẩm và loại đơn hàng');
-           $("#deposit").val(0);
+           $("#deposit").val('');
         }else{
             var deposit = $(this).val();
             console.log('đặt cọc: ' + (deposit - payment));
@@ -282,32 +341,28 @@ bill.getDetail = function (id)
     });
 }
 
-bill.showDetail = function ()
+bill.showDetail = function (id)
 {
     $.ajax({
         type: "GET",
         url: "/bill/" + id,
         dataType: "JSON",
         success: function (data) {
-            // console.log(data.name);
-            $("#billId").val(data.bills.id);
-            $("#customer_id").val(data.bills.customer.customer_id);
-            
-            $("#staff_id").val(data.bills.staff_id);
-            $("#product_id").val(data.bills.product_id);
-            $("#branch_id").val(data.bills.branch_id);
-        
-            $('#status').val(data.bills.status);
-            $('#complete').val(data.bills.complete);
-
-            $('input[name="payment_at"]').val(data.bills.payment_at);
-            $('input[name="delivered_at"]').val(data.bills.delivered_at);
-
-            $('#deposit').val(data.bills.deposit);
-            $('input[name=payment]').val(data.bills.payment);
-        
-            $("#thongtin").modal('show');
-        }
+            console.log(data);
+            $("#codeBill").html(data.code_product);
+            $("#cutomerInfo").html(data.customer_name);
+            $("#productInfo").html(data.name_product);
+            $("#staffInfo").html(data.name_staff);
+            $("#branchInfo").html(data.name_branch);
+            $("#depositInfo").html(formatNumber(data.bills.deposit) + " VNĐ");
+            $("#paymentInfo").html(formatNumber(data.bills.payment) + " VNĐ");
+            $("#remainInfo").html(formatNumber(data.name_remain) + " VNĐ"); 
+            $("#statusInfo").html((data.status == 0 )? 'Đơn mua hàng': 'Đơn bán hàng');
+            $("#completeInfo").html((data.complete == 0)? 'Đã hoàn thành': 'chưa hoàn thành');
+            $("#payment_at_info").html(data.bills.payment_at);
+            $("#delivered_at_info").html(data.bills.delivered_at);
+            $("#billInfoModal").modal('show');
+        }   
     });
 }
 
@@ -402,6 +457,87 @@ bill.save = function () {
     }
 }
 
+bill.destroy = function (id) 
+{ 
+    bootbox.confirm({
+        title: "Xóa đơn hàng tạm thời",
+        message: "Bạn có chắc muốn xóa bây giờ?",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> Không'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Có'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    url: "/bill/" + id,
+                    method: "DELETE",
+                    dataType: "json",
+                    contentType: 'application/json',
+                    success: function (data) {
+                        bill.table.ajax.reload(null,false);
+                        bill.trashTable.ajax.reload(null,false);
+                        messenger("Xóa thành công");
+                    }
+                });
+            }
+        }
+    });
+}
+
+bill.delete = function(id){
+    bootbox.confirm({
+        title: "Xóa vỉnh viễn đơn hàng",
+        message: "Bạn có chắc muốn xóa bây giờ?",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> Không'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Có'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "/bill-delete/" + id,
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data);
+                        messenger("Xóa thành công");
+                        bill.trashTable.ajax.reload(null,false)
+                    },
+                    error: function (errors){
+                        console.log(errors);
+                    }
+                });
+            }
+        }
+    });
+}
+
+
+bill.restore = function (id){
+    $.ajax({
+        type: "PUT",
+        url: "/bill-restore/" + id,
+        dataType: "JSON",
+        success: function (data) {
+            console.log(data);
+            messenger("Khôi phục thành công");
+            bill.table.ajax.reload(null,false);
+            bill.trashTable.ajax.reload(null,false);
+        },
+        error: function (errors){
+            console.log(errors);
+        }
+    });
+}
+
 
 bill.resetForm = function () {
     $(".edit-hide").attr('hidden', true);
@@ -437,11 +573,6 @@ bill.showModal= function()
         format:'YYYY-MM-DD',
     });
 
-    // $('.money').bind('blur paste', function(){
-    //     this.value = this.value.replace(/[^0-9]/g, '');
-    //     console.log(this.value);
-    // });
-
     bill.resetForm();
     $('#billModal').modal('show');
 }
@@ -449,9 +580,9 @@ bill.showModal= function()
 bill.init = function()
 {
     bill.showData();
+    bill.showDataTrash();
     bill.getProduct();
     bill.getCustomer();
-    // bill.getBranch();
     bill.getPayment();  
     bill.getDeposit();
 }

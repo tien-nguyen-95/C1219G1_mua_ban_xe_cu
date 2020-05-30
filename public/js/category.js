@@ -30,7 +30,6 @@ category.showData = function () {
                 $('#tbCategory tbody').append(
                     `
                     <tr>
-                        <td>${++i}</td>
                         <td>${v.name}</td>  
                         <td>${v.created_at}</td>
                         <td>
@@ -57,7 +56,6 @@ category.showTrash = function(){
                 $('#tbCateTrash tbody').append(
                     `
                     <tr>
-                        <td>${++i}</td>
                         <td>${v.name}</td>  
                         <td>${v.deleted_at}</td>
                         <td>
@@ -181,7 +179,7 @@ category.remove = function(id) {
             console.log('dele');
             if (result) {
                 $.ajax({
-                    url: "/category/" + id,
+                    url: "/category/" + id, 
                     method: "DELETE",
                     dataType: "json",
                     contentType: 'application/json',    
@@ -258,7 +256,7 @@ category.delete = function(id){
                         console.log(data);
                         messenger("Xóa hoàn toàn danh mục thành công");
                         category.showTrash();
-                        // category.showData();
+                        category.showData();
                     },
                     error: function (errors){
                         console.log(errors);

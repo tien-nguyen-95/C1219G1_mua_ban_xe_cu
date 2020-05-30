@@ -14,11 +14,14 @@
 <div class="row">
     <div class="col-12 mb-3">
         <div class="d-flex flex-row">
-            <div class="p-2">
+            <div class="p-2"  id="showModal">
                 <a href="javascript:;" class="btn btn-primary" onclick="bill.showModal()"> <i class="fa fa-plus-square" aria-hidden="true"></i> Thêm hóa đơn</a>
             </div>
-            <div class="p-2">
-                <a href="javascript:;" class="btn btn-secondary" onclick="customer.showTrash()"><i class="fa fa-trash" aria-hidden="true"></i> Thùng rác</a>
+            <div class="p-2" id="back" hidden>
+                <a href="javascript:;" class="btn btn-dark" onclick="bill.back()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Quay lại</a>
+            </div>
+            <div class="p-2" id="showTrash">
+                <a href="javascript:;" class="btn btn-secondary" onclick="bill.showTrash()" id="showTrash"><i class="fa fa-trash" aria-hidden="true"></i> Thùng rác</a>
             </div>
         </div>
         
@@ -26,9 +29,29 @@
         
     </div>
 </div>
-<div class="row">
+<div class="row" id="billData">
     <div class="col-12 table-responsive">
         <table id="tbBill" class="table table-hover text-center  table-striped" width="100%">
+            <thead >
+                <tr>
+                    <th>Tên khách hàng</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Chi nhánh</th>
+                    <th>Giá sản phẩm</th>
+                    <th>Loại đơn hàng</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row" id="billTrashData" hidden>
+    <div class="col-12 table-responsive">
+        <table id="tbTrashBill" class="table table-hover text-center  table-striped" width="100%">
             <thead >
                 <tr>
                     <th>Tên khách hàng</th>
@@ -153,152 +176,86 @@
 <!-- The Modal -->
 
 {{-- show bill --}}
-<div class="modal" id="thongtin">
-    <div class="modal-dialog">
+<div class="modal fade" id="billInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><i class="fa fa-"></i> Thông tin hóa đơn</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" id="exampleModalLabel"><i class="fa fa-info" aria-hidden="true"></i> Thông tin đơn hàng</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Mã hóa đơn:</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="billCode"></p>
-                    </div>
+                <div class="d-flex justify-content-center">
+                    <table class="table table-bordered">
+                        
+                            <tr>
+                                <th>Mã hóa đơn</th>
+                                <td width="70%" id="codeBill"></td>
+                            </tr>
+                            <tr>
+                                <th>Tên khách hàng</th>
+                                <td width="70%" id="cutomerInfo"></td>
+                            </tr>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <td width="70%">
+                                    <table>
+                                        <tr>
+                                            <th>Tên sản phẩm</th>
+                                            <td id="productInfo"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Giá sản phẩm</th>
+                                            <td id="paymentInfo">dsa</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Chi nhánh</th>
+                                            <td id="branchInfo">dsa</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Nhân viên</th>
+                                <td width="70%" id="staffInfo"></td>
+                            </tr>
+                            <tr>
+                                <th>Tiền đặt cọc</th>
+                                <td width="70%" id="depositInfo"></td>
+                            </tr>
+                            <tr>
+                                <th>Số tiền thanh toán</th>
+                                <td width="70%" id="remainInfo"></td>
+                            </tr>
+                            <tr>
+                                <th>Loại đơn hàng</th>
+                                <td width="70%" id="statusInfo"></td>
+                            </tr>
+                            <tr>
+                                <th>Trạng thái</th>
+                                <td width="70%" id="completeInfo"></td>
+                            </tr>
+                            <tr>
+                                <th>Ngày thanh toán</th>
+                                <td width="70%" id="payment_at_info"></td>
+                            </tr>
+                            <tr>
+                                <th>Ngày giao hàng</th>
+                                <td width="70%" id="delivered_at_info"></td>
+                            </tr>
+                       
+                    </table>
                 </div>
-
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Tên khách hàng:</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="customerInfo"></p>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Nhân viên</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="staffInfo"></p>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Tên sản phẩm</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="productInfo"></p>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Chi nhánh: </strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="branchInfo"></p>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Loại đơn</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="statusInfo"></p>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Trạng thái</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="completeInfo"></p>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Tiền đặt cọc</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="depositInfo"></p>
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Giá sản phẩm</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="paymentInfo"></p>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Ngày thanh toán</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="payment_at_info"></p>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-4">
-                        <strong>Ngày giao hàng</strong>
-                    </div>
-                    <div class="col-8">
-                        <p id="delivered_at_info"></p>
-                    </div>
-                </div>
-                
-
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-{{-- modal trash bill --}}
-{{-- <div id="customerTrashModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-xl">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"><i class="fa fa-user" aria-hidden="true"></i> Khách hàng tạm xóa</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body" id="tbCustomerTrash1">
-                    <div class="table-responsive-sm">
-                        <table class="table table-sm" id="tbCustomerTrash" width="100%">
-                            <thead>
-                                <tr class="table-primary">
-                                    <th>Tên khách hàng</th>
-                                    <th>Email</th>
-                                    <th>Ngày xóa</th>
-                                    <th>Tùy chọn</th>
-                                </tr>
-                            </thead>
-                            <tbody>
 
-                            </tbody>
-                        </table>
-                      </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Đóng</button>
-                </div>
-            </div>
-    </div>
-</div> --}} 
 
 @endsection
 @push('crud-ajax-js')
@@ -306,6 +263,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/additional-methods.min.js"></script> --}}
+    <script src="https://kit.fontawesome.com/da3993873f.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
     

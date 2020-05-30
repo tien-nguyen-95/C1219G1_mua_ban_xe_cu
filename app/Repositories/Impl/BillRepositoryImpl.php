@@ -2,7 +2,7 @@
 namespace App\Repositories\Impl;
 
 use App\Bill;
-use App\Customer;
+
 use App\Repositories\BillRepository;
 use App\Repositories\Eloquent\EloquentRepository;
 
@@ -26,10 +26,6 @@ class BillRepositoryImpl extends EloquentRepository  implements BillRepository
             $bill['customer'] =  $bill->customer;
             $bill['product'] =  $bill->product->branch;
         }
-        // foreach($bills as $bill){
-        //     $bill->customer_id =  $bill->customer;
-        //     $bill->product_id =  $bill->product;
-        // }
         return $bills;
     }
 
@@ -38,6 +34,16 @@ class BillRepositoryImpl extends EloquentRepository  implements BillRepository
         $bill = $this->model->find($id);
         
         return $bill;
+    }
+
+    public function getTrash()
+    {
+        $bills = $this->model->onlyTrashed()->get();
+        foreach($bills as $bill){
+            $bill['customer'] =  $bill->customer;
+            $bill['product'] =  $bill->product->branch;
+        }
+        return $bills;
     }
 
 }

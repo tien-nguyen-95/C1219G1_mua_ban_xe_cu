@@ -30,8 +30,15 @@ class BillController extends Controller
     public function show($id)
     {
         $dataBill = $this->billService->findById($id);
-    
-        return response()->json($dataBill['bills'], $dataBill['statusCode']);
+        
+        $dataBill['customer_name'] = (Customer::where("id", $dataBill['bills']['customer_id'])->first())->name;
+        $dataBill['code_product'] = (Product::where("id", $dataBill['bills']['product_id'])->first())->code;
+        $dataBill['name_product'] = (Product::where("id", $dataBill['bills']['product_id'])->first())->name;
+        $dataBill['name_staff'] = (Staff::where("id", $dataBill['bills']['staff_id'])->first())->name;
+        $dataBill['name_remain'] = $dataBill['bills']['payment'] - $dataBill['bills']['deposit'];
+        $dataBill['name_branch'] = (Branch::where("id", $dataBill['bills']['branch_id'])->first())->name;
+
+        return response()->json($dataBill, 200);
     }
 
     public function edit($id)
