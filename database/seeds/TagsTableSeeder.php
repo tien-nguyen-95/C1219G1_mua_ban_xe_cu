@@ -13,47 +13,47 @@ class TagsTableSeeder extends Seeder
     public function run()
     {
         $tag = new Tag();
-        $tag->name = 'tag';
+        $tag->title = 'tag';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag1';
+        $tag->title = 'tag1';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag2';
+        $tag->title = 'tag2';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag3';
+        $tag->title = 'tag3';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag4';
+        $tag->title = 'tag4';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag5';
+        $tag->title = 'tag5';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag6';
+        $tag->title = 'tag6';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag7';
+        $tag->title = 'tag7';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag8';
+        $tag->title = 'tag8';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag9';
+        $tag->title = 'tag9';
         $tag->save();
 
         $tag = new Tag();
-        $tag->name = 'tag10';
+        $tag->title = 'tag10';
         $tag->save();
     }
 }
