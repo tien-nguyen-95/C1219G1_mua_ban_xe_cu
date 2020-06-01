@@ -108,5 +108,24 @@ class BillServiceImpl implements BillService
 
         return $this->billRepository->delete($id);
     }
+
+    // public function updateComplete($request, $id){
+    //     $oldBill = $this->billRepository->findById($id);
+    //     // dd($oldBill);
+    //     if (!$oldBill) {
+    //         $newBill = null;
+    //         $statusCode = 404;
+    //     } else {
+    //         $newBill = $this->billRepository->update($request, $oldBill);
+    //         $statusCode = 200;
+    //     }
+
+    //     // dd($newBill);
+    //     $data = [
+    //         'statusCode' => $statusCode,
+    //         'bills' => $newBill
+    //     ];
+    //     return $data;
+    // }
     
 }
