@@ -26,6 +26,47 @@ function formatNumber (num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
+function toggleComplete (complete, id)
+{
+    if(complete == 0){
+        return `
+        <select class="custom-select" id="hehe-${id}" onchange="completeBill(${id})">
+            <option value="0" selected>Đã hoàn thành</option>
+            <option value="1">Chưa hoàn thành</option>
+        </select>
+        `;
+    }else{
+        return `
+        <select class="custom-select" id="hehe-${id}" onchange="completeBill(${id})">
+            <option value="0">Đã hoàn thành</option>
+            <option value="1" selected>Chưa hoàn thành</option>
+        </select>
+        `;
+    }
+}
+
+function completeBill(id)
+{
+    var objEdit = {};
+    objEdit.complete = $(`#hehe-${id}`).val();
+    console.log(complete);
+    $.ajax({
+        type: "PUT",
+        url: "/bill-complete/" + id,
+        contentType: 'application/json',
+        data: JSON.stringify(objEdit),
+        success: function (data) {
+            console.log(data);   
+            bill.table.ajax.reload(null,false);
+            messenger("Cập nhật thành công");
+        },
+        error: function(errors){
+            console.log(errors)
+        }
+    });
+   
+}
+
 bill.showData = function(){
     
     bill.table = $('#tbBill').DataTable({
@@ -34,33 +75,25 @@ bill.showData = function(){
             dataSrc: function(jsons){
                 return jsons.map(obj=>{
                     var billType = null;
-                    var billComplete = null;
                     var payment = null;
+                    var completeBill = obj.complete;
+                    var billId = obj.id;
 
                     if(obj.status == 0 ){
                         billType = '<h5><span class="badge badge-primary">Mua</span></h5>';
-                    }else{
-                         billType = '<h5><span class="badge badge-warning">Bán</span></h5>';
-                    }
-
-                    if(obj.complete == 0){
-                        billComplete = '<h5><span class="badge badge-pill badge-light">Đã hoàn thành</span></h5>';
-                    }else{
-                        billComplete = '<h5><span class="badge badge-pill badge-dark">Chưa hoàn thành</span></h5>';
-                    } 
-
-                    if(obj.status == 0){
                         payment = formatNumber(obj.product.import_price) + ' VNĐ';
                     }else{
+                        billType = '<h5><span class="badge badge-warning">Bán</span></h5>';
                         payment = formatNumber(obj.product.export_price) + ' VNĐ';
                     }
+                   
                     return {
                         customer_name: obj.customer.name,
                         product_name: obj.product.name,
                         branch_name: obj.product.branch.name,
                         payment: payment,
                         billType: billType,
-                        status: billComplete,
+                        status: toggleComplete(completeBill, billId),
                         action: `
                                 <a href="javascript:;" class="text-info mx-auto btn" onclick="bill.showDetail(${obj.id})" title="thông tin"><i class="fa fa-info-circle"></i></a>
                                 <a href="javascript:;" class="text-warning mx-auto btn" onclick="bill.getDetail(${obj.id})" title="sửa"><i class="fa fa-edit"></i></a>
@@ -68,7 +101,7 @@ bill.showData = function(){
                                 `
                     }
                 })
-            }
+            },    
         },
         columns: [
             {data: 'customer_name'},
@@ -78,10 +111,12 @@ bill.showData = function(){
             {data: 'billType'},
             {data: 'status'},
             {data: 'action'}
-        ]
+        ],
+        // fnDrawCallback: function() {
+        //     $(`.completeToggle`).bootstrapToggle();
+        // },
     });
 }
-
 
 bill.showDataTrash = function(){
     
@@ -96,7 +131,9 @@ bill.showDataTrash = function(){
 
                     if(obj.status == 0 ){
                         billType = '<h5><span class="badge badge-primary">Mua</span></h5>';
+                        payment = formatNumber(obj.product.import_price) + ' VNĐ';
                     }else{
+                        payment = formatNumber(obj.product.export_price) + ' VNĐ';
                          billType = '<h5><span class="badge badge-warning">Bán</span></h5>';
                     }
 
@@ -106,11 +143,6 @@ bill.showDataTrash = function(){
                         billComplete = '<h5><span class="badge badge-pill badge-dark">Chưa hoàn thành</span></h5>';
                     } 
 
-                    if(obj.status == 0){
-                        payment = formatNumber(obj.product.import_price) + ' VNĐ';
-                    }else{
-                        payment = formatNumber(obj.product.export_price) + ' VNĐ';
-                    }
                     return {
                         customer_name: obj.customer.name,
                         product_name: obj.product.name,
@@ -143,6 +175,8 @@ bill.showTrash = function()
     $("#billData").hide();
     $("#showModal").hide();
     $("#showTrash").hide();
+    $("#titleDefine").hide();
+    $("#titleTrash").attr('hidden', false);
     $("#billTrashData").attr('hidden', false);
     $("#back").attr('hidden', false);
 }
@@ -152,6 +186,8 @@ bill.back = function ()
     $("#billData").show();
     $("#showModal").show();
     $("#showTrash").show();
+    $("#titleDefine").show();
+    $("#titleTrash").attr('hidden', true);
     $("#billTrashData").attr('hidden', true);
     $("#back").attr('hidden', true);
 }

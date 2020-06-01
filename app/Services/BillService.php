@@ -11,5 +11,5 @@ interface BillService
     public function getTrash();
     public function restore($id);
     public function delete($id);
-    
+    // public function updateComplete($request, $id);
 }

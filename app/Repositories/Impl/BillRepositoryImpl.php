@@ -45,5 +45,4 @@ class BillRepositoryImpl extends EloquentRepository  implements BillRepository
         }
         return $bills;
     }
-
 }

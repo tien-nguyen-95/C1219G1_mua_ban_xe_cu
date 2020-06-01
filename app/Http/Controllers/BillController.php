@@ -72,6 +72,14 @@ class BillController extends Controller
         return response()->json($dataBill['bills'], $dataBill['statusCode']);
     }
 
+    public function updateComplete(Request $request, $id)
+    {
+        
+        $dataBill = $this->billService->update(['complete' => $request->complete], $id);
+
+        return response()->json($dataBill['bills'], $dataBill['statusCode']);
+    }
+
     public function destroy($id)
     {
         $dataBill = $this->billService->destroy($id);
