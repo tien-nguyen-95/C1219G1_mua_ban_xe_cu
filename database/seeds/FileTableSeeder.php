@@ -83,27 +83,27 @@ class FileTableSeeder extends Seeder
         $img->save();
 
         $img = new File();
-        $img->name = 'YMHJS.png';
+        $img->name = 'YMHJS.jpg';
         $img->product_id = 6;
         $img->save();
 
         $img = new File();
-        $img->name = 'YMHJS1.png';
+        $img->name = 'YMHJS1.jpg';
         $img->product_id = 6;
         $img->save();
 
         $img = new File();
-        $img->name = 'YMHJS2.png';
+        $img->name = 'YMHJS2.jpg';
         $img->product_id = 6;
         $img->save();
 
         $img = new File();
-        $img->name = 'YMHJS3.png';
+        $img->name = 'YMHJS3.jpg';
         $img->product_id = 6;
         $img->save();
 
         $img = new File();
-        $img->name = 'YMHJS4.png';
+        $img->name = 'YMHJS4.jpg';
         $img->product_id = 6;
         $img->save();
 
