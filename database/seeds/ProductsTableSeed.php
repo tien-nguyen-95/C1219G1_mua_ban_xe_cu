@@ -40,7 +40,7 @@ class ProductsTableSeed extends Seeder
         $product1->model_year = 2019;
         $product1->register_year = 2010;
         $product1->miles = 1000;
-        $product1->color = "";
+        $product1->color = "Trắng";
         $product1->origin = "Nhật bản";
         $product1->import_price = 15000000;
         $product1->export_price = 20000000;
