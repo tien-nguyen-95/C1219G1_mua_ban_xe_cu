@@ -147,7 +147,7 @@
                                 <h4 class="card-title" style="height:112px ;">{{ $v->title }} </h4>
                                 <h4 class="card-title text-danger">{{ $v->export_price? number_format($v->export_price)." đ": "Đang cập nhật" }} </h4>
                                 <p class="card-text">Số km đã đi: {{ $v->miles? $v->miles." km": "Đang cập nhật" }} </p>
-                                <a href="{{ route('see-more',$v->id) }}}" class="btn btn-primary">Chi tiết</a>
+                                <a href="{{ route('see-more',$v->id) }}" class="btn btn-primary">Chi tiết</a>
                             </div>
                         </div>
                     </div>
