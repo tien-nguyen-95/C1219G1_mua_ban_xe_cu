@@ -54,8 +54,8 @@ Route::resource('bill', 'BillController');
 Route::view('bill-list', 'admin.bill.index')->name('bill.list');
 Route::get('bill-trash', 'BillController@trash');
 Route::put('bill-restore/{id}', 'BillController@restore');
+Route::put('bill-complete/{id}', 'BillController@updateComplete');
 Route::delete('bill-delete/{id}', 'BillController@delete');
-
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
