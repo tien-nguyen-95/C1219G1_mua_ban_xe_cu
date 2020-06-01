@@ -242,7 +242,7 @@ product.save = function () {
                 },
                 error: function (data) {
                     $.each(data.responseJSON.errors, function (key, value) {
-                        console.log(key, value);
+                        console.log(key);
                         $(`.errors-${key}`).text(value);
                     });
                 },
@@ -292,7 +292,6 @@ product.save = function () {
                 },
                 error: function (data) {
                     $.each(data.responseJSON.errors, function (key, value) {
-                        console.log(key);
                         $(`.errors-${key}`).text(value);
                     });
                 },
@@ -622,7 +621,7 @@ product.uploadFile = function () {
             .substring(checkImage.lastIndexOf(".") + 1)
             .toLowerCase();
         if (ext == "gif" || ext == "png" || ext == "jpg" || ext == "jpeg") {
-            change(this);
+            change(this, i);
             var file = document.getElementById("images").files[0];
             dataImage[i] = file; //add push to array dataImage
             dataPosition[i] = i; //add push position to dataPosition
@@ -636,16 +635,13 @@ product.uploadFile = function () {
         } else alert("Chọn image (jpg, jpeg, png).");
     });
 
-    var change = function (input) {
+    var change = function (input, i) {
         if (input.files && input.files[0]) {
-            // console.log(input.files);
             var reader = new FileReader();
             reader.onload = function (e) {
                 var file = e.target;
-
                 $(
-                    '<span class="pip">' +
-                        '<img  class="imageThumb" src="' +
+                    '<span class="pip">'+'<img  id="my_image" class="imageThumb" src="' +
                         e.target.result +
                         '" title="' +
                         file.name +
@@ -655,8 +651,11 @@ product.uploadFile = function () {
                 ).insertAfter("#ShowImages");
                 $(".remove").click(function () {
                     $(this).parent(".pip").remove();
-                    console.log(dataImage);
-                    $("#images").removeFile();
+                    dataImage.splice(i, 1);
+                    if (dataImage.length == 0) {
+                        $("#images").val(null);
+                    }
+
                 });
             };
             reader.readAsDataURL(input.files[0]);
@@ -715,6 +714,7 @@ product.uploadFile = function () {
                     showHideTransition: "slide",
                     icon: "success",
                 });
+                dataImage = [];
                 $("#checkImage").empty();
                 $("#modalFile").modal("hide");
                 product.showImage(data.id);
@@ -752,7 +752,6 @@ product.showImage = function (id) {
         method: "GET",
         dataType: "json",
         success: function (data) {
-            console.log(data);
             $("#showImage").empty();
             $("#IdProduct").append(
                 `<input hidden id="product_id" name="product_id" value="${data.id}">`
