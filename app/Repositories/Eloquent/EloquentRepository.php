@@ -45,8 +45,8 @@ abstract class EloquentRepository implements Repository
         try {
             $object = $this->model->create($data);
         } catch (\Exception $e) {
-
-            return null;
+            return $e->getMessage();
+            // return null;
         }
         return $object;
     }
@@ -54,8 +54,12 @@ abstract class EloquentRepository implements Repository
     
     public function update($data, $object)
     {
-        $object->update($data);
-        return $object;
+        try {
+            $object->update($data);
+            return $object;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function destroy($object)
