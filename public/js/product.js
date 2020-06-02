@@ -229,6 +229,7 @@ product.save = function () {
                 contentType: "application/json",
                 data: JSON.stringify(productOjb),
                 success: function (data) {
+                    console.log(data);
                     $.toast({
                         heading: "Cảnh báo",
                         text: "Thêm thành công",
@@ -279,6 +280,7 @@ product.save = function () {
                 contentType: "application/json",
                 data: JSON.stringify(OjbEdit),
                 success: function (data) {
+                    console.log(data);
                     $.toast({
                         heading: "Thông báo",
                         text: "Cập nhật thành công",
